@@ -4,15 +4,16 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: ['standard', 'prettier'],
+  plugins: ['prettier'],
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
   rules: {
-    'import/no-absolute-path': 'off',
     'no-unused-vars': 'warn',
-    'promise/param-names': 'off',
+    'prettier/prettier': 'error',
   },
+  ignorePatterns: ['node_modules/'],
 };

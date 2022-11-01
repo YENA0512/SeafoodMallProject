@@ -34,8 +34,6 @@ function loginRequired(req, res, next) {
       result: 'forbidden-approach',
       reason: '정상적인 토큰이 아닙니다.',
     });
-
-    
   }
 }
 
