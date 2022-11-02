@@ -38,86 +38,37 @@
       <!--장바구니-->
       <section>
         <div class="title"><p class="fs-2 fw-bold">장바구니</p></div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="all_check" />
-          <label class="form-check-label" for="all_check">&nbsp전체선택</label>
-          <span>&nbsp|&nbsp</span>
-          <input type="button" class="btn_none" value="선택삭제" />
-        </div>
-        <hr />
-        <div class="cart_box">
-          <!--상품 리스트-->
-          <div class="item_list">
-            <ul>
-              <li>
-                <div class="item_box">
-                  <div>
-                    <input class="form-check-input" type="checkbox" value="" id="select_check" />
-                    <a href="#">
-                      <img src="../assets/image/test1.jpg" alt="상품사진" class="item_image" />
-                    </a>
-                  </div>
-                  <div>
-                    <a href="#" class="item_name">[만선] 광어회 (18cm)</a>
-                  </div>
-                  <div>
-                    <button class="minus btn btn-outline-secondary">-</button>
-                    <button id="count" class="btn">1</button>
-                    <button class="plus btn btn-outline-secondary">+</button>
-                  </div>
-                  <div class="item_delete">
-                    <button class="btn">X</button>
-                  </div>
-                </div>
-              </li>
-              <hr />
-            </ul>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <input class="form-check-input" type="checkbox" value="" id="all_check" />
+              <button class="btn btn-light">
+                <label class="form-check-label" for="all_check">전체삭제</label>
+              </button>
+              <span>&nbsp|&nbsp</span>
+              <button class="btn btn-light">선택삭제</button>
+            </div>
           </div>
-          <!--주문정보-->
-          <div class="order_box">
-            <div class="order_adress_box">
-              <div>
-                <h3><i class="bi bi-geo-alt-fill"></i>배송지</h3>
+          <hr />
+          <div class="row">
+            <div class="item_list col-md-8">상품정보</div>
+            <div class="order_box col-md-4">
+              <div class="card" style="width: 18rem">
+                <div class="card-body">
+                  <h5 class="card-title fs-5">배송지</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">서울시 오늘로 바다길 22</h6>
+                  <button class="btn btn-outline-primary">배송지 변경</button>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">상품금액</li>
+                  <li class="list-group-item">상품할인금액</li>
+                  <li class="list-group-item">배송비</li>
+                  <li class="list-group-item">결제예정금액</li>
+                </ul>
+                <div class="card-body d-grid">
+                  <button class="btn btn-primary">주문하기</button>
+                </div>
               </div>
-              <div>
-                <span>서울시 오늘대로 바다길 22</span>
-              </div>
-              <div>
-                <button class="btn btn-outline-primary">배송지 변경</button>
-              </div>
-            </div>
-            <div class="order_price_box">
-              <div class="order_price">
-                <span>상품금액</span>
-                <span
-                  >42,400
-                  <span>원</span>
-                </span>
-              </div>
-              <div class="order_price">
-                <span>상품할인금액</span>
-                <span
-                  >-3,200
-                  <span>원</span>
-                </span>
-              </div>
-              <div class="order_price">
-                <span>배송비</span>
-                <span
-                  >3,000
-                  <span>원</span>
-                </span>
-              </div>
-              <div class="order_price">
-                <span>결재예정금액</span>
-                <span
-                  >42,240
-                  <span>원</span>
-                </span>
-              </div>
-            </div>
-            <div class="d-grid gap-2 col-6 mx-auto">
-              <button class="btn btn-primary">주문하기</button>
             </div>
           </div>
         </div>
