@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./product.css" />
+  </head>
+  <body>
+    <header>
+      <h1>
+        <a href="#"><img class="main_logo" src="../assets/mainlogo.png" /></a>
+      </h1>
+      <hr />
+      <nav class="nav_bar">
+        <div class="nav_categories">카테고리</div>
+        <div class="nav_menu">
+          <ol>
+            <li><a>로그인</a></li>
+            <em>&nbsp;|&nbsp;</em>
+            <li><a>마이페이지</a></li>
+            <em>&nbsp;|&nbsp;</em>
+            <li><a>장바구니</a></li>
+            <em>&nbsp;|&nbsp;</em>
+            <li><a>로그아웃</a></li>
+          </ol>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section class="product_detail_top">
+        <div class="product_box">
+          <div class="picture_area">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+              <div class="carousel-indicators">
+                <button
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide-to="0"
+                  class="active"
+                  aria-current="true"
+                  aria-label="Slide 1"
+                ></button>
+                <button
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide-to="1"
+                  aria-label="Slide 2"
+                ></button>
+                <button
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide-to="2"
+                  aria-label="Slide 3"
+                ></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="../assets/image/test1.jpg" class="d-block w-100" alt="..." />
+                </div>
+                <div class="carousel-item">
+                  <img src="../assets/image/test2.jpg" class="d-block w-100" alt="..." />
+                </div>
+                <div class="carousel-item">
+                  <img src="../assets/image/test3.jpg" class="d-block w-100" alt="..." />
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev"
+              >
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next"
+              >
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+          <div>
+            <div>상품 이름 크게</div>
+            <div>상품 조건 흐리게</div>
+            <div>마지막 가격표출</div>
+            <div>구매 장바구니 버튼영역</div>
+          </div>
+        </div>
+      </section>
+      <hr />
+      <section class="product_detail_bottom">
+        <p>판매자 정보 | 홍무개</p>
+        <br />
+        <p>수입 및 원산지 | 홍무개</p>
+        <br />
+        <p>요리 정보 | 홍무개</p>
+        <br />
+        <p>한줄 소개 | 홍무개</p>
+        <br />
+      </section>
+    </main>
+    <hr />
+    <footer>
+      <div class="footer">
+        <h1>푸터임. 나중에 정할거임 ㅋ</h1>
+      </div>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+    <script src="product.js"></script>
+  </body>
+</html>
