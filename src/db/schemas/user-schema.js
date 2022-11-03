@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { SellerSchema } from './seller-shcema';
+import { SellerSchema } from './seller-schema';
 import { CartSchema } from './cart-schema';
 
 const UserSchema = new Schema(
