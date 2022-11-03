@@ -1,0 +1,196 @@
+/* ------------↓공통영역↓------------ */
+@import '../_reset.css';
+body {
+  width: 1000px;
+  margin: auto;
+}
+/* header */
+header {
+  margin-bottom: 20px;
+}
+header > h1 {
+  text-align: center;
+}
+.main_logo {
+  width: 120px;
+  height: 120px;
+}
+.nav_bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav_menu > ol {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+/* footer */
+.footer {
+  text-align: center;
+  margin: 30px;
+}
+/* ------------↑공통영역↑------------ */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.mypage_headerTitle > h1 {
+  margin-top: 50px;
+  font-weight: 500;
+  font-size: 28px;
+  color: #000;
+  line-height: 35px;
+}
+
+.mypage_content {
+  position: relative;
+  display: flex;
+  width: 1000px;
+  margin-top: 50px;
+  margin-bottom: 80px;
+}
+.mypage_category {
+  width: 200px;
+  height: 100%;
+  margin-right: 100px;
+}
+.mypage_list {
+  margin-bottom: 20px;
+}
+.mypage_list a {
+  text-decoration: none;
+  color: #000;
+}
+.mypage_list a:hover {
+  color: #048abf;
+}
+.active {
+  color: #048abf;
+}
+.mypage_con {
+  width: 700px;
+}
+.mypage_userIntro {
+  width: 100%;
+  height: 200px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+  box-sizing: border-box;
+  border: 2px solid #04b2d9;
+  border-radius: 40px;
+}
+.mypage_userIntro h3 {
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 20px;
+
+  color: #000;
+}
+.mypage_userIntro h2 {
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 20px;
+
+  color: #048abf;
+}
+.mypage_userIntro hr {
+  width: 80%;
+  margin: 10px auto;
+}
+.mypage_userIntro p {
+  text-align: left;
+  margin: 20px 80px;
+}
+.mypage_orderInfo {
+  width: 100%;
+
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  padding: 30px;
+  box-sizing: border-box;
+  border: 2px solid #000;
+  border-radius: 40px;
+}
+.orderTable {
+  border: 1px solid #000;
+  margin-top: 20px;
+  text-align: center;
+}
+.orderTable thead {
+  background-color: lightgrey;
+}
+.orderTable tr {
+  border: 1px solid #000;
+}
+.mypage_userInfo {
+  width: 100%;
+
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  padding: 30px;
+  box-sizing: border-box;
+  border: 2px solid #000;
+  border-radius: 40px;
+}
+.field {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.label {
+  width: 30%;
+}
+.control {
+  font-weight: bold;
+  width: 70%;
+  height: 35px;
+}
+.input {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+.mypage_userInfo .button {
+  align-items: center;
+  font-weight: bold;
+  display: block;
+  width: 200px;
+  text-align: center;
+  align-items: center;
+  height: 40px;
+  border-radius: 10px;
+  margin: 0 auto;
+}
+.mypage_userInfo .input:focus {
+  border-color: #00d1b2;
+  box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
+}
+
+.mypage_signout {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  box-sizing: border-box;
+  border: 2px solid #000;
+  border-radius: 40px;
+}
+.mypage_signout .button {
+  align-items: center;
+  font-weight: bold;
+  display: block;
+  width: 200px;
+  text-align: center;
+  align-items: center;
+  height: 40px;
+  border-radius: 10px;
+  margin: 0 auto;
+}

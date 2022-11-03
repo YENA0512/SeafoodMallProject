@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>마이 페이지</title>
+
+    <!-- 폰트 어썸: 아이콘 -->
+    <script defer src="https://kit.fontawesome.com/9daa42bcef.js" crossorigin="anonymous"></script>
+    <!-- 구글 OAuth -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- 카카오 OAuth -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <!-- 커스텀 css, js -->
+    <link rel="stylesheet" href="mypage.css" />
+
+    <script src="mypage.js" type="module" defer></script>
+  </head>
+  <body>
+    <!-- 헤더 -->
+    <header>
+      <h1>
+        <a href="#"><img class="main_logo" src="../assets/mainlogo.png" /></a>
+      </h1>
+      <hr />
+      <nav class="nav_bar">
+        <div class="nav_categories">카테고리</div>
+        <div class="nav_menu">
+          <ol>
+            <li><a>로그인</a></li>
+            <em>&nbsp;|&nbsp;</em>
+            <li><a>마이페이지</a></li>
+            <em>&nbsp;|&nbsp;</em>
+            <li><a>장바구니</a></li>
+            <em>&nbsp;|&nbsp;</em>
+            <li><a>로그아웃</a></li>
+          </ol>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section>
+        <div class="mypage_headerTitle">
+          <h1>마이페이지</h1>
+        </div>
+        <div class="mypage_content">
+          <div class="mypage_category">
+            <ul>
+              <li class="mypage_list"><a href="#" class="active">주문 내역</a></li>
+              <li class="mypage_list"><a href="userInfo.html">회원 정보</a></li>
+              <li class="mypage_list"><a href="signout.html">회원 탈퇴</a></li>
+            </ul>
+          </div>
+          <div class="mypage_con">
+            <div class="mypage_userIntro">
+              <h3>오늘도 신선한 바다를 만나요</h3>
+              <br />
+              <h2>신바다 님</h2>
+              <hr />
+              <p><strong>아이디</strong> | abc1234@gmail.com</p>
+              <p><strong>회원 종류</strong> | 소비자</p>
+            </div>
+            <div class="mypage_orderInfo">
+              <h3>주문 내역</h3>
+              <table class="table table-bordered orderTable">
+                <thead>
+                  <tr>
+                    <th scope="col">name1</th>
+                    <th scope="col">name2</th>
+                    <th scope="col">name3</th>
+                    <th scope="col">name4</th>
+                    <th scope="col">name5</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>value1</td>
+                    <td>value2</td>
+                    <td>value3</td>
+                    <td>value4</td>
+                    <td>value5</td>
+                  </tr>
+                  <tr>
+                    <td>value1</td>
+                    <td>value2</td>
+                    <td>value3</td>
+                    <td>value4</td>
+                    <td>value5</td>
+                  </tr>
+                  <tr>
+                    <td>value1</td>
+                    <td>value2</td>
+                    <td>value3</td>
+                    <td>value4</td>
+                    <td>value5</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer">
+        <hr />
+        <h1>푸터임. 나중에 정할거임 ㅋ</h1>
+      </div>
+    </footer>
+  </body>
+</html>
