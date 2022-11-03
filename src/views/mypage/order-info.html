@@ -53,9 +53,9 @@
         <div class="mypage_content">
           <div class="mypage_category">
             <ul>
-              <li class="mypage_list"><a href="orderInfo.html">주문 내역</a></li>
-              <li class="mypage_list"><a href="#" class="active">회원 정보</a></li>
-              <li class="mypage_list"><a href="signout.html">회원 탈퇴</a></li>
+              <li class="mypage_list"><a href="#" class="active">주문 내역</a></li>
+              <li class="mypage_list"><a href="user-info.html">회원 정보</a></li>
+              <li class="mypage_list"><a href="sign-out.html">회원 탈퇴</a></li>
             </ul>
           </div>
           <div class="mypage_con">
@@ -67,59 +67,42 @@
               <p><strong>아이디</strong> | abc1234@gmail.com</p>
               <p><strong>회원 종류</strong> | 소비자</p>
             </div>
-            <div class="mypage_userInfo">
-              <h3>나의 정보</h3>
-              <div class="field mt-5 mb-3">
-                <label class="label mb-3" for="emailInput">이메일</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    id="emailInput"
-                    type="email"
-                    placeholder="abc@example.com"
-                    autocomplete="on"
-                  />
-                </div>
-              </div>
-
-              <div class="field mb-3">
-                <label class="label mb-3" for="passwordInput">현재 비밀번호</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    id="passwordInput"
-                    type="password"
-                    placeholder="********"
-                    autocomplete="off"
-                  />
-                </div>
-              </div>
-              <div class="field mb-3">
-                <label class="label mb-3" for="passwordInput">새 비밀번호</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    id="passwordInput"
-                    type="password"
-                    placeholder="********"
-                    autocomplete="off"
-                  />
-                </div>
-              </div>
-
-              <div class="field mb-5">
-                <label class="label mb-3" for="passwordConfirmInput">새 비밀번호 확인</label>
-                <div class="control">
-                  <input
-                    class="input"
-                    id="passwordConfirmInput"
-                    type="password"
-                    placeholder="********"
-                    autocomplete="off"
-                  />
-                </div>
-              </div>
-              <button class="button mb-3 mt-4" id="submitButton">회원정보수정</button>
+            <div class="mypage_orderInfo">
+              <h3>주문 내역</h3>
+              <table class="table table-bordered orderTable">
+                <thead>
+                  <tr>
+                    <th scope="col">name1</th>
+                    <th scope="col">name2</th>
+                    <th scope="col">name3</th>
+                    <th scope="col">name4</th>
+                    <th scope="col">name5</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>value1</td>
+                    <td>value2</td>
+                    <td>value3</td>
+                    <td>value4</td>
+                    <td>value5</td>
+                  </tr>
+                  <tr>
+                    <td>value1</td>
+                    <td>value2</td>
+                    <td>value3</td>
+                    <td>value4</td>
+                    <td>value5</td>
+                  </tr>
+                  <tr>
+                    <td>value1</td>
+                    <td>value2</td>
+                    <td>value3</td>
+                    <td>value4</td>
+                    <td>value5</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
