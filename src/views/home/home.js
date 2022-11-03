@@ -2,7 +2,7 @@
 // 다만, 앞으로 ~.js 파일을 작성할 때 아래의 코드 구조를 참조할 수 있도록,
 // 코드 예시를 남겨 두었습니다.
 
-import * as Api from '../api.js';
+// import * as Api from '../api.js';
 // import { randomId } from '/useful-functions.js';
 
 addAllElements();
@@ -17,13 +17,6 @@ async function addAllElements() {
 function addAllEvents() {
   // for eslint pass
 }
-
-// async function getDataFromApi() {
-//   // 예시 URI입니다. 현재 주어진 프로젝트 코드에는 없는 URI입니다.
-//   const data = await Api.get('/api/user/data');
-//   // const random = randomId();
-
-// }
 
 const productItemContainer = document.querySelector('.product');
 
@@ -52,6 +45,13 @@ async function getProductData() {
 }
 
 /*
+
+// async function getDataFromApi() {
+//   // 예시 URI입니다. 현재 주어진 프로젝트 코드에는 없는 URI입니다.
+//   const data = await Api.get('/api/user/data');
+//   // const random = randomId();
+
+// }
 
 // 요소(element), input 혹은 상수
 const landingDiv = document.querySelector('#landingDiv');
