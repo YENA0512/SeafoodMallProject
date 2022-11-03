@@ -6,15 +6,15 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon index.js --exec babel-node",
-    "lint": "./node_modules/.bin/eslint . --fix",
-    "eslint": "./node_modules/.bin/eslint --fix",
+    "lint": "eslint . --fix",
+    "eslint": "eslint . --fix",
     "format": "npx prettier --write ."
   },
   "dependencies": {
     "@sindresorhus/is": "^4.6.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.3",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.1"

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>회원가입 페이지</title>
+    <title>마이 페이지</title>
 
     <!-- 폰트 어썸: 아이콘 -->
     <script defer src="https://kit.fontawesome.com/9daa42bcef.js" crossorigin="anonymous"></script>
@@ -18,9 +18,9 @@
       crossorigin="anonymous"
     />
     <!-- 커스텀 css, js -->
-    <link rel="stylesheet" href="register.css" />
+    <link rel="stylesheet" href="mypage.css" />
 
-    <script src="register.js" type="module" defer></script>
+    <script src="mypage.js" type="module" defer></script>
   </head>
   <body>
     <!-- 헤더 -->
@@ -45,52 +45,43 @@
       </nav>
     </header>
 
-    <!-- 회원가입 폼(Form) -->
-    <div class="register-user-form-container">
-      <form class="box register-user-form-box" id="registerUserForm">
-        <h1 class="title text-center mb-5">회원가입</h1>
-        <div class="field mt-3 mb-3">
-          <label class="label mb-3" for="emailInput">이메일</label>
-          <div class="control">
-            <input
-              class="input"
-              id="emailInput"
-              type="email"
-              placeholder="abc@example.com"
-              autocomplete="on"
-            />
+    <main>
+      <section>
+        <div class="mypage_headerTitle">
+          <h1>마이페이지</h1>
+        </div>
+        <div class="mypage_content">
+          <div class="mypage_category">
+            <ul>
+              <li class="mypage_list"><a href="order-info.html">주문 내역</a></li>
+              <li class="mypage_list"><a href="user-info.html">회원 정보</a></li>
+              <li class="mypage_list"><a href="#" class="active">회원 탈퇴</a></li>
+            </ul>
+          </div>
+
+          <div class="mypage_signout">
+            <h3>회원 탈퇴하기</h3>
+
+            <div class="field mt-5 mb-5">
+              <label class="label mb-3" for="passwordConfirmInput">비밀번호 확인</label>
+              <div class="control">
+                <input
+                  class="input"
+                  id="passwordConfirmInput"
+                  type="password"
+                  placeholder="********"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+            <button class="button btn btn-outline-danger mb-3 mt-4" id="submitButton">
+              회원탈퇴하기
+            </button>
           </div>
         </div>
+      </section>
+    </main>
 
-        <div class="field mb-3">
-          <label class="label mb-3" for="passwordInput">비밀번호</label>
-          <div class="control">
-            <input
-              class="input"
-              id="passwordInput"
-              type="password"
-              placeholder="********"
-              autocomplete="off"
-            />
-          </div>
-        </div>
-
-        <div class="field mb-5">
-          <label class="label mb-3" for="passwordConfirmInput">비밀번호 확인</label>
-          <div class="control">
-            <input
-              class="input"
-              id="passwordConfirmInput"
-              type="password"
-              placeholder="********"
-              autocomplete="off"
-            />
-          </div>
-        </div>
-
-        <button class="button mb-3 mt-4" id="submitButton">가입하기</button>
-      </form>
-    </div>
     <footer>
       <div class="footer">
         <hr />
