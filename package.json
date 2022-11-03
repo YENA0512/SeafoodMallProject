@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon index.js --exec babel-node",
-    "lint": "./node_modules/.bin/eslint . --fix",
-    "eslint": "./node_modules/.bin/eslint --fix",
+    "lint": "eslint . --fix",
+    "eslint": "eslint . --fix",
     "format": "npx prettier --write ."
   },
   "dependencies": {
