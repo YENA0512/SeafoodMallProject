@@ -37,3 +37,23 @@ header > h1 {
 .title {
   text-align: center;
 }
+
+.product_image {
+  width: 150px;
+  height: 180px;
+  object-fit: cover;
+  padding-left: 10px;
+}
+.item_container {
+  display: flex;
+}
+.content {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+}
