@@ -3,18 +3,7 @@
 const speciesTotal = document.querySelector('.species_total');
 const productItemContainer = document.querySelector('.product');
 
-addAllElements();
-addAllEvents();
-
-async function addAllElements() {
-  getProductData();
-}
-
-function addAllEvents() {
-  // for eslint pass
-}
-
-async function getProductData() {
+const getProductData = async () => {
   const res = await fetch('./products.json');
   // fetch로 테스트용으로 적은것. 결과물은 products 동일
   const products = await res.json();
@@ -40,4 +29,15 @@ async function getProductData() {
   // 물품 개수 확인
   let total = products.length;
   speciesTotal.innerHTML = total;
+};
+
+addAllEvents();
+addAllElements();
+
+async function addAllElements() {
+  getProductData();
+}
+
+function addAllEvents() {
+  // for eslint pass
 }
