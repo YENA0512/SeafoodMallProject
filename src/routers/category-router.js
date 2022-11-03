@@ -54,14 +54,28 @@ categoryRouter.patch('/:_id', async (req, res, next) => {
   }
 });
 
+// 카테고리 삭제
 categoryRouter.delete('/:_id', async (req, res, next) => {
   try {
     const { _id } = req.params;
     const DTO = { _id };
-    console.log(DTO);
 
-    await categoryService.deleteCategory(_id);
+    await categoryService.deleteCategory(DTO);
     const result = { success: true };
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// 특정 카테고리 조회(child-category)
+categoryRouter.get('/:child_category', async (req, res, next) => {
+  try {
+    const { child_category } = req.params;
+    const DTO = { child_category };
+
+    const categoryByChildCategory = await categoryService.readCategory(DTO);
+    const result = { success: true, categoryByChildCategory };
     res.status(200).json(result);
   } catch (err) {
     next(err);
