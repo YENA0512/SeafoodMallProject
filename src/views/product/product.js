@@ -1,0 +1,5 @@
+const testFunction = () => {
+  return;
+};
+
+testFunction();
