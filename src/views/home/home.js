@@ -5,19 +5,6 @@
 // import * as Api from '../api.js';
 // import { randomId } from '/useful-functions.js';
 
-addAllElements();
-addAllEvents();
-
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-async function addAllElements() {
-  getProductData();
-}
-
-// 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-function addAllEvents() {
-  // for eslint pass
-}
-
 const productItemContainer = document.querySelector('.product');
 
 async function getProductData() {
@@ -31,17 +18,30 @@ async function getProductData() {
     productItemContainer.insertAdjacentHTML(
       'beforeend',
       `
-    <div class="product_item">
-      <img class="product_img" src="${productImage}" />
-      <h3>${productName}</h3>
-      <div>
-        <span>${productPrice}</span>
-        <span>&nbsp;원</span>
+      <div class="product_item">
+        <a href="">
+          <img class="product_img" src="${productImage}" />
+          <h3>${productName}</h3>
+          <div>
+            <span>${productPrice}</span>
+            <span>&nbsp;원</span>
+          </div>
+        </a>
       </div>
-    </div>
   `,
     );
   });
+}
+
+addAllElements();
+addAllEvents();
+
+async function addAllElements() {
+  getProductData();
+}
+
+function addAllEvents() {
+  // for eslint pass
 }
 
 /*
