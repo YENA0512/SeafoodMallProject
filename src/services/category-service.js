@@ -13,7 +13,12 @@ class CategoryService {
 
   // 카테고리 리스트 조회
   async readCategoryList() {
-    const categoryList = await this.categoryModel.readList();
+    const parentList = await this.categoryModel.readParentList();
+    const categoryList = [];
+    for (const parent of parentList) {
+      const children = await this.categoryModel.readChildList(parent);
+      categoryList.push({ parent_category: parent, child_category: children });
+    }
     return categoryList;
   }
 
@@ -25,8 +30,14 @@ class CategoryService {
 
   // 카테고리 삭제
   async deleteCategory(DTO) {
-    const deletedCagtegory = await this.categoryModel.delete(DTO);
-    return deletedCagtegory;
+    const deletedCategory = await this.categoryModel.delete(DTO);
+    return deletedCategory;
+  }
+
+  // 특정 카테고리 조회
+  async readCategory(DTO) {
+    const categoryByChildCategory = await this.categoryModel.readCategory(DTO);
+    return categoryByChildCategory;
   }
 }
 
