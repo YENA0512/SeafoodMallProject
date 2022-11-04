@@ -19,32 +19,18 @@
     />
     <!-- 커스텀 css, js -->
     <link rel="stylesheet" href="mypage.css" />
-
-    <script src="mypage.js" type="module" defer></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="mypage-order.js" type="module" defer></script>
+    <script src="mypage-user.js" type="module" defer></script>
+    <script src="../assets/layout/header-layout.js" type="module" defer></script>
+    <script src="../assets/layout/footer-layout.js" type="module" defer></script>
   </head>
   <body>
-    <!-- 헤더 -->
-    <header>
-      <h1>
-        <a href="../home/home.html"><img class="main_logo" src="../assets/mainlogo.png" /></a>
-      </h1>
-      <hr />
-      <nav class="nav_bar">
-        <div class="nav_categories">카테고리</div>
-        <div class="nav_menu">
-          <ol>
-            <li><a>로그인</a></li>
-            <em>&nbsp;|&nbsp;</em>
-            <li><a>마이페이지</a></li>
-            <em>&nbsp;|&nbsp;</em>
-            <li><a>장바구니</a></li>
-            <em>&nbsp;|&nbsp;</em>
-            <li><a>로그아웃</a></li>
-          </ol>
-        </div>
-      </nav>
-    </header>
-
     <main>
       <section>
         <div class="mypage_headertitle">
@@ -135,12 +121,5 @@
         </div>
       </section>
     </main>
-
-    <footer>
-      <div class="footer">
-        <hr />
-        <h1>푸터임. 나중에 정할거임 ㅋ</h1>
-      </div>
-    </footer>
   </body>
 </html>
