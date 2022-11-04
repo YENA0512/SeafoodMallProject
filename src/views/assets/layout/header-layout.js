@@ -24,7 +24,7 @@ const headerHTML = `
     </div>
     <div class="nav_menu">
       <ol>
-        <li><a>로그인</a></li>
+        <li><a href="../login/login.html">로그인</a></li>
         <em>&nbsp;|&nbsp;</em>
         <li><a>마이페이지</a></li>
         <em>&nbsp;|&nbsp;</em>
