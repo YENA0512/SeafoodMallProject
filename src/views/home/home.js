@@ -6,7 +6,6 @@
 // import { randomId } from '/useful-functions.js';
 
 const productItemContainer = document.querySelector('.product');
-const dropMenu = document.querySelector('.dropdown-menu');
 
 async function getProductData() {
   const res = await fetch('./products.json');
@@ -31,6 +30,9 @@ async function getProductData() {
     );
   });
 }
+
+// 모든 영역 공통 사항
+const dropMenu = document.querySelector('.dropdown-menu');
 
 const getCategories = async () => {
   const res = await fetch('./categories.json');
