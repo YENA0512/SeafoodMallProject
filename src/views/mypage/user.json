@@ -1,0 +1,27 @@
+[
+  {
+    "email": "aaa@naver.com",
+    "password": "abc1234",
+    "group": "customer"
+  },
+  {
+    "email": "def@naver.com",
+    "password": "def1234",
+    "group": "admin"
+  },
+  {
+    "email": "ghi@naver.com",
+    "password": "ghi1234",
+    "group": "seller"
+  },
+  {
+    "email": "abcd@naver.com",
+    "password": "abcd1234",
+    "group": "admin"
+  },
+  {
+    "email": "ace@naver.com",
+    "password": "ace1234",
+    "group": "customer"
+  }
+]
