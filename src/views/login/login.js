@@ -1,74 +1,97 @@
-// import * as Api from '../api';
-// import { JsonWebTokenError } from 'jsonwebtoken';
-// import { validateEmail } from '../useful-functions';
-// import data from './login.json' assert { type: 'json' };
-//console.log(data);
+// import * as Api from '../api.js';
+import { validateEmail } from '../useful-functions.js';
+
 // 요소(element), input 혹은 상수
 const emailInput = document.querySelector('#emailInput');
 const passwordInput = document.querySelector('#passwordInput');
-const submitButtonLogin = document.querySelector('#submitButtonLogin');
+const submitButton = document.querySelector('#submitButton');
 
-addAllElements();
-addAllEvents();
+// addAllElements();
+//addAllEvents();
 
 // html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-async function addAllElements() {}
+// async function addAllElements() {
+//   createNavbar();
+// }
 
 // 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-function addAllEvents() {
-  submitButtonLogin.addEventListener('click', handleSubmitLogin);
-}
+window.onload = function addAllEvents() {
+  submitButton.addEventListener('click', handleSubmit);
+};
 
 // 로그인 진행
-async function handleSubmitLogin(e) {
+async function handleSubmit(e) {
   e.preventDefault();
 
   const email = emailInput.value;
   const password = passwordInput.value;
 
   // 잘 입력했는지 확인
-  // const isEmailValid = validateEmail(email);
+  const isEmailValid = validateEmail(email);
   const isPasswordValid = password.length >= 4;
 
-  if (!isPasswordValid) {
+  if (!isEmailValid || !isPasswordValid) {
     return alert('비밀번호가 4글자 이상인지, 이메일 형태가 맞는지 확인해 주세요.');
   }
 
   // 로그인 api 요청
   try {
-    // const data = { email, password };
-    //console.log(data);
-    // const result = await Api.post('/api/login', data);
+    const data = { email, password };
+
+    //const result = await Api.post('/api/login', data);
     const res = await fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-
+      body: JSON.stringify(data),
+    });
     let result = await res.json();
     alert(result.message);
-
-    const token = result.token;
     console.log(result);
+    console.log(data);
+    //const token = result.token;
+
+    const { token, isAdmin } = result;
+
     // 로그인 성공, 토큰을 세션 스토리지에 저장
-    // 물론 다른 스토리지여도 됨
     sessionStorage.setItem('token', token);
 
     alert(`정상적으로 로그인되었습니다.`);
 
     // 로그인 성공
 
-    // 기본 페이지로 이동
-    window.location.href = './home/home.html';
+    // admin(관리자) 일 경우, sessionStorage에 기록함
+    if (isAdmin) {
+      sessionStorage.setItem('admin', 'admin');
+    }
+
+    // 기존 다른 페이지에서 이 로그인 페이지로 온 경우, 다시 돌아가도록 해 줌.
+    const { previouspage } = getUrlParams();
+
+    if (previouspage) {
+      window.location.href = previouspage;
+
+      return;
+    }
+
+    // 기존 다른 페이지가 없었던 경우, 그냥 기본 페이지로 이동
+    window.location.href = '/home/home.html';
   } catch (err) {
     console.error(err.stack);
     alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
   }
 }
+// 주소창의 url로부터 params를 얻어 객체로 만듦
+const getUrlParams = () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+
+  const result = {};
+
+  for (const [key, value] of urlParams) {
+    result[key] = value;
+  }
+
+  return result;
+};
