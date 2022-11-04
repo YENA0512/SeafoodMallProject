@@ -18,14 +18,16 @@ async function getProductData() {
     productItemContainer.insertAdjacentHTML(
       'beforeend',
       `
-    <div class="product_item">
-      <img class="product_img" src="${productImage}" />
-      <h3>${productName}</h3>
-      <div>
-        <span>${productPrice}</span>
-        <span>&nbsp;원</span>
+      <div class="product_item">
+        <a href="">
+          <img class="product_img" src="${productImage}" />
+          <h3>${productName}</h3>
+          <div>
+            <span>${productPrice}</span>
+            <span>&nbsp;원</span>
+          </div>
+        </a>
       </div>
-    </div>
   `,
     );
   });
