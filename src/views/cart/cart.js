@@ -1,103 +1,98 @@
 import { addCommas } from '../useful-functions.js';
-const itemContainer = document.querySelector('#products_item');
-const productPrice = document.querySelector('#price');
-const discountPrice = document.querySelector('#price_discount');
-const shippingPrice = document.querySelector('#price_shipping');
-const totalPrice = document.querySelector('#price_total');
+import { addToDb, deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
-// localStorage에서 상품 리스트 가져오기
-const insertProductsfromCart = async () => {
-  const cartProducts = localStorage.getItem('cart');
+// 요소 가져오기
+const cartProductsContainer = document.querySelector('#cart_list');
+const allSelectCheckbox = document.querySelector('#all_select');
+const partialDeleteLabel = document.querySelector('#partial_delete');
+// const productsCountElem = document.querySelector("#productsCount");
+const productsTotalElem = document.querySelector('#product_price');
+const deliveryFeeElem = document.querySelector('#shipping_price');
+const orderTotalElem = document.querySelector('#total_order_price');
+const purchaseButton = document.querySelector('#purchase_button');
 
-  const products = JSON.parse(cartProducts);
+// 추가 버튼 클릭 시 추가(test)
+document.getElementById('addBtn').addEventListener('click', async (product) => {
+  // 객체 destructuring
+  const { _id: id, price } = product;
 
-  if (cartProducts !== null) {
-    await products.forEach((product) => {
-      console.log(products);
-      const id = product.id;
-      const title = product.title;
-      const quantity = product.quantity;
-      const image = product.image;
-      const price = product.price;
+  // 장바구니 추가 시, indexedDB에 제품 데이터 및
+  // 주문수량 (기본값 1)을 저장함.
+  await addToDb(
+    'cart',
+    // test데이터
+    {
+      _id: '1234qwer',
+      title: '고등어',
+      image:
+        'https://images.unsplash.com/photo-1498654200943-1088dd4438ae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      price: 30000,
+      quantity: 1,
+    },
+  );
 
-      itemContainer.insertAdjacentHTML(
-        'beforeend',
-        `<div class="item_container">
-    <div>
-      <input class="form-check-input" type="checkbox" value="" id="select_check_${id}" />
-    </div>
-    <div class="image">
-      <figure>
-        <img class="product_image" src="${image}" alt="상품이미지" id="image_${id}" 
-      }/>
-      </figure>
+  // 장바구니 요약(=전체 총합)을 업데이트함.
+  await putToDb('order', 'summary', (data) => {
+    // 기존 데이터를 가져옴
+    // const count = data.productsCount;
+    const total = data.productsTotal;
+    const ids = data.ids;
+    const selectedIds = data.selectedIds;
+
+    // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
+    // data.productsCount = count ? count + 1 : 1;
+
+    // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
+    data.productsTotal = total ? total + price : price;
+
+    // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
+    data.ids = ids ? [...ids, id] : [id];
+
+    // 위와 마찬가지 방식
+    data.selectedIds = selectedIds ? [...selectedIds, id] : [id];
+  });
+});
+
+// 데이터 읽어오기
+async function insertProducts() {
+  const products = await getFromDb('cart');
+  console.log(products);
+  // const { selectedIds } = await getFromDb('order');
+  products.forEach(async (product) => {
+    const { _id, title, image, quantity, price } = product;
+
+    // const isSelected = selectedIds.includes(_id);
+
+    cartProductsContainer.insertAdjacentHTML(
+      'beforeend',
+      `<div class="item_container" id="productItem-${_id}">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-${_id}" />
+          <div class="image">
+          <figure>
+        <img class="product_image" src="${image}" alt="상품이미지" id="image-${_id}"/>
+        </figure>
     </div>
     <div class="content">
-      <div id="title_${id}">
+      <div id="title-${_id}">
         <p>${title}</p>
       </div>
       <div class="quantity">
-        <button class="btn" id="minus_${id}">-</button>
-        <input type="number" class="quantity_input" min="1" max="99" value="1"/>
-        <button class="btn" id="plus_${id}">+</button>
+        <button class="btn" id="minus-${_id}"
+        >-</button>
+        <input type="number" class="quantity_input" min="1" max="99" value="1" id="quantityInput-${_id}"/>
+        <button class="btn" id="plus-${_id}"
+       >+</button>
       </div>
       <div class="calculation">
-        <p id="product_price_${id}">${addCommas(price * quantity)}원</p>
+        <p id="total-${_id}">${addCommas(price * quantity)}원</p>
       </div>
       <div class="delete">
-        <button class="btn" id="delete_${id}">X</button>
+        <button class="btn" id="delete-${_id}}">X</button>
       </div>
     </div>
     </div>`,
-      );
-      //   // 이벤트 추가
-      //   document.querySelector(`#delete_${id}`).addEventListener('click', () => deleteItem(id));
+    );
+  });
+}
 
-      //   document.querySelector(`#checkbox_${id}`).addEventListener('change', () => toggleItem(id));
-
-      //   //   document
-      //   //     .querySelector(`#image_${_id}`)
-      //   //     .addEventListener('click', navigate(`/product/detail?id=${id}`));
-
-      //   //   document
-      //   //     .querySelector(`#title_${id}`)
-      //   //     .addEventListener('click', navigate(`/product/detail?id=${id}`));
-
-      //   document
-      //     .querySelector(`#plus_${id}`)
-      //     .addEventListener('click', () => increaseItemQuantity(id));
-
-      //   document
-      //     .querySelector(`#minus_${id}`)
-      //     .addEventListener('click', () => decreaseItemQuantity(id));
-
-      //   document
-      //     .querySelector(`#quantityInput_${id}`)
-      //     .addEventListener('change', () => handleQuantityInput(id));
-    });
-  }
-};
-
-// 상품 가격 계산하기
-const insertOrderfromCart = async () => {
-  const cartProducts = localStorage.getItem('cart');
-
-  const products = JSON.parse(cartProducts);
-
-  if (cartProducts !== null) {
-    await products.forEach((product) => {
-      console.log(products);
-      const price = product.price;
-      const discountprice = product.discountprice;
-      const shippingprice = product.shippingprice;
-
-      productPrice.innerText = `${addCommas(price)}원`;
-      discountPrice.innerText = `-${addCommas(discountprice)}원`;
-      shippingPrice.innerText = `${addCommas(shippingprice)}원`;
-      totalPrice.innerText = `${addCommas(price - discountprice + shippingprice)}원`;
-    });
-  }
-};
-
-insertOrderfromCart();
-insertProductsfromCart();
+insertProducts();
