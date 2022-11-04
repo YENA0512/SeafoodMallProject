@@ -14,16 +14,42 @@ const getFooterHTML = async () => {
   return data;
 };
 
-getNavHTML().then((html) => {
-  console.log(html);
-  const body = document.body;
+getNavHTML()
+  .then((html) => {
+    const body = document.body;
+    html += body.innerHTML;
+    body.innerHTML = html;
+  })
+  .then(async () => {
+    const dropMenu = document.querySelector('.dropdown-menu');
+    const liEl = document.createElement('li');
+    liEl.innerHTML = 'dltlqkf';
+    dropMenu.appendChild(liEl);
 
-  html += body.innerHTML;
-  body.innerHTML = html;
-});
+    // const dropMenu = document.querySelector('.dropdown-menu');
+
+    // const res = await fetch('../assets/layout/categories.json');
+    // // fetch로 테스트용으로 적은것. 결과물은 products 동일
+    // const categories = await res.json();
+
+    // categories.forEach((item) => {
+    //   const { name, href } = item;
+
+    //   const liEl = document.createElement('li');
+    //   const aEl = document.createElement('a');
+
+    //   aEl.setAttribute('class', 'dropdown-item');
+    //   aEl.setAttribute('href', `${href}`);
+
+    //   aEl.innerHTML = name;
+    //   liEl.appendChild(aEl);
+
+    //   dropMenu.appendChild(liEl);
+    // });
+    // console.log(dropMenu);
+  });
 
 getFooterHTML().then((html) => {
-  console.log(html);
   const body = document.body;
 
   html = body.innerHTML + html;
@@ -31,22 +57,3 @@ getFooterHTML().then((html) => {
 });
 
 // 모든 영역 공통 사항
-const dropMenu = document.querySelector('.dropdown-menu');
-
-const getCategories = async () => {
-  const res = await fetch('../assets/layout/categories.json');
-  // fetch로 테스트용으로 적은것. 결과물은 products 동일
-  const categories = await res.json();
-
-  categories.forEach((item) => {
-    const { name, href } = item;
-    dropMenu.insertAdjacentHTML(
-      'beforeend',
-      `
-      <li><a class="dropdown-item" href="${href}">${name}</a></li>
-      `,
-    );
-  });
-};
-
-getCategories();
