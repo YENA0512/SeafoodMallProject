@@ -40,6 +40,7 @@ const ShippingSchema = new Schema(
     },
     deleted_at: {
       type: Date,
+      default: null,
     },
   },
   {
