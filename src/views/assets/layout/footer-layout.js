@@ -1,4 +1,7 @@
+import footerStyle from './footer-style.js';
+
 const footerHTML = `
+  <style>${footerStyle}</style>
   <hr />
   <footer>
     <div class="footer">

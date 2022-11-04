@@ -1,8 +1,11 @@
+import headerStyle from './header-style.js';
+
 const res = await fetch('../assets/layout/categories.json');
 // fetch로 테스트용으로 적은것. 결과물은 products 동일
 const categories = await res.json();
 
 const headerHTML = `
+  <style>${headerStyle}</style>
   <h1>
     <a href="#"><img class="main_logo" src="../assets/mainlogo.png" /></a>
   </h1>
