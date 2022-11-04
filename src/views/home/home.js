@@ -5,20 +5,8 @@
 // import * as Api from '../api.js';
 // import { randomId } from '/useful-functions.js';
 
-addAllElements();
-addAllEvents();
-
-// html에 요소를 추가하는 함수들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-async function addAllElements() {
-  getProductData();
-}
-
-// 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-function addAllEvents() {
-  // for eslint pass
-}
-
 const productItemContainer = document.querySelector('.product');
+const dropMenu = document.querySelector('.dropdown-menu');
 
 async function getProductData() {
   const res = await fetch('./products.json');
@@ -42,6 +30,35 @@ async function getProductData() {
   `,
     );
   });
+}
+
+const getCategories = async () => {
+  const res = await fetch('./categories.json');
+  // fetch로 테스트용으로 적은것. 결과물은 products 동일
+  const categories = await res.json();
+
+  categories.forEach(async (item) => {
+    const { name, href } = item;
+
+    dropMenu.insertAdjacentHTML(
+      'beforeend',
+      `
+      <li><a class="dropdown-item" href=${href}>${name}</a></li>
+      `,
+    );
+  });
+};
+
+addAllElements();
+addAllEvents();
+
+async function addAllElements() {
+  getProductData();
+  getCategories();
+}
+
+function addAllEvents() {
+  // for eslint pass
 }
 
 /*
