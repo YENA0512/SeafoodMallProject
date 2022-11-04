@@ -76,11 +76,11 @@ async function handleSubmit(e) {
       data.password = password;
     }
     //await Api.patch('/api/users', data);
-
+    console.log(data);
     alert(`회원정보가 정상적으로 수정되었습니다.`);
 
-    // 로그인 페이지 이동
-    window.location.href = '/login';
+    // 로그인 페이지 이동s
+    window.location.href = './user-info.html';
   } catch (err) {
     console.error(err.stack);
     alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
