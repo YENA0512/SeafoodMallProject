@@ -33,32 +33,11 @@ async function getProductData() {
   });
 }
 
-// 모든 영역 공통 사항
-const dropMenu = document.querySelector('.dropdown-menu');
-
-const getCategories = async () => {
-  const res = await fetch('./categories.json');
-  // fetch로 테스트용으로 적은것. 결과물은 products 동일
-  const categories = await res.json();
-
-  categories.forEach(async (item) => {
-    const { name, href } = item;
-
-    dropMenu.insertAdjacentHTML(
-      'beforeend',
-      `
-      <li><a class="dropdown-item" href=${href}>${name}</a></li>
-      `,
-    );
-  });
-};
-
 addAllElements();
 addAllEvents();
 
 async function addAllElements() {
   getProductData();
-  getCategories();
 }
 
 function addAllEvents() {
