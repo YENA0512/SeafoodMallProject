@@ -36,7 +36,7 @@ async function handleSubmit(e) {
   try {
     const data = { email, password };
 
-    const result = await Api.post('/api/login', data);
+    const result = await Api.post('/api/v1/users/login', data);
     // const res = await fetch('/api/login', {
     //   method: 'POST',
     //   headers: {
@@ -50,7 +50,7 @@ async function handleSubmit(e) {
     // console.log(data);
     //const token = result.token;
 
-    const { token, isAdmin } = result;
+    const { token } = result.data;
 
     // 로그인 성공, 토큰을 세션 스토리지에 저장
     sessionStorage.setItem('token', token);
@@ -60,9 +60,9 @@ async function handleSubmit(e) {
     // 로그인 성공
 
     // admin(관리자) 일 경우, sessionStorage에 기록함
-    if (isAdmin) {
-      sessionStorage.setItem('admin', 'admin');
-    }
+    // if (isAdmin) {
+    //   sessionStorage.setItem('admin', 'admin');
+    // }
 
     // 기존 다른 페이지에서 이 로그인 페이지로 온 경우, 다시 돌아가도록 해 줌.
     const { previouspage } = getUrlParams();
