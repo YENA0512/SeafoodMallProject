@@ -3,11 +3,13 @@
 import express from 'express';
 import { categoryRouter } from './category-router';
 import { userRouter } from './user-router';
+import { productRouter } from './product-router';
 
 const v1Router = express.Router();
 
 v1Router.use('/categories', categoryRouter);
 v1Router.use('/users', userRouter);
+v1Router.use('/products', productRouter);
 
 export * from './views-router';
 export { v1Router };
