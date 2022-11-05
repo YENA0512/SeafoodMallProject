@@ -29,6 +29,7 @@ export class UserModel {
     const option = { returnOriginal: false };
 
     const updatedUser = await User.findOneAndUpdate(filter, update, option);
+
     return updatedUser;
   }
 }

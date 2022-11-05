@@ -2,12 +2,12 @@
 // 나중에 import 할 때의 코드도 짧아지는 효과가 있음.
 import express from 'express';
 import { categoryRouter } from './category-router';
+import { userRouter } from './user-router';
 
 const v1Router = express.Router();
 
 v1Router.use('/categories', categoryRouter);
+v1Router.use('/users', userRouter);
 
 export * from './views-router';
 export { v1Router };
-// export * from './user-router';
-// export * from './category-router';
