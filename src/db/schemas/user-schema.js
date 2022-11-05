@@ -22,7 +22,6 @@ const UserSchema = new Schema(
       type: Date,
     },
     seller_info: SellerSchema,
-    // cart: [CartSchema],
   },
   {
     collection: 'Users',

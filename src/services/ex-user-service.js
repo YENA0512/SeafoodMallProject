@@ -71,6 +71,11 @@ class UserService {
     return users;
   }
 
+  //특정 사용자 정보 전달
+  async getUser(user_id) {
+    const user = await this.userModel.findById(user_id);
+    return user;
+  }
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(userInfoRequired, toUpdate) {
     // 객체 destructuring
