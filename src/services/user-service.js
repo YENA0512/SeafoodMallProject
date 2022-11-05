@@ -42,10 +42,8 @@ class UserService {
     // 우선 해당 이메일의 사용자 정보가  db에 존재하는지 확인
     const user = await this.userModel.findByEmail(email);
     if (!user) {
-      throw new Error('해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
+      throw new Error('로그인 정보를 확인해주세요.');
     }
-
-    // 이제 이메일은 문제 없는 경우이므로, 비밀번호를 확인함
 
     // 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password; // db에 저장되어 있는 암호화된 비밀번호
@@ -54,14 +52,17 @@ class UserService {
     const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
 
     if (!isPasswordCorrect) {
-      throw new Error('비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.');
+      throw new Error('로그인 정보를 확인해주세요.');
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
     // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
+    const token = jwt.sign({ userId: user._id }, secretKey, {
+      issuer: 'hae3mul',
+      expiresIn: '24h',
+    });
 
     return { token };
   }
