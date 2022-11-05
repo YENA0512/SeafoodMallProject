@@ -81,10 +81,13 @@ const getCategories = async () => {
     dropMenu.appendChild(liEl);
 
     const dropItem = document.querySelector(`#order${i}`);
+    console.log(dropItem);
 
     dropItem.addEventListener('click', (e) => {
       const species = e.target.text;
-      dropItem.href = '../../species/species.html';
+      console.log(species);
+      // const res = Api.get(`/api/v1/categories/${species}`);
+      // console.log(res.json());
     });
     i++;
   });
