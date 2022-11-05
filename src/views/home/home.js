@@ -4,6 +4,7 @@
 
 // import * as Api from '../api.js';
 // import { randomId } from '/useful-functions.js';
+import { addCommas } from '../useful-functions.js';
 
 const productItemContainer = document.querySelector('.product');
 
@@ -23,7 +24,7 @@ async function getProductData() {
           <img class="product_img" src="${productImage}" />
           <h3>${productName}</h3>
           <div>
-            <span>${productPrice}</span>
+            <span>${addCommas(productPrice)}</span>
             <span>&nbsp;원</span>
           </div>
         </a>
