@@ -37,18 +37,6 @@ async function handleSubmit(e) {
     const data = { email, password };
 
     const result = await Api.post('/api/v1/users/login', data);
-    // const res = await fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // });
-    // let result = await res.json();
-    // alert(result.message);
-    // console.log(result);
-    // console.log(data);
-    //const token = result.token;
 
     const { token } = result.data;
 
@@ -77,7 +65,7 @@ async function handleSubmit(e) {
     window.location.href = '/home/home.html';
   } catch (err) {
     console.error(err.stack);
-    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+    alert(`이런이런! ${err.message}`);
   }
 }
 // 주소창의 url로부터 params를 얻어 객체로 만듦

@@ -2,7 +2,7 @@ import { Schema } from 'mongoose';
 
 const PriceSchema = new Schema(
   {
-    action_cost: {
+    auction_cost: {
       type: Number,
       required: true,
     },

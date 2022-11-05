@@ -1,5 +1,5 @@
-// import * as Api from '../api.js';
-// import { validateEmail } from '../useful-functions.js';
+import * as Api from '../api.js';
+import { validateEmail } from '../useful-functions.js';
 
 // 요소(element), input 혹은 상수
 const userEmail = document.querySelector('#userEmail');
@@ -23,11 +23,10 @@ function addAllEvents() {
   submitButton.addEventListener('click', handleSubmit);
 }
 async function getUserInfo() {
-  const res = await fetch('./user.json');
-  //   const users = await Api.get('/api/users');
-  const users = await res.json();
+  const users = await Api.get('/api/v1/users');
+
   console.log(users);
-  let id = 0; //req.params에서 사용자 id값 가져와서 데이터 출력하기
+  let { id } = users.data._id; //req.params에서 사용자 id값 가져와서 데이터 출력하기
   let userName = users[id].email.split('@')[0];
   userEmail.innerHTML = `${userName} 님`;
   userEmailValue.innerHTML = users[id].email;
@@ -67,9 +66,8 @@ async function handleSubmit(e) {
 
   // 회원정보 수정 api 요청
   try {
-    const res = await fetch('./user.json');
-    //   const users = await Api.get('/api/users');
-    const users = await res.json();
+    const users = await Api.get('/api/v1/users/list');
+
     const data = { password };
     const id = 0;
     if (password !== users[id].password) {
