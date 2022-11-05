@@ -1,0 +1,30 @@
+[
+  {
+    "product": "연어",
+    "quantity": 1,
+    "price": 10000,
+    "order_date": "2022.11.04",
+    "order_status": "order"
+  },
+  {
+    "product": "광어",
+    "quantity": 3,
+    "price": 20000,
+    "order_date": "2022.11.01",
+    "order_status": "prepare"
+  },
+  {
+    "product": "우럭",
+    "quantity": 5,
+    "price": 5000,
+    "order_date": "2020.11.03",
+    "order_status": "complete"
+  },
+  {
+    "product": "조개",
+    "quantity": 10,
+    "price": 1000,
+    "order_date": "2022.12.04",
+    "order_status": "shipping"
+  }
+]
