@@ -56,7 +56,7 @@ userRouter.post('/login', async function (req, res, next) {
 
 // 전체 유저 목록을 가져옴 (배열 형태임)
 // 미들웨어로 loginRequired 를 썼음 (이로써, jwt 토큰이 없으면 사용 불가한 라우팅이 됨)
-userRouter.get('/userlist', loginRequired, async function (req, res, next) {
+userRouter.get('/list', loginRequired, async function (req, res, next) {
   try {
     // 전체 사용자 목록을 얻음
     const users = await userService.getUsers();
@@ -70,7 +70,7 @@ userRouter.get('/userlist', loginRequired, async function (req, res, next) {
 
 // 사용자 정보 수정
 // (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
-userRouter.patch('/:userId', loginRequired, async function (req, res, next) {
+userRouter.patch('/:_id', loginRequired, async function (req, res, next) {
   try {
     // content-type 을 application/json 로 프론트에서
     // 설정 안 하고 요청하면, body가 비어 있게 됨.
@@ -79,7 +79,7 @@ userRouter.patch('/:userId', loginRequired, async function (req, res, next) {
     }
 
     // params로부터 id를 가져옴
-    const { userId } = req.params;
+    const { _id } = req.params;
 
     // body data 로부터 업데이트할 사용자 정보를 추출함.
 
@@ -94,7 +94,7 @@ userRouter.patch('/:userId', loginRequired, async function (req, res, next) {
       detail_address,
     } = req.body;
 
-    const userDTO = sanitizeObject({ userId, current_password, new_password });
+    const userDTO = sanitizeObject({ _id, current_password, new_password });
     const shippingDTO = sanitizeObject({
       name,
       mobile,
@@ -121,10 +121,10 @@ userRouter.patch('/:userId', loginRequired, async function (req, res, next) {
   }
 });
 
-userRouter.get('/:userId', loginRequired, async (req, res, next) => {
+userRouter.get('/:_id', loginRequired, async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    const DTO = { userId };
+    const { _id } = req.params;
+    const DTO = { _id };
 
     const userInfo = await userService.readUser(DTO);
     const result = { success: true, data: userInfo };
@@ -134,4 +134,18 @@ userRouter.get('/:userId', loginRequired, async (req, res, next) => {
   }
 });
 
+userRouter.delete('/:_id', loginRequired, async (req, res, next) => {
+  try {
+    const { _id } = req.params;
+    const { password } = req.body;
+    const DTO = { _id, password };
+
+    const deletedUser = await userService.deleteUser(DTO);
+
+    const result = { success: true, data: deletedUser };
+    res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+});
 export { userRouter };
