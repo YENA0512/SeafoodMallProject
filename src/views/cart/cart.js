@@ -452,7 +452,7 @@ async function updateOrderSummary(id, type) {
   updateAllSelectCheckbox();
 }
 
-// 아이템(제품)카드의 수량, 금액 등을 업데이트함
+// 아이템(제품)카드의 수량, 금액 등을 업데이트
 async function updateProductItem(id, type) {
   // 업데이트 방식을 결정하는 변수들
   const isInput = type.includes('input');
