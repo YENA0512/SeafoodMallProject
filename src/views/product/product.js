@@ -1,5 +1,5 @@
 // import * as Api from '../api.js';
-// import { randomId } from '/useful-functions.js';
+import { addCommas } from '../useful-functions.js';
 
 const ProductTitle = document.querySelector('.product_title');
 const packageCondition = document.querySelector('.package_condition');
@@ -14,17 +14,15 @@ const getProductData = async () => {
   // fetch로 테스트용으로 적은것. 결과물은 products 동일
   const product = await res.json();
   const { title, price, package_condition, platform_condition, delivery_condition } = product[0];
-  console.log(product);
-  console.log(package_condition);
 
   ProductTitle.innerHTML = title;
-  packageCondition.innerHTML = package_condition;
-  platformCondition.innerHTML = platform_condition;
-  deliveryCondition.innerHTML = delivery_condition;
+  packageCondition.innerHTML = addCommas(package_condition);
+  platformCondition.innerHTML = addCommas(platform_condition);
+  deliveryCondition.innerHTML = addCommas(delivery_condition);
 
   let total = package_condition + platform_condition + delivery_condition + price;
 
-  totalPrice.innerHTML = total;
+  totalPrice.innerHTML = addCommas(total);
 };
 
 // 모음영역
