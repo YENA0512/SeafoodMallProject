@@ -36,21 +36,9 @@ async function handleSubmit(e) {
   try {
     const data = { email, password };
 
-    const result = await Api.post('/api/login', data);
-    // const res = await fetch('/api/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // });
-    // let result = await res.json();
-    // alert(result.message);
-    // console.log(result);
-    // console.log(data);
-    //const token = result.token;
+    const result = await Api.post('/api/v1/users/login', data);
 
-    const { token, isAdmin } = result;
+    const { token } = result.data;
 
     // 로그인 성공, 토큰을 세션 스토리지에 저장
     sessionStorage.setItem('token', token);
@@ -60,9 +48,9 @@ async function handleSubmit(e) {
     // 로그인 성공
 
     // admin(관리자) 일 경우, sessionStorage에 기록함
-    if (isAdmin) {
-      sessionStorage.setItem('admin', 'admin');
-    }
+    // if (isAdmin) {
+    //   sessionStorage.setItem('admin', 'admin');
+    // }
 
     // 기존 다른 페이지에서 이 로그인 페이지로 온 경우, 다시 돌아가도록 해 줌.
     const { previouspage } = getUrlParams();
@@ -77,7 +65,7 @@ async function handleSubmit(e) {
     window.location.href = '/home/home.html';
   } catch (err) {
     console.error(err.stack);
-    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+    alert(`이런이런! ${err.message}`);
   }
 }
 // 주소창의 url로부터 params를 얻어 객체로 만듦
