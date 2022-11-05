@@ -34,6 +34,34 @@ header > h1 {
 }
 /* ------------↑공통영역↑------------ */
 
+.product-name {
+  text-align: center;
+}
+
+.product_image {
+  width: 150px;
+  height: 180px;
+  object-fit: cover;
+  padding-left: 10px;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+}
+
 .title {
   text-align: center;
+  padding: 20px 20px;
+}
+
+.item_container {
+  display: flex;
 }
