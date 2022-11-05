@@ -47,7 +47,7 @@ async function handleSubmit(e) {
   try {
     const data = { email, password };
 
-    await Api.post('/api/register', data);
+    await Api.post('/api/v1/users/signup', data);
 
     alert(`정상적으로 회원가입되었습니다.`);
 
@@ -55,6 +55,6 @@ async function handleSubmit(e) {
     window.location.href = '/login';
   } catch (err) {
     console.error(err.stack);
-    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+    alert(`${err.message}`);
   }
 }
