@@ -36,14 +36,18 @@ document.getElementById('addBtn').addEventListener('click', async (product) => {
 
     // 장바구니 추가 시, indexedDB에 제품 데이터 및
     // 주문수량 (기본값 1)을 저장함.
-    await addToDb('cart', product);
+    await addToDb('cart', { ...product, quantity: 1 }, id);
 
     // 장바구니 요약(=전체 총합)을 업데이트함
     await putToDb('order', 'summary', (data) => {
       // 기존 데이터를 가져옴
+      const count = data.productsCount;
       const total = data.productsTotal;
       const ids = data.ids;
       const selectedIds = data.selectedIds;
+
+      // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
+      data.productsCount = count ? count + 1 : 1;
 
       // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
       data.productsTotal = total ? total + price : price;
@@ -135,108 +139,147 @@ async function insertProductsfromCart() {
   });
 }
 
-// 체크 선택 함수 //////////////
 async function toggleItem(id) {
   const itemCheckbox = document.querySelector(`#checkbox-${id}`);
   const isChecked = itemCheckbox.checked;
 
-  //결제정보 업데이트 및 체크 상태에서는 수량을 수정 가능(언체크는 불가능)으로 함
+  // 결제정보 업데이트 및, 체크 상태에서는 수량을 수정 가능 (언체크는 불가능)으로 함
   if (isChecked) {
     await updateOrderSummary(id, 'add-checkbox');
+    setQuantityBox(id, 'able');
   } else {
     await updateOrderSummary(id, 'removeTemp-checkbox');
     setQuantityBox(id, 'disable');
   }
 }
 
-// 수량 빼기 함수//////////////
-async function decreaseItemQuantity(id) {
-  // 결제정보 업데이트
-  await updateOrderSummary(id, 'minusButton');
-  // 상품리스트 업데이트
-  await updateProductItem(id, 'decrease');
-  // indexedDB의 cart업데이트
-  await putToDb('cart', id, (data) => {
-    data.quantity = data.quantity - 1;
+async function toggleAll(e) {
+  // 전체 체크냐 전체 체크 해제이냐로 true 혹은 false
+  const isCheckAll = e.target.checked;
+  const { ids } = await getFromDb('order', 'summary');
+
+  ids.forEach(async (id) => {
+    const itemCheckbox = document.querySelector(`#checkbox-${id}`);
+    const isItemCurrentlyChecked = itemCheckbox.checked;
+
+    // 일단 아이템(제품) 체크박스에 전체 체크 혹은 언체크 여부를 반영함.
+    itemCheckbox.checked = isCheckAll;
+
+    // 결제정보 업데이트 필요 여부 확인
+    const isAddRequired = isCheckAll && !isItemCurrentlyChecked;
+    const isRemoveRequired = !isCheckAll && isItemCurrentlyChecked;
+
+    // 결제정보 업데이트 및, 체크 상태에서는 수정 가능으로 함
+    if (isAddRequired) {
+      updateOrderSummary(id, 'add-checkbox');
+      setQuantityBox(id, 'able');
+    }
+
+    // 결제정보 업데이트 및, 언체크 상태에서는 수정 불가능으로 함
+    if (isRemoveRequired) {
+      updateOrderSummary(id, 'removeTemp-checkbox');
+      setQuantityBox(id, 'disable');
+    }
   });
-  // 수량 변경박스 상태 업데이트
-  setQuantityBox(id, 'minus');
 }
 
-// 수량 추가 함수/////////////
 async function increaseItemQuantity(id) {
-  // 결제정보 업데이트
+  // 결제정보카드 업데이트
   await updateOrderSummary(id, 'add-plusButton');
-  // // 제품아이템 업데이트
+
+  // 제품아이템카드 업데이트
   await updateProductItem(id, 'increase');
-  // indexedDB의 cart업데이트
+
+  // indexedDB의 cart 데이터 업데이트
   await putToDb('cart', id, (data) => {
     data.quantity = data.quantity + 1;
   });
-  // 수량 변경박스 상태 업데이트
+
+  // 수량 변경박스(-버튼, 입력칸, +버튼) 상태 업데이트
   setQuantityBox(id, 'plus');
 }
 
-// 수량 입력 함수/////////////
+async function decreaseItemQuantity(id) {
+  // 결제정보카드 업데이트
+  await updateOrderSummary(id, 'minusButton');
+
+  // 제품아이템카드 업데이트
+  await updateProductItem(id, 'decrease');
+
+  // indexedDB의 cart 데이터 업데이트
+  await putToDb('cart', id, (data) => {
+    data.quantity = data.quantity - 1;
+  });
+
+  // 수량 변경박스(-버튼, 입력칸, +버튼) 상태 업데이트
+  setQuantityBox(id, 'minus');
+}
+
 async function handleQuantityInput(id) {
+  // 우선 입력값이 범위 1~99 인지 확인
   const inputElem = document.querySelector(`#quantityInput-${id}`);
   const quantity = parseInt(inputElem.value);
 
   if (quantity < 1 || quantity > 99) {
-    return alert('수량은 1~99 사이가 가능합니다. 다시 입력바랍니다.');
+    return alert('수량은 1~99 사이가 가능합니다.');
   }
-  // 결제 정보 업데이트
+
+  // 결제정보카드 업데이트
   await updateOrderSummary(id, 'add-input');
-  // 상품리스트 업데이트
+
+  // 제품아이템카드 업데이트
   await updateProductItem(id, 'input');
-  // indexedDB의 cart업데이트
+
+  // indexedDB의 cart 데이터 업데이트
   await putToDb('cart', id, (data) => {
     data.quantity = quantity;
   });
-  // 수량 변경박스 상태 업데이트
+
+  // 수량 변경박스(-버튼, 입력칸, +버튼) 상태 업데이트
   setQuantityBox(id, 'input');
 }
 
-// setQuantityBox 함수 정의(+,- 버튼 / 수량입력) ///////////
+// -버튼, 숫자입력칸, +버튼 활성화 여부 및 값을 세팅함.
 function setQuantityBox(id, type) {
-  // 세팅 방식 결정 함수
+  // 세팅 방식 결정을 위한 변수들
   const isPlus = type.includes('plus');
   const isMinus = type.includes('minus');
   const isInput = type.includes('input');
-  const isDisalbeAll = type.includes('disable');
+  const isDisableAll = type.includes('disable');
 
   // 세팅을 위한 요소들
   const minusButton = document.querySelector(`#minus-${id}`);
   const quantityInput = document.querySelector(`#quantityInput-${id}`);
   const plusButton = document.querySelector(`#plus-${id}`);
 
-  // 기본적으로 활성화
+  // 우선 기본적으로 활성화시킴
   minusButton.removeAttribute('disabled');
   quantityInput.removeAttribute('disabled');
   plusButton.removeAttribute('disabled');
 
-  // 전체 비활성화 시킬때(제품 체크 해제)
-  if (isDisalbeAll) {
-    minusButton.setAttribute('disalbled', '');
-    quantityInput.setAttribute('disalbled', '');
-    plusButton.setAttribute('disalbled', '');
+  // 전체 비활성화 시키는 타입일 경우 (제품 체크를 해제했을 때 등)
+  if (isDisableAll) {
+    minusButton.setAttribute('disabled', '');
+    quantityInput.setAttribute('disabled', '');
+    plusButton.setAttribute('disabled', '');
     return;
   }
 
-  // input칸 값을 업데이트하기 위한 변수
-  let quantityUptate;
+  // input칸 값을 업데이트하기 위한 변수 설정
+  let quantityUpdate;
   if (isPlus) {
-    quantityUptate = +1;
+    quantityUpdate = +1;
   } else if (isMinus) {
-    quantityUptate = -1;
+    quantityUpdate = -1;
   } else if (isInput) {
-    quantityUptate = 0;
+    quantityUpdate = 0;
   } else {
-    quantityUptate = 0;
+    quantityUpdate = 0;
   }
+
   // input칸 값 업데이트
   const currentQuantity = parseInt(quantityInput.value);
-  const newQuantity = currentQuantity + quantityUptate;
+  const newQuantity = currentQuantity + quantityUpdate;
   quantityInput.value = newQuantity;
 
   // 숫자는 1~99만 가능
@@ -246,49 +289,28 @@ function setQuantityBox(id, type) {
   if (isMin) {
     minusButton.setAttribute('disabled', '');
   }
+
   if (isMax) {
     plusButton.setAttribute('disabled', '');
   }
 }
 
-// 전체 체크 함수 ////////////
-async function toggleAll(e) {
-  const isCheckedAll = e.target.checked;
-  const { ids } = await getFromDb('order', 'summary');
+async function deleteSelectedItems() {
+  const { selectedIds } = await getFromDb('order', 'summary');
 
-  ids.forEach(async (id) => {
-    const itemCheckbox = document.querySelector(`#checkbox-${id}`);
-    const isItemCurrentlyChecked = itemCheckbox.checked;
-
-    // 상품 체크박스 전체 (체크/언체크) 여부 확인
-    itemCheckbox.checked = isCheckedAll;
-
-    // 결제정보 업데이트 필요 여부 확인
-    const isAddRequired = isCheckedAll && !isItemCurrentlyChecked;
-    const isRemoveRequired = !isCheckedAll && isItemCurrentlyChecked;
-
-    // 결제정보 업데이트,  체크 상태에서는 수정 가능
-    if (isAddRequired) {
-      updateOrderSummary(id, 'add-checkbox');
-      setQuantityBox(id, 'able');
-    }
-
-    // 결제정보 업데이트, 언체크 상태에서는 수정 불가능
-    if (isRemoveRequired) {
-      updateOrderSummary(id, 'removeTemp-checkbox');
-      setQuantityBox(id, 'disable');
-    }
-  });
+  selectedIds.forEach((id) => deleteItem(id));
 }
 
-// 전체선택 체크박스를 변경 (현재 상태 반영)
+// 전체선택 체크박스를, 현재 상황에 맞추어
+// 체크 또는 언체크 상태로 만듦
 async function updateAllSelectCheckbox() {
   const { ids, selectedIds } = await getFromDb('order', 'summary');
 
   const isOrderEmpty = ids.length === 0;
   const isAllItemSelected = ids.length === selectedIds.length;
 
-  // 장바구니 상태가 0이 아니고 아이템들이 전부 선택되어 있으면 체크
+  // 장바구니 아이템(제품) 수가 0이 아니고,
+  // 또 전체 아이템들이 선택된 상태라면 체크함.
   if (!isOrderEmpty && isAllItemSelected) {
     allSelectCheckbox.checked = true;
   } else {
@@ -296,7 +318,6 @@ async function updateAllSelectCheckbox() {
   }
 }
 
-// 상품 삭제 함수/////////////
 async function deleteItem(id) {
   // indexedDB의 cart 목록에서 id를 key로 가지는 데이터를 삭제함.
   await deleteFromDb('cart', id);
@@ -311,14 +332,9 @@ async function deleteItem(id) {
   updateAllSelectCheckbox();
 }
 
-// 선택 삭제 함수 //////////
-async function deleteSelectedItems() {
-  const { selectedIds } = await getFromDb('order', 'summary');
-  selectedIds.forEach((id) => deleteItem(id));
-}
-
-// 결제정보 업데이트, indexedDB 업데이트
+// 결제정보 카드 업데이트 및, indexedDB 업데이트를 진행함.
 async function updateOrderSummary(id, type) {
+  // 업데이트 방식 결정을 위한 변수들
   const isCheckbox = type.includes('checkbox');
   const isInput = type.includes('input');
   const isDeleteButton = type.includes('deleteButton');
@@ -335,20 +351,23 @@ async function updateOrderSummary(id, type) {
   let price;
   let quantity;
 
-  // 체크박스 혹은 삭제 버튼 클릭으로 인한 업데이트
+  // 체크박스 혹은 삭제 버튼 클릭으로 인한 업데이트임.
   if (isCheckbox || isDeleteButton) {
     const priceElem = document.querySelector(`#total-${id}`);
-    price = convertToNumber(priceElem.innerHTML);
+    price = convertToNumber(priceElem.innerText);
 
     quantity = 1;
   }
-  // - + 버튼 클릭으로 인한 업데이트
+
+  // - + 버튼 클릭으로 인한 업데이트임.
   if (isMinusButton || isPlusButton) {
     const unitPriceElem = document.querySelector(`#unitPrice-${id}`);
     price = convertToNumber(unitPriceElem.innerText);
+
     quantity = 0;
   }
-  // 수량입력으로 인한 업데이트
+
+  // input 박스 입력으로 인한 업데이트임
   if (isInput) {
     const unitPriceElem = document.querySelector(`#unitPrice-${id}`);
     const unitPrice = convertToNumber(unitPriceElem.innerText);
@@ -361,15 +380,14 @@ async function updateOrderSummary(id, type) {
 
     price = unitPrice * (inputQuantity - currentQuantity);
 
-    price = price * (inputQuantity - currentQuantity);
-
     quantity = 0;
   }
+
   // 업데이트 방식
   const priceUpdate = isAdd ? +price : -price;
   const countUpdate = isAdd ? +quantity : -quantity;
 
-  // 현재 결제정보의 값들을 가져오고 숫자로 바꿈
+  // 현재 결제정보의 값들을 가져오고 숫자로 바꿈.
   const currentCount = convertToNumber(productsCountElem.innerText);
   const currentProductsTotal = convertToNumber(productsTotalElem.innerText);
   const currentFee = convertToNumber(deliveryFeeElem.innerText);
@@ -381,26 +399,32 @@ async function updateOrderSummary(id, type) {
     productsTotalElem.innerText = `${addCommas(currentProductsTotal + priceUpdate)}원`;
   }
 
-  // 기존 결제정보가 비어있어서 배송비가 0인 경우
+  // 기존 결제정보가 비어있었어서, 배송비 또한 0인 상태였던 경우
   const isFeeAddRequired = isAdd && currentFee === 0;
+
   if (isFeeAddRequired) {
     deliveryFeeElem.innerText = `3000원`;
-    orderTotalElem.innerText = `${addCommas(currentOrderTotal + priceUpdate)}`;
+    orderTotalElem.innerText = `${addCommas(currentOrderTotal + priceUpdate + 3000)}원`;
   }
 
-  // 업데이트로 인해 결제정보가 빌 경우
-  const isCartEmptyNow = currentCount === 1 && isRemove;
+  if (!isFeeAddRequired && !isDeleteWithoutChecked) {
+    orderTotalElem.innerText = `${addCommas(currentOrderTotal + priceUpdate)}원`;
+  }
 
-  if (!isDeleteWithoutChecked && isCartEmptyNow) {
+  // 이 업데이트로 인해 결제정보가 비게 되는 경우
+  const isCartNowEmpty = currentCount === 1 && isRemove;
+
+  if (!isDeleteWithoutChecked && isCartNowEmpty) {
     deliveryFeeElem.innerText = `0원`;
 
-    // 현재 값을 가져와서 3000을 빼줌
+    // 다시 한 번, 현재 값을 가져와서 3000을 빼 줌
     const currentOrderTotal = convertToNumber(orderTotalElem.innerText);
     orderTotalElem.innerText = `${addCommas(currentOrderTotal - 3000)}원`;
 
-    // 전체선택도 언체크되도록함
+    // 전체선택도 언체크되도록 함.
     updateAllSelectCheckbox();
   }
+
   // indexedDB의 order.summary 업데이트
   await putToDb('order', 'summary', (data) => {
     const hasId = data.selectedIds.includes(id);
@@ -408,13 +432,14 @@ async function updateOrderSummary(id, type) {
     if (isAdd && !hasId) {
       data.selectedIds.push(id);
     }
+
     if (isRemoveTemp) {
       data.selectedIds = data.selectedIds.filter((_id) => _id !== id);
     }
 
     if (isRemovePermanent) {
       data.ids = data.ids.filter((_id) => _id !== id);
-      data.selectedIds.filter((_id) => _id !== id);
+      data.selectedIds = data.selectedIds.filter((_id) => _id !== id);
     }
 
     if (!isDeleteWithoutChecked) {
@@ -422,17 +447,18 @@ async function updateOrderSummary(id, type) {
       data.productsTotal += priceUpdate;
     }
   });
+
   // 전체선택 체크박스 업데이트
   updateAllSelectCheckbox();
 }
 
-// 상품의 금액을 업데이트
+// 아이템(제품)카드의 수량, 금액 등을 업데이트
 async function updateProductItem(id, type) {
-  // 업데이트 방식 결정 변수
+  // 업데이트 방식을 결정하는 변수들
   const isInput = type.includes('input');
   const isIncrease = type.includes('increase');
 
-  // 업데이트에 필요한 요소 및 값을 가져오고 숫자로 바꿈
+  // 업데이트에 필요한 요소 및 값들을 가져오고 숫자로 바꿈.
   const unitPriceElem = document.querySelector(`#unitPrice-${id}`);
   const unitPrice = convertToNumber(unitPriceElem.innerText);
 
@@ -459,7 +485,7 @@ async function updateProductItem(id, type) {
   totalElem.innerText = `${addCommas(currentTotal + priceUpdate)}원`;
 }
 
-// 결제정보 삽입
+// 페이지 로드 시 실행되며, 결제정보 카드에 값을 삽입함.
 async function insertOrderSummary() {
   const { productsCount, productsTotal } = await getFromDb('order', 'summary');
 
