@@ -42,10 +42,8 @@ class UserService {
     // 우선 해당 이메일의 사용자 정보가  db에 존재하는지 확인
     const user = await this.userModel.findByEmail(email);
     if (!user) {
-      throw new Error('해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.');
+      throw new Error('로그인 정보를 확인해주세요.');
     }
-
-    // 이제 이메일은 문제 없는 경우이므로, 비밀번호를 확인함
 
     // 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password; // db에 저장되어 있는 암호화된 비밀번호
@@ -54,14 +52,17 @@ class UserService {
     const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
 
     if (!isPasswordCorrect) {
-      throw new Error('비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.');
+      throw new Error('로그인 정보를 확인해주세요.');
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
     // 2개 프로퍼티를 jwt 토큰에 담음
-    const token = jwt.sign({ userId: user._id, role: user.role }, secretKey);
+    const token = jwt.sign({ userId: user._id }, secretKey, {
+      issuer: 'hae3mul',
+      expiresIn: '24h',
+    });
 
     return { token };
   }
@@ -72,13 +73,18 @@ class UserService {
     return users;
   }
 
+  //특정 사용자 정보 전달
+  async getUser(user_id) {
+    const user = await this.userModel.findById(user_id);
+    return user;
+  }
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(DTO) {
     // 객체 destructuring
     const { userInfo, shipping } = DTO;
 
     // 우선 해당 id의 유저가 db에 있는지 확인
-    let user = await this.userModel.findById(userInfo.userId);
+    let user = await this.userModel.findById(userInfo._id);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
@@ -102,9 +108,10 @@ class UserService {
       const hashedPassword = await bcrypt.hash(userInfo.new_password, 10);
       const update = { password: hashedPassword, shipping: shipping };
       console.log(update);
+
       // 업데이트 진행(비밀번호 변경)
       user = await this.userModel.update({
-        userId: userInfo.userId,
+        _id: userInfo._id,
         update,
       });
     } else {
@@ -112,7 +119,7 @@ class UserService {
       const update = { shipping: shipping };
 
       user = await this.userModel.update({
-        userId: userInfo.userId,
+        _id: userInfo._id,
         update,
       });
     }
@@ -122,13 +129,29 @@ class UserService {
 
   // 단일유저 조회
   async readUser(DTO) {
-    const { userId } = DTO;
-    const userInfo = await this.userModel.findById(userId);
-    console.log(userInfo);
+    const { _id } = DTO;
+    const userInfo = await this.userModel.findById(_id);
+
     const { password, ...userInfoWithoutPassword } = userInfo.toObject();
-    console.log(userInfoWithoutPassword);
 
     return userInfoWithoutPassword;
+  }
+
+  // 회원 탈퇴
+  async deleteUser(DTO) {
+    // 비밀번호 검증
+    const user = await this.userModel.findById(DTO._id);
+    const isPasswordCorrect = await bcrypt.compare(DTO.password, user.password);
+
+    if (!isPasswordCorrect) {
+      throw new Error('현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.');
+    }
+
+    // 탈퇴 처리
+    const deletedUser = await this.userModel.delete(DTO._id);
+    const { password, ...deletedUserWithoutPassword } = deletedUser.toObject();
+
+    return deletedUserWithoutPassword;
   }
 }
 

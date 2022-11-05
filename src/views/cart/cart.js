@@ -1,10 +1,5 @@
-import { addCommas, convertToNumber } from '../useful-functions.js';
+import { addCommas, convertToNumber, navigate } from '../useful-functions.js';
 import { addToDb, deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
-const navigate = (pathname) => {
-  return function () {
-    window.location.href = pathname;
-  };
-};
 
 // 요소 가져오기 /////////////
 const cartProductsContainer = document.querySelector('#cart_list');
@@ -24,7 +19,7 @@ updateAllSelectCheckbox();
 // 전체선택, 선택삭제, 구매하기 버튼 클릭시
 allSelectCheckbox.addEventListener('change', toggleAll);
 partialDeleteLabel.addEventListener('click', deleteSelectedItems);
-purchaseButton.addEventListener('click', navigate('/order'));
+purchaseButton.addEventListener('click', navigate('../order/order.html'));
 
 // 추가 버튼 클릭 시 추가(test) /////////////
 document.getElementById('addBtn').addEventListener('click', async (product) => {
