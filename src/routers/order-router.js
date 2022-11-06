@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { orderService } from '../services/order-service';
-import { userService } from '../services/ex-user-service';
+import { userService } from '../services/user-service';
 import { asyncHandler } from '../utils/async-handler';
 import { loginRequired } from '../middlewares';
 import { sanitizeObject } from '../utils/sanitizeObject';
