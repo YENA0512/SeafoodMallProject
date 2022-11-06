@@ -36,3 +36,26 @@ header > h1 {
 .title {
   text-align: center;
 }
+
+.product_image {
+  width: 150px;
+  height: 180px;
+  object-fit: cover;
+  padding-left: 10px;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item_container {
+  display: flex;
+}

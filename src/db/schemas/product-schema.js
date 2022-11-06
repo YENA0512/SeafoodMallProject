@@ -11,7 +11,7 @@ const ProductSchema = new Schema(
     },
     seller: {
       type: UserSchema,
-      required: true,
+      // required: true,
     },
     price: {
       type: PriceSchema,
