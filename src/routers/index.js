@@ -5,6 +5,7 @@ import express from 'express';
 import { categoryRouter } from './category-router';
 import { userRouter } from './user-router';
 import { orderRouter } from './order-router';
+import { productRouter } from './product-router';
 
 const v1Router = express.Router();
 
@@ -12,6 +13,7 @@ v1Router.use('/categories', categoryRouter);
 v1Router.use('/users', userRouter);
 v1Router.use('/orders', orderRouter);
 // v1Router.use('/carts', cartRouter);
+v1Router.use('/products', productRouter);
 
 export * from './views-router';
 export { v1Router };
