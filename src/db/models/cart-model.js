@@ -15,14 +15,16 @@ export class CartModel {
   }
   async readAll(DTO) {
     const { user_id } = DTO;
-    const allCarts = await Cart.find({ user_id }).populate('user_id').populate('product_id');
+    const allCarts = await Cart.find({ user_id, deleted_at: null })
+      .populate('user_id')
+      .populate('product_id');
     return allCarts;
   }
   async deleteAll(DTO) {
     const { user_id } = DTO;
     const updated = { deleted_at: new Date() };
     const option = { returnOriginal: false };
-    const deletedCarts = await Cart.updateMany({ user_id }, updated, option);
+    const deletedCarts = await Cart.updateMany({ user_id, deleted_at: null }, updated, option);
     return deletedCarts;
   }
   async delete(DTO) {
