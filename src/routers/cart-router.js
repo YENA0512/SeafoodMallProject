@@ -1,8 +1,6 @@
 // import { Router } from 'mongoose';
 // import { cartService } from '../services/cart-service';
-// import { productService } from '../services/product-service';
 // import { asyncHandler } from '../utils/async-handler';
-// import { sanitizeObject } from '../utils/sanitizeObject';
 
 // const cartRouter = Router();
 
@@ -11,8 +9,7 @@
 //   asyncHandler(async (req, res) => {
 //     const { product_id, quantity } = req.body;
 //     const user_id = req.currentUserId;
-//     const product = await productService.getProduct(product_id);
-//     const DTO = { product, quantity, user_id };
+//     let DTO = { product_id, quantity, user_id };
 //     const createdCart = await cartService.addCartItem(DTO);
 //     const result = { success: true, data: createdCart };
 //     res.status(201).json(result);
@@ -74,10 +71,7 @@
 //   asyncHandler(async (req, res) => {
 //     const { _id } = req.params;
 //     const { quantity } = req.body;
-//     const DTO = sanitizeObject({
-//       _id,
-//       quantity,
-//     });
+//     const DTO = { _id, quantity };
 //     const updatedCart = await cartService.updateOne(DTO);
 //     const result = { success: true, data: updatedCart };
 //     res.status(201).json(result);
