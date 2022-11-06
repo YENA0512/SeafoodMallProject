@@ -1,5 +1,5 @@
 const headerStyle = `
-  @import '../_reset.css';
+  @import '../../_reset.css';
   body {
     width: 1000px;
     margin: auto;
