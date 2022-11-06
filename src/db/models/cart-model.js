@@ -8,13 +8,14 @@ export class CartModel {
     const createdCart = await Cart.create(DTO);
     return createdCart;
   }
-  async createByEl(product, quantity, user_id) {
-    const createdCart = await Cart.create(product, quantity, user_id);
-    return createdCart;
+  async read(DTO) {
+    const { _id } = DTO;
+    const cart = await Cart.findOne({ _id }).populate('user_id').populate('product_id');
+    return cart;
   }
   async readAll(DTO) {
     const { user_id } = DTO;
-    const allCarts = await Cart.find({ user_id });
+    const allCarts = await Cart.find({ user_id }).populate('user_id').populate('product_id');
     return allCarts;
   }
   async deleteAll(DTO) {
@@ -32,8 +33,8 @@ export class CartModel {
     return deletedCart;
   }
   async update(DTO) {
-    const { _id, quantity } = DTO;
-    const updated = { quantity };
+    const { _id, quantity, cart_price } = DTO;
+    const updated = { quantity, cart_price };
     const option = { returnOriginal: false };
     const updatedCart = await Cart.findOneAndUpdate({ _id }, updated, option);
     return updatedCart;

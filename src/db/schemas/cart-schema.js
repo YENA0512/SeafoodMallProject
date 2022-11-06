@@ -1,5 +1,4 @@
 import { Schema } from 'mongoose';
-import { ProductSchema } from './product-schema';
 
 const CartSchema = new Schema(
   {
@@ -7,16 +6,20 @@ const CartSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
-      unique: true,
+      index: true,
     },
-    product: {
-      type: ProductSchema,
+    product_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Product',
       required: true,
     },
     quantity: {
       type: Number,
       required: true,
       default: 1,
+    },
+    cart_price: {
+      type: Number,
     },
     deleted_at: {
       type: Date,
