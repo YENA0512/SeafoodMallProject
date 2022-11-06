@@ -13,11 +13,19 @@
   align-items: center;
 }
 
+.species_nav_bar > div > span:nth-child(1) {
+  margin: 0 5px;
+}
+
 .species_nav_menu > ul {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.species_nav_menu > ul > li {
+  margin: 0 7px;
 }
 
 .product {
