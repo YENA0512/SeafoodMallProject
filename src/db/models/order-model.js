@@ -9,12 +9,12 @@ export class OrderModel {
     return createdOrder;
   }
   async readUserOrders(DTO) {
-    const filter = { customer: { _id: DTO.user_id } };
-    const orders = await Order.find(filter);
+    const { user_id } = DTO;
+    const orders = await Order.find({ 'customer._id': user_id, deleted_at: null });
     return orders;
   }
   async readAllOrders() {
-    const orders = await Order.find({});
+    const orders = await Order.find({ deleted_at: null });
     return orders;
   }
   async updateOrder(DTO) {
@@ -33,7 +33,7 @@ export class OrderModel {
   }
   async cancel(DTO) {
     const { _id } = DTO;
-    const updated = { order_status: 'cancel', deleted_at: new Date() };
+    const updated = { order_status: 'cancel' };
     const option = { returnOriginal: false };
     const canceledOrder = await Order.findOneAndUpdate({ _id }, updated, option);
     return canceledOrder;

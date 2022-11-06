@@ -5,6 +5,11 @@ class OrderService {
     this.orderModel = orderModel;
   }
   async createOrder(DTO) {
+    const { order_items } = DTO;
+    const order_price = order_items.reduce((sum, { cart_price }) => {
+      return (sum += cart_price);
+    }, 0);
+    DTO.order_price = order_price;
     const createdOrder = await this.orderModel.create(DTO);
     return createdOrder;
   }
@@ -21,6 +26,11 @@ class OrderService {
     return order;
   }
   async updateOrder(DTO) {
+    const { order_items } = DTO;
+    const order_price = order_items.reduce((sum, { cart_price }) => {
+      return (sum += cart_price);
+    }, 0);
+    DTO.order_price = order_price;
     const order = await this.orderModel.updateOrder(DTO);
     return order;
   }

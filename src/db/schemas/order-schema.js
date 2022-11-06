@@ -18,6 +18,10 @@ const OrderSchema = new Schema(
       required: true,
       default: 'order',
     },
+    order_price: {
+      type: Number,
+      required: true,
+    },
     deleted_at: {
       type: Date,
       default: null,
