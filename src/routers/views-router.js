@@ -22,7 +22,6 @@ viewsRouter.use('/', serveStatic(''));
 // 이 때 ${resource}.html 을 기본 파일로 설정함.
 function serveStatic(resource) {
   const resourcePath = path.join(__dirname, `../views/${resource}`);
-  console.log(__dirname);
   const option = { index: `${resource}.html` };
 
   // express.static 은 express 가 기본으로 제공하는 함수임
