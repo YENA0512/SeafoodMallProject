@@ -4,7 +4,7 @@ import * as Api from '../../api.js';
 const notLoginHeaderHTML = `
   <style>${headerStyle}</style>
   <h1>
-    <a href="../../home/home.html"><img class="main_logo" src="../assets/mainlogo.png" /></a>
+    <a href="/"><img class="main_logo" src="/mainlogo.png" /></a>
   </h1>
   <hr />
   <nav class="nav_bar">
@@ -21,7 +21,7 @@ const notLoginHeaderHTML = `
     </div>
     <div class="nav_menu">
       <ol>
-        <li><a href="../login/login.html">로그인</a></li>
+        <li><a href="/login">로그인</a></li>
         <em>&nbsp;|&nbsp;</em>
         <li><a>장바구니</a></li>
       </ol>
@@ -32,7 +32,7 @@ const notLoginHeaderHTML = `
 const LoginHeaderHTML = `
   <style>${headerStyle}</style>
   <h1>
-    <a href="../../home/home.html"><img class="main_logo" src="../assets/mainlogo.png" /></a>
+    <a href="/"><img class="main_logo" src="/mainlogo.png" /></a>
   </h1>
   <hr />
   <nav class="nav_bar">
@@ -65,6 +65,7 @@ const getCategories = async () => {
 
   const res = await Api.get('/api/v1/categories/list');
   const categories = res.data[1].child_category;
+  console.log(categories);
 
   let i = 1;
   categories.forEach((item) => {
@@ -84,10 +85,13 @@ const getCategories = async () => {
     console.log(dropItem);
 
     dropItem.addEventListener('click', (e) => {
-      const species = e.target.text;
-      console.log(species);
+      const name = e.target.text;
+      // const encodeName = decodeURI(name);
+      aEl.href = `/categories/${name}`;
+
       // const res = Api.get(`/api/v1/categories/${species}`);
-      // console.log(res.json());
+      // console.log(res);
+      // dropItem.href = `../species/species.html/${species}`;
     });
     i++;
   });
