@@ -20,4 +20,6 @@ const connectMongoDB = async () => {
 // '../db/index.js' 에서 index.js 는 생략 가능하므로, '../db' 면 됨 (index는 특별한 용어)
 export * from './models/user-model';
 export * from './models/category-model';
+export * from './models/order-model';
+export * from './models/cart-model';
 export { connectMongoDB };
