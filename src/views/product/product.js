@@ -24,15 +24,4 @@ const getProductData = async () => {
 
   totalPrice.innerHTML = addCommas(total);
 };
-
-// 모음영역
-addAllElements();
-addAllEvents();
-
-async function addAllElements() {
-  getProductData();
-}
-
-function addAllEvents() {
-  // for eslint pass
-}
+getProductData();

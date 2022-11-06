@@ -1,16 +1,18 @@
-// import * as Api from '../api.js';
-// import { validateEmail } from '../useful-functions.js';
+import * as Api from '../api.js';
+import { checkLogin } from '../useful-functions.js';
 
 // 요소(element), input 혹은 상수
 const userEmail = document.querySelector('#userEmail');
 const userEmailValue = document.querySelector('#userEmailValue');
 const userGroupValue = document.querySelector('#userGroupValue');
 const emailInput = document.querySelector('#emailInput');
+const currentPasswordInput = document.querySelector('#currentPasswordInput');
 const passwordInput = document.querySelector('#passwordInput');
-const newPasswordInput = document.querySelector('#newPasswordInput');
-const newPasswordConfirmInput = document.querySelector('#newPasswordConfirmInput');
+const passwordConfirmInput = document.querySelector('#passwordConfirmInput');
 const submitButton = document.querySelector('#submitButton');
 
+checkLogin();
+getUserInfo();
 addAllElements();
 addAllEvents();
 
@@ -18,30 +20,34 @@ addAllEvents();
 async function addAllElements() {}
 
 // 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
-function addAllEvents() {
-  getUserInfo();
+async function addAllEvents() {
   submitButton.addEventListener('click', handleSubmit);
 }
 async function getUserInfo() {
-  const res = await fetch('./user.json');
-  //   const users = await Api.get('/api/users');
-  const users = await res.json();
-  console.log(users);
-  let id = 0; //req.params에서 사용자 id값 가져와서 데이터 출력하기
-  let userName = users[id].email.split('@')[0];
-  userEmail.innerHTML = `${userName} 님`;
-  userEmailValue.innerHTML = users[id].email;
-  userGroupValue.innerHTML = checkGroup(users[id].group);
-  emailInput.value = users[id].email;
+  try {
+    const token = sessionStorage.getItem('token');
+    var result = parseJwt(token);
+    const userId = result.userId;
+    const user = await Api.get(`/api/v1/users/${userId}`);
+    let userName = user.data.email;
+    userEmail.innerHTML = `${userName} 님`;
+    userEmailValue.innerHTML = user.data.email;
+    userGroupValue.innerHTML = checkGroup(user.data.group);
+    emailInput.value = user.data.email;
+  } catch (err) {
+    console.error(err.stack);
+    alert(`${err.message}`);
+  }
 }
 
 function checkGroup(userGroup) {
-  if (userGroup === 'admin') {
-    return '관리자';
-  } else if (userGroup === 'seller') {
-    return '판매자';
-  } else if (userGroup === 'customer') {
-    return '소비자';
+  switch (userGroup) {
+    case 'admin':
+      return '관리자';
+    case 'seller':
+      return '판매자';
+    case 'customer':
+      return '소비자';
   }
 }
 
@@ -49,13 +55,12 @@ function checkGroup(userGroup) {
 async function handleSubmit(e) {
   e.preventDefault();
 
+  const current_password = currentPasswordInput.value;
   const password = passwordInput.value;
-  const newPassword = newPasswordInput.value;
-  const newPasswordConfirm = newPasswordConfirmInput.value;
-
+  const passwordConfirm = passwordConfirmInput.value;
   // 새 비밀번호 잘 입력했는지 확인
-  const isPasswordValid = newPassword.length >= 4;
-  const isPasswordSame = newPassword === newPasswordConfirm;
+  const isPasswordValid = password.length >= 4;
+  const isPasswordSame = password === passwordConfirm;
 
   if (!isPasswordValid) {
     return alert('비밀번호는 4글자 이상이어야 합니다.');
@@ -67,22 +72,42 @@ async function handleSubmit(e) {
 
   // 회원정보 수정 api 요청
   try {
-    const res = await fetch('./user.json');
-    //   const users = await Api.get('/api/users');
-    const users = await res.json();
-    const data = { password };
-    const id = 0;
-    if (password !== users[id].password) {
-      data.password = password;
+    const token = sessionStorage.getItem('token');
+
+    var result = parseJwt(token);
+    const userId = result.userId;
+    const new_password = '';
+    const newData = { current_password, new_password };
+    if (password === current_password) {
+      return alert('업데이트된 정보가 없습니다');
+    } else {
+      newData.new_password = password;
     }
-    //await Api.patch('/api/users', data);
-    console.log(data);
+
+    console.log(newData);
+    const newUserInfo = await Api.patch(`/api/v1/users`, userId, newData);
+    console.log(newUserInfo);
     alert(`회원정보가 정상적으로 수정되었습니다.`);
 
-    // 로그인 페이지 이동s
-    window.location.href = './user-info.html';
+    // 로그인 페이지 이동
+    // window.location.href = '../login';
   } catch (err) {
     console.error(err.stack);
-    alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${err.message}`);
+    alert(`${err.message}`);
   }
+}
+function parseJwt(token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(''),
+  );
+
+  return JSON.parse(jsonPayload);
 }

@@ -14,7 +14,12 @@ const OrderSchema = new Schema(
     },
     order_status: {
       type: String,
-      enum: ['order', 'prepare', 'shipping', 'complete'],
+      enum: ['order', 'prepare', 'shipping', 'complete', 'cancel'],
+      required: true,
+      default: 'order',
+    },
+    order_price: {
+      type: Number,
       required: true,
     },
     deleted_at: {

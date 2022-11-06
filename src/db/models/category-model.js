@@ -21,7 +21,7 @@ export class CategoryModel {
   }
 
   async update(DTO) {
-    const filter = { _id: DTO._id };
+    const filter = { _id: DTO._id, deleted_at: null };
     const option = { returnOriginal: false };
 
     const updatedCategory = await Category.findOneAndUpdate(filter, DTO, option);

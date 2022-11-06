@@ -1,13 +1,10 @@
 import headerStyle from './header-style.js';
+import * as Api from '../../api.js';
 
-const res = await fetch('../assets/layout/categories.json');
-// fetch로 테스트용으로 적은것. 결과물은 products 동일
-const categories = await res.json();
-
-const headerHTML = `
+const notLoginHeaderHTML = `
   <style>${headerStyle}</style>
   <h1>
-    <a href="#"><img class="main_logo" src="../assets/mainlogo.png" /></a>
+    <a href="/"><img class="main_logo" src="/mainlogo.png" /></a>
   </h1>
   <hr />
   <nav class="nav_bar">
@@ -23,96 +20,90 @@ const headerHTML = `
       <ul class="dropdown-menu"></ul>
     </div>
     <div class="nav_menu">
-      <ol>
-        <li><a href="../login/login.html">로그인</a></li>
-        <em>&nbsp;|&nbsp;</em>
-        <li><a>마이페이지</a></li>
-        <em>&nbsp;|&nbsp;</em>
+      <ul>
+        <li><a href="/login">로그인</a></li>
+        <em>|</em>
         <li><a>장바구니</a></li>
-        <em>&nbsp;|&nbsp;</em>
-        <li><a>로그아웃</a></li>
-      </ol>
+      </ul>
     </div>
   </nav>
 `;
-const headerTag = document.createElement('header');
-headerTag.innerHTML = headerHTML;
-document.body.prepend(headerTag);
 
-const dropMenu = document.querySelector('.dropdown-menu');
+const LoginHeaderHTML = `
+  <style>${headerStyle}</style>
+  <h1>
+    <a href="/"><img class="main_logo" src="/mainlogo.png" /></a>
+  </h1>
+  <hr />
+  <nav class="nav_bar">
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        카테고리
+      </button>
+      <ul class="dropdown-menu"></ul>
+    </div>
+    <div class="nav_menu">
+      <ul>
+        <li><a>마이페이지</a></li>
+        <em>|</em>
+        <li><a>장바구니</a></li>
+        <em>|</em>
+        <li><a>로그아웃</a></li>
+      </ul>
+    </div>
+  </nav>
+`;
 
-categories.forEach((item) => {
-  const { name, href } = item;
+// 카테고리 수신 및 생성
+const getCategoriesList = async () => {
+  const dropMenu = document.querySelector('.dropdown-menu');
 
-  const liEl = document.createElement('li');
-  const aEl = document.createElement('a');
+  const res = await Api.get('/api/v1/categories/list');
+  const categories = res.data[1].child_category;
 
-  aEl.setAttribute('class', 'dropdown-item');
-  aEl.setAttribute('href', `${href}`);
+  let i = 1;
+  categories.forEach((item) => {
+    const liEl = document.createElement('li');
+    const aEl = document.createElement('a');
 
-  aEl.innerHTML = name;
-  liEl.appendChild(aEl);
+    aEl.setAttribute('id', `order${i}`);
+    aEl.setAttribute('class', `dropdown-item`);
+    aEl.setAttribute('href', `#`);
 
-  dropMenu.appendChild(liEl);
-});
-console.log(dropMenu);
+    aEl.innerHTML = item;
+    liEl.appendChild(aEl);
 
-// const getNavHTML = async () => {
-//   // 불러오는 module 기준으로 fetch 작성 요구
-//   const navResult = await fetch('../assets/layout/nav.html');
-//   const data = await navResult.text();
+    dropMenu.appendChild(liEl);
 
-//   return data;
-// };
+    const dropItem = document.querySelector(`#order${i}`);
 
-// const getFooterHTML = async () => {
-//   // 불러오는 module 기준으로 fetch 작성 요구
-//   const navResult = await fetch('../assets/layout/footer.html');
-//   const data = await navResult.text();
+    dropItem.addEventListener('click', (e) => {
+      const name = e.target.text;
+      aEl.href = `/categories/${name}`;
+    });
+    i++;
+  });
+};
 
-//   return data;
-// };
+// 로그인 여부에 따라 네브바 변경
+const isLogin = () => {
+  const isToken = sessionStorage.token;
 
-// getNavHTML()
-//   .then((html) => {
-//     const body = document.body;
-//     html += body.innerHTML;
-//     body.innerHTML = html;
-//   })
-//   .then(async () => {
-//     const dropMenu = document.querySelector('.dropdown-menu');
-//     const liEl = document.createElement('li');
-//     liEl.innerHTML = 'dltlqkf';
-//     dropMenu.appendChild(liEl);
+  if (!isToken) {
+    const headerTag = document.createElement('header');
+    headerTag.innerHTML = notLoginHeaderHTML;
+    document.body.prepend(headerTag);
+  } else {
+    const headerTag = document.createElement('header');
+    headerTag.innerHTML = LoginHeaderHTML;
+    document.body.prepend(headerTag);
+  }
+};
 
-//     // const dropMenu = document.querySelector('.dropdown-menu');
-
-//     // const res = await fetch('../assets/layout/categories.json');
-//     // // fetch로 테스트용으로 적은것. 결과물은 products 동일
-//     // const categories = await res.json();
-
-//     // categories.forEach((item) => {
-//     //   const { name, href } = item;
-
-//     //   const liEl = document.createElement('li');
-//     //   const aEl = document.createElement('a');
-
-//     //   aEl.setAttribute('class', 'dropdown-item');
-//     //   aEl.setAttribute('href', `${href}`);
-
-//     //   aEl.innerHTML = name;
-//     //   liEl.appendChild(aEl);
-
-//     //   dropMenu.appendChild(liEl);
-//     // });
-//     // console.log(dropMenu);
-//   });
-
-// getFooterHTML().then((html) => {
-//   const body = document.body;
-
-//   html = body.innerHTML + html;
-//   body.innerHTML = html;
-// });
-
-// // 모든 영역 공통 사항
+isLogin();
+getCategoriesList();
