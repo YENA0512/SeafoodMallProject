@@ -62,7 +62,7 @@ async function handleSubmit(e) {
     }
 
     // 기존 다른 페이지가 없었던 경우, 그냥 기본 페이지로 이동
-    window.location.href = '/home/home.html';
+    window.location.href = '../';
   } catch (err) {
     console.error(err.stack);
     alert(`이런이런! ${err.message}`);

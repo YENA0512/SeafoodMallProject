@@ -4,10 +4,10 @@ import * as Api from '../api.js';
 // 요소(element), input 혹은 상수
 const passwordConfirmInput = document.querySelector('#passwordConfirmInput');
 const submitButtonSignout = document.querySelector('#submitButtonSignout');
-const modal = document.querySelector('#modal');
-const modalCloseButton = document.querySelector('#modalCloseButton');
-const signoutCompleteButton = document.querySelector('#signoutCompleteButton');
-const signoutCancelButton = document.querySelector('#signoutCancelButton');
+const signoutModal = document.querySelector('.modal');
+const modalCloseButton = document.querySelector('.modalCloseButton');
+const signoutCompleteButton = document.querySelector('.signoutCompleteButton');
+const signoutCancelButton = document.querySelector('.signoutCancelButton');
 
 addAllElements();
 addAllEvents();
@@ -27,17 +27,17 @@ async function addAllEvents() {
 // db에서 회원정보 삭제
 async function deleteUserData(e) {
   e.preventDefault();
+  const token = sessionStorage.getItem('token');
+
+  var result = parseJwt(token);
+  const userId = result.userId;
 
   const password = passwordConfirmInput.value;
   const data = { password };
 
   try {
-    // 우선 입력된 비밀번호가 맞는지 확인 (틀리면 에러 발생함)
-    const userToDelete = await Api.post('/api/user/password/check', data);
-    const { _id } = userToDelete;
-
     // 삭제 진행
-    await Api.delete('/api/users', _id);
+    await Api.delete(`/api/v1/users`, userId, data);
 
     // 삭제 성공
     alert('회원 정보가 안전하게 삭제되었습니다.');
@@ -47,28 +47,19 @@ async function deleteUserData(e) {
 
     window.location.href = '/';
   } catch (err) {
-    alert(`회원정보 삭제 과정에서 오류가 발생하였습니다: ${err}`);
+    alert(
+      `회원정보 삭제 과정에서 오류가 발생하였습니다\n비밀번호를 올바르게 치셨는지 확인해주세요`,
+    );
 
     closeModal();
   }
 }
 
-// Modal 창 열기
-function openModal(e) {
-  if (e) {
-    e.preventDefault();
-  }
-  //   modal.classList.add('is-active');
-  modal.modal();
+function openModal() {
+  $(signoutModal).show();
 }
-
-// Modal 창 닫기
-function closeModal(e) {
-  if (e) {
-    e.preventDefault();
-  }
-  //   modal.classList.remove('is-active');
-  modal.modal('hide');
+function closeModal() {
+  $(signoutModal).hide();
 }
 
 // 키보드로 Modal 창 닫기
@@ -77,4 +68,19 @@ function keyDownCloseModal(e) {
   if (e.keyCode === 27) {
     closeModal();
   }
+}
+function parseJwt(token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(''),
+  );
+
+  return JSON.parse(jsonPayload);
 }
