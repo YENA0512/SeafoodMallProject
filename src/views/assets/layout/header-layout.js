@@ -20,11 +20,11 @@ const notLoginHeaderHTML = `
       <ul class="dropdown-menu"></ul>
     </div>
     <div class="nav_menu">
-      <ol>
+      <ul>
         <li><a href="/login">로그인</a></li>
-        <em>&nbsp;|&nbsp;</em>
+        <em>|</em>
         <li><a>장바구니</a></li>
-      </ol>
+      </ul>
     </div>
   </nav>
 `;
@@ -48,24 +48,23 @@ const LoginHeaderHTML = `
       <ul class="dropdown-menu"></ul>
     </div>
     <div class="nav_menu">
-      <ol>
+      <ul>
         <li><a>마이페이지</a></li>
-        <em>&nbsp;|&nbsp;</em>
+        <em>|</em>
         <li><a>장바구니</a></li>
-        <em>&nbsp;|&nbsp;</em>
+        <em>|</em>
         <li><a>로그아웃</a></li>
-      </ol>
+      </ul>
     </div>
   </nav>
 `;
 
 // 카테고리 수신 및 생성
-const getCategories = async () => {
+const getCategoriesList = async () => {
   const dropMenu = document.querySelector('.dropdown-menu');
 
   const res = await Api.get('/api/v1/categories/list');
   const categories = res.data[1].child_category;
-  console.log(categories);
 
   let i = 1;
   categories.forEach((item) => {
@@ -82,23 +81,17 @@ const getCategories = async () => {
     dropMenu.appendChild(liEl);
 
     const dropItem = document.querySelector(`#order${i}`);
-    console.log(dropItem);
 
     dropItem.addEventListener('click', (e) => {
       const name = e.target.text;
-      // const encodeName = decodeURI(name);
       aEl.href = `/categories/${name}`;
-
-      // const res = Api.get(`/api/v1/categories/${species}`);
-      // console.log(res);
-      // dropItem.href = `../species/species.html/${species}`;
     });
     i++;
   });
 };
 
 // 로그인 여부에 따라 네브바 변경
-const isLogin = async () => {
+const isLogin = () => {
   const isToken = sessionStorage.token;
 
   if (!isToken) {
@@ -113,4 +106,4 @@ const isLogin = async () => {
 };
 
 isLogin();
-getCategories();
+getCategoriesList();

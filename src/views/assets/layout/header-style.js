@@ -20,13 +20,15 @@ const headerStyle = `
     justify-content: space-between;
     align-items: center;
   }
-  .nav_menu > ol {
+  .nav_menu > ul {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
   }
-
+  .nav_menu > ul > li {
+  margin: 0 7px;
+  }
   .dropdown-item {
     padding: 20px 50px 20px 20px;
   }
