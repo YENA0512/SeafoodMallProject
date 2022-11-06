@@ -22,7 +22,7 @@ partialDeleteLabel.addEventListener('click', deleteSelectedItems);
 purchaseButton.addEventListener('click', navigate('../order/order.html'));
 
 // 추가 버튼 클릭 시 추가(test) /////////////
-document.getElementById('addBtn').addEventListener('click', async (product) => {
+document.getElementById('add_btn').addEventListener('click', async (product) => {
   const res = await fetch('./cart.json');
   const products = await res.json();
   products.forEach(async (product) => {
@@ -42,13 +42,13 @@ document.getElementById('addBtn').addEventListener('click', async (product) => {
       const selectedIds = data.selectedIds;
 
       // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
-      data.productsCount = count ? count + 1 : 1;
+      data.productsCount = (count ?? 0) + 1;
 
       // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
-      data.productsTotal = total ? total + price : price;
+      data.productsTotal = (total ?? 0) + price;
 
       // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
-      data.ids = ids ? [...ids, id] : [id];
+      data.ids = data.ids ? [...ids, id] : [id];
 
       // 위와 마찬가지 방식
       data.selectedIds = selectedIds ? [...selectedIds, id] : [id];
@@ -61,76 +61,74 @@ async function insertProductsfromCart() {
   const products = await getFromDb('cart');
   const { selectedIds } = await getFromDb('order', 'summary');
   products.forEach(async (product) => {
-    const { _id, title, image, quantity, price } = product;
+    const { _id: id, title, image, quantity, price } = product;
 
-    const isSelected = selectedIds.includes(_id);
+    const isSelected = selectedIds.includes(id);
 
     cartProductsContainer.insertAdjacentHTML(
       'beforeend',
-      `<div class="item_container" id="productItem-${_id}">
-      <input class="form-check-input" type="checkbox" value="" id="checkbox-${_id}" ${
+      `<div class="item_container" id="productItem-${id}">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-${id}" ${
         isSelected ? 'checked' : ''
       }   />
           <div class="image">
           <figure>
-        <img class="product_image" src="${image}" alt="상품이미지" id="image-${_id}"/>
+        <img class="product_image" src="${image}" alt="상품이미지" id="image-${id}"/>
         </figure>
     </div>
     <div class="content">
-      <div id="title-${_id}">
+      <div id="title-${id}">
         <p>${title}</p>
       </div>
       <div class="quantity">
-        <button class="btn" id="minus-${_id}" ${quantity <= 1 ? 'disabled' : ''} ${
+        <button class="btn" id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${
         isSelected ? 'checked' : ''
       } 
         >-</button>
-        <input type="number" class="quantity_input" min="1" max="99" value="1" id="quantityInput-${_id}" ${
+        <input type="number" class="quantity_input" min="1" max="99" value="1" id="quantityInput-${id}" ${
         isSelected ? 'checked' : ''
       }  
       }/>
-        <button class="btn" id="plus-${_id}" ${quantity >= 99 ? 'disabled' : ''} ${
+        <button class="btn" id="plus-${id}" ${quantity >= 99 ? 'disabled' : ''} ${
         isSelected ? 'checked' : ''
       } 
       }
        >+</button>
       </div>
       <div class="calculation">
-       <p id="unitPrice-${_id}" style="display:none">${addCommas(price)}원</p>
-       <p id="quantity-${_id}" style="display:none">${quantity}</p>
-        <p id="total-${_id}">${addCommas(price * quantity)}원</p>
+       <p id="unitPrice-${id}" style="display:none">${addCommas(price)}원</p>
+       <p id="quantity-${id}" style="display:none">${quantity}</p>
+        <p id="total-${id}">${addCommas(price * quantity)}원</p>
       </div>
       <div class="delete">
-        <button class="btn" id="delete-${_id}">X</button>
+        <button class="btn" id="delete-${id}">X</button>
       </div>
     </div>
     </div>`,
     );
     // 삭제 버튼 클릭
-    document.querySelector(`#delete-${_id}`).addEventListener('click', () => deleteItem(_id));
+    document.querySelector(`#delete-${id}`).addEventListener('click', () => deleteItem(id));
     // 체크박스 선택
-    document.querySelector(`#checkbox-${_id}`).addEventListener('change', () => toggleItem(_id));
+    document.querySelector(`#checkbox-${id}`).addEventListener('change', () => toggleItem(id));
     // 수량 빼기 버튼 클릭
     document
-      .querySelector(`#minus-${_id}`)
-      .addEventListener('click', () => decreaseItemQuantity(_id));
+      .querySelector(`#minus-${id}`)
+      .addEventListener('click', () => decreaseItemQuantity(id));
     // 수량 추가 버튼 클릭
-    document
-      .querySelector(`#plus-${_id}`)
-      .addEventListener('click', () => increaseItemQuantity(_id));
+    document.querySelector(`#plus-${id}`).addEventListener('click', () => increaseItemQuantity(id));
     // 수량 입력
     document
-      .querySelector(`#quantityInput-${_id}`)
-      .addEventListener('change', () => handleQuantityInput(_id));
+      .querySelector(`#quantityInput-${id}`)
+      .addEventListener('change', () => handleQuantityInput(id));
 
     // 페이지 이동
     document
-      .querySelector(`#image-${_id}`)
-      .addEventListener('click', navigate(`/product/detail?id=${_id}`));
+      .querySelector(`#image-${id}`)
+      .addEventListener('click', navigate(`/product/detail?id=${id}`));
 
     document
-      .querySelector(`#title-${_id}`)
-      .addEventListener('click', navigate(`/product/detail?id=${_id}`));
+      .querySelector(`#title-${id}`)
+      .addEventListener('click', navigate(`/product/detail?id=${id}`));
   });
 }
 
@@ -293,7 +291,7 @@ function setQuantityBox(id, type) {
 async function deleteSelectedItems() {
   const { selectedIds } = await getFromDb('order', 'summary');
 
-  selectedIds.forEach((id) => deleteItem(id));
+  selectedIds.forEach(async (id) => await deleteItem(id));
 }
 
 // 전체선택 체크박스를, 현재 상황에 맞추어
