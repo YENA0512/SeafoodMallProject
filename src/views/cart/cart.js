@@ -1,3 +1,4 @@
+import * as Api from '../api.js';
 import { addCommas, convertToNumber, navigate } from '../useful-functions.js';
 import { addToDb, deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
@@ -21,44 +22,53 @@ allSelectCheckbox.addEventListener('change', toggleAll);
 partialDeleteLabel.addEventListener('click', deleteSelectedItems);
 purchaseButton.addEventListener('click', navigate('../order/order.html'));
 
-// 추가 버튼 클릭 시 추가(test) /////////////
-document.getElementById('add_btn').addEventListener('click', async (product) => {
-  const res = await fetch('./cart.json');
-  const products = await res.json();
-  products.forEach(async (product) => {
-    // 객체 destructuring
-    const { _id: id, price } = product;
+// // 추가 버튼 클릭 시 추가(test) /////////////
+// const pathUrl = window.location.pathname;
+// const productId = pathUrl.split('/')[productId.length - 2];
 
-    // 장바구니 추가 시, indexedDB에 제품 데이터 및
-    // 주문수량 (기본값 1)을 저장함.
-    await addToDb('cart', { ...product, quantity: 1 }, id);
+// document.getElementById('add_btn').addEventListener('click', async () => {
+//   // 비회원일때는 브라우저에 저장, 회원일때는 서버에 저장
+//   // 로그인 되어 있으면 서버에 저장된 장바구니 목록을 확인하여 동일한 상품이면 카트 수량을 추가해주기
 
-    // 장바구니 요약(=전체 총합)을 업데이트함
-    await putToDb('order', 'summary', (data) => {
-      // 기존 데이터를 가져옴
-      const count = data.productsCount;
-      const total = data.productsTotal;
-      const ids = data.ids;
-      const selectedIds = data.selectedIds;
+//     // 장바구니 추가 시, indexedDB에 제품 데이터 및
+//     // 주문수량 (기본값 1)을 저장함.
+//     if(isLogin){
+//       await Api.post('/api/v1/carts', productId)
+//     }else {
+//       await addToDb('cart', { ...product, quantity: 1 }, productId);
+//     }
 
-      // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
-      data.productsCount = (count ?? 0) + 1;
+//     // 장바구니 요약(=전체 총합)을 업데이트함
+//     await putToDb('order', 'summary', (data) => {
+//       // 기존 데이터를 가져옴
+//       const count = data.productsCount;
+//       const total = data.productsTotal;
+//       const ids = data.ids;
+//       const selectedIds = data.selectedIds;
 
-      // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
-      data.productsTotal = (total ?? 0) + price;
+//       // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
+//       data.productsCount = (count ?? 0) + 1;
 
-      // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
-      data.ids = data.ids ? [...ids, id] : [id];
+//       // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
+//       data.productsTotal = (total ?? 0) + price;
 
-      // 위와 마찬가지 방식
-      data.selectedIds = selectedIds ? [...selectedIds, id] : [id];
-    });
-  });
-});
+//       // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
+//       data.ids = data.ids ? [...ids, id] : [id];
+
+//       // 위와 마찬가지 방식
+//       data.selectedIds = selectedIds ? [...selectedIds, id] : [id];
+//     });
+//   });
+
+const isLogin = sessionStorage.getItem('userId');
 
 // 데이터 읽어오기 ////////////////
 async function insertProductsfromCart() {
-  const products = await getFromDb('cart');
+  if (isLogin) {
+    products = await Api.get('/api/v1/carts');
+  } else {
+    products = await getFromDb('cart');
+  }
   const { selectedIds } = await getFromDb('order', 'summary');
   products.forEach(async (product) => {
     const { _id: id, title, image, quantity, price } = product;
@@ -291,7 +301,15 @@ function setQuantityBox(id, type) {
 async function deleteSelectedItems() {
   const { selectedIds } = await getFromDb('order', 'summary');
 
-  selectedIds.forEach(async (id) => await deleteItem(id));
+  selectedIds.forEach(async (id) => {
+    if (isLogin) {
+      const deleted_ids = [];
+      deleted_ids.push(id);
+      await Api.delete('/api/v1/carts/some', id);
+    } else {
+      await deleteItem(id);
+    }
+  });
 }
 
 // 전체선택 체크박스를, 현재 상황에 맞추어
@@ -313,7 +331,11 @@ async function updateAllSelectCheckbox() {
 
 async function deleteItem(id) {
   // indexedDB의 cart 목록에서 id를 key로 가지는 데이터를 삭제함.
-  await deleteFromDb('cart', id);
+  if (isLogin) {
+    await Api.delete('/api/v1/carts/some', id);
+  } else {
+    await deleteFromDb('cart', id);
+  }
 
   // 결제정보를 업데이트함.
   await updateOrderSummary(id, 'removePermanent-deleteButton');
