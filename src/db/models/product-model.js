@@ -23,7 +23,7 @@ export class ProductModel {
   async find() {
     const filter = { deleted_at: null };
     const productList = await Product.find(filter);
-    console.log(productList);
+
     return productList;
   }
 
@@ -38,14 +38,21 @@ export class ProductModel {
   }
 
   // 상품검색
-  async findByKeyword(DTO) {
+  async findByKeyword(searchKey, keyword) {
     const filter = {
-      'category.species': new RegExp(DTO.keyword),
+      [searchKey]: new RegExp(keyword),
       deleted_at: null,
     };
 
-    const searchedProducts = await Product.find(filter);
-    return searchedProducts;
+    const foundProductsByKeyword = await Product.find(filter);
+    return foundProductsByKeyword;
+  }
+
+  // id로 조회
+  async findById(_id) {
+    const filter = { _id: _id, deleted_at: null };
+    const foundProduct = await Product.find(filter);
+    return foundProduct;
   }
 }
 
