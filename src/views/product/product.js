@@ -9,11 +9,11 @@ const totalPrice = document.querySelector('.product_total');
 // const cartButton = document.querySelector('.insert_cart');
 
 const pathUrl = window.location.pathname;
-const paramsId = pathUrl.substring(9, pathUrl.length - 1);
+const productId = pathUrl.substring(9, pathUrl.length - 1);
 
 // 상품 정보 받아오는 함수
 const getProductData = async () => {
-  const res = await Api.get(`/api/v1/products/${paramsId}`);
+  const res = await Api.get(`/api/v1/products/${productId}`);
   const { category, price } = res;
 
   ProductTitle.innerHTML = category.species;
