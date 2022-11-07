@@ -31,6 +31,7 @@ const notLoginHeaderHTML = `
 
 const LoginHeaderHTML = `
   <style>${headerStyle}</style>
+
   <h1>
     <a href="/"><img class="main_logo" src="/mainlogo.png" /></a>
   </h1>
@@ -53,7 +54,7 @@ const LoginHeaderHTML = `
         <em>|</em>
         <li><a>장바구니</a></li>
         <em>|</em>
-        <li><a>로그아웃</a></li>
+        <li class="log_out">로그아웃</li>
       </ul>
     </div>
   </nav>
@@ -84,7 +85,7 @@ const getCategoriesList = async () => {
 
     dropItem.addEventListener('click', (e) => {
       const name = e.target.text;
-      aEl.href = `/categories/${name}`;
+      aEl.href = `/categories/category-search?keyword=${name}`;
     });
     i++;
   });
@@ -107,3 +108,12 @@ const isLogin = () => {
 
 isLogin();
 getCategoriesList();
+
+const logoutBtn = document.querySelector('.log_out');
+
+logoutBtn.addEventListener('click', () => {
+  sessionStorage.removeItem('token');
+  sessionStorage.removeItem('userId');
+
+  window.location.href = '/';
+});
