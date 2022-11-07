@@ -20,6 +20,7 @@
       defer
     ></script>
     <script src="categories.js" type="module" defer></script>
+    <script src="../../admin.js" type="module" defer></script>
   </head>
   <body>
     <header>
@@ -36,15 +37,9 @@
             </div>
           </div>
           <div class="select_area">
-            <button class="categories">
-              <a href="/admin/categories">카테고리 관리</a>
-            </button>
-            <button class="products">
-              <a href="/admin/products">상품 관리</a>
-            </button>
-            <button class="orders">
-              <a href="/admin/orders">주문 상태 관리</a>
-            </button>
+            <button class="categories_btn">카테고리 관리</button>
+            <button class="products_btn">상품 관리</button>
+            <button class="orders_btn">주문 상태 관리</button>
           </div>
         </section>
         <section class="right_area">
@@ -54,14 +49,14 @@
               <form>
                 <li>
                   <div>
-                    <input placeholder="수산물" />
-                    <input placeholder="2차" />
-                    <input placeholder="품종" />
-                    <input placeholder="코드" />
-                    <input placeholder="이미지" />
+                    <input class="make_parent_category" placeholder="수산물" />
+                    <input class="make_child_category" placeholder="2차" />
+                    <input class="make_species" placeholder="품종" />
+                    <input class="make_species_code" placeholder="코드" />
+                    <input class="make_species_image" placeholder="이미지" />
                   </div>
                   <div>
-                    <button>추가</button>
+                    <button class="make_categories">추가</button>
                   </div>
                 </li>
               </form>
