@@ -61,8 +61,8 @@ categoryRouter.delete('/:_id', async (req, res, next) => {
     const DTO = { _id };
 
     await categoryService.deleteCategory(DTO);
-    const result = { success: true };
-    res.status(200).json(result);
+
+    res.status(204);
   } catch (err) {
     next(err);
   }

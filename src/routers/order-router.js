@@ -11,12 +11,9 @@ const orderRouter = Router();
 orderRouter.post(
   '/',
   asyncHandler(async (req, res) => {
-    const { order_items } = req.body;
     const user_id = req.currentUserId;
-    const customer = await userService.getUser(user_id).populate('shippings');
-    if (is.emptyObject(customer.shipping)) {
-      throw new Error('유저의 배송지 정보가 필요합니다.');
-    }
+    const customer = await userService.getUser(user_id);
+    const { order_items } = req.body;
     const DTO = { order_items, customer };
     const createdOrder = await orderService.createOrder(DTO);
     const result = { success: true, data: createdOrder };
@@ -37,11 +34,6 @@ orderRouter.get(
 orderRouter.get(
   '/admin',
   asyncHandler(async (req, res) => {
-    const user_id = req.currentUserId;
-    const user = await userService.getUser(user_id);
-    if (!user.group === 'admin') {
-      throw new Error('관리자만 접근할 수 있습니다.');
-    }
     const orders = await orderService.getAllOrders();
     const result = { success: true, data: orders };
     res.status(201).json(result);
@@ -51,12 +43,10 @@ orderRouter.patch(
   '/:id',
   asyncHandler(async (req, res) => {
     const { _id } = req.params;
-    const { order_items, customer, order_status } = req.body;
+    const { order_items } = req.body;
     const DTO = sanitizeObject({
       _id,
       order_items,
-      customer,
-      order_status,
     });
     const updatedOrder = await orderService.updateOrder(DTO);
     const result = { success: true, data: updatedOrder };
@@ -64,13 +54,8 @@ orderRouter.patch(
   }),
 );
 orderRouter.patch(
-  '/admin',
+  '/status',
   asyncHandler(async (req, res) => {
-    const user_id = req.currentUserId;
-    const user = await userService.getUser(user_id);
-    if (!user.group === 'admin') {
-      throw new Error('관리자만 접근할 수 있습니다.');
-    }
     const { _id, order_status } = req.body;
     const DTO = { _id, order_status };
     const updatedOrder = await orderService.updateStatus(DTO);

@@ -22,4 +22,5 @@ export * from './models/user-model';
 export * from './models/category-model';
 export * from './models/order-model';
 export * from './models/cart-model';
+export * from './models/product-model';
 export { connectMongoDB };
