@@ -1,5 +1,5 @@
 @import '../../_reset.css';
-@import '../admin.css';
+@import '../../admin.css';
 
 .right_area > div > h1 {
   font-size: 30px;
