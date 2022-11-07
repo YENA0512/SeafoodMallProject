@@ -27,7 +27,7 @@ orderRouter.get(
     const DTO = { user_id };
     const orders = await orderService.getUserOrders(DTO);
     const result = { success: true, data: orders };
-    res.status(201).json(result);
+    res.status(200).json(result);
   }),
 );
 
@@ -36,7 +36,7 @@ orderRouter.get(
   asyncHandler(async (req, res) => {
     const orders = await orderService.getAllOrders();
     const result = { success: true, data: orders };
-    res.status(201).json(result);
+    res.status(200).json(result);
   }),
 );
 orderRouter.patch(
@@ -79,8 +79,7 @@ orderRouter.delete(
     const { _id } = req.params;
     const DTO = { _id };
     await orderService.deleteOrder(DTO);
-    const result = { success: true };
-    res.status(201).json(result);
+    res.status(204);
   }),
 );
 
