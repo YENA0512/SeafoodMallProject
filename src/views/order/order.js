@@ -1,5 +1,5 @@
 import * as Api from '../api.js';
-import { addCommas, navigate } from '../useful-functions.js';
+import { addCommas } from '../useful-functions.js';
 import { deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
 const cartList = document.querySelector('#cart_list');
@@ -51,6 +51,8 @@ function searchAddress() {
 
 // 장바구니 주문 상품 목록 보여주기
 async function insertOrderSummary() {
+  // order api로 가져오기
+  await Api.get('/api/v1/orders/');
   const { selectedIds, productsTotal } = await getFromDb('order', 'summary');
   const hasItemToCheckout = selectedIds.length !== 0;
   // 선택된 상품이 없으면 장바구니로 다시 이동
@@ -101,17 +103,31 @@ async function insertOrderSummary() {
 }
 // 주문자 정보 보여주기
 async function insertUserData() {
-  const userData = await Api.get('/api/v1/users/:id');
-  const { name, mobile, email, zencode, address, detail_address } = userData;
+  try {
+    const userId = sessionStorage.getItem('userId');
+    const userData = await Api.get(`/api/v1/users/${userId}`);
+    const { email, shipping } = userData.data;
 
-  usernameInfo.value = name;
-  phonenumberInfo.value = mobile;
-  emailInfo.value = email;
-  postalCodeInfo.value = zencode;
-  addressInfo.value = address;
-  addressInfoDetail.value = detail_address;
+    // 주문자 정보가 있으면 보여주고, 없으면 빈칸으로 보여줌
+    const name = shipping?.name ?? '';
+    const mobile = shipping?.mobile ?? '';
+    const zencode = shipping?.zencode ?? '';
+    const address = shipping?.address ?? '';
+    const detail_address = shipping?.detail_address ?? '';
+
+    usernameInfo.value = name;
+    phonenumberInfo.value = mobile;
+    emailInfo.value = email;
+    postalCodeInfo.value = zencode;
+    addressInfo.value = address;
+    addressInfoDetail.value = detail_address;
+  } catch (err) {
+    console.error(err.stack);
+    alert(`${err.message}`);
+  }
 }
 
+// 주문하기 버튼 클릭
 checkoutBtn.addEventListener('click', async () => {
   const userName = usernameInfo.value;
   const phoneNumber = phonenumberInfo.value;
@@ -119,26 +135,23 @@ checkoutBtn.addEventListener('click', async () => {
   const postalCode = postalCodeInfo.value;
   const address = addressInfo.value;
   const addressDetail = addressInfoDetail.value;
-  const { selectedIds } = await getFromDb('order', 'summary');
-
+  const { selectedIds, totalPrice } = await getFromDb('order', 'summary');
+  // 입력값 확인
   if (!userName || !phoneNumber || !email || !postalCode || !address || !addressDetail) {
     return alert('배송지 정보를 모두 입력해주세요!');
   }
-  const Info = {
-    postalCode,
-    address,
-    addressDetail,
-  };
+  // 주문정보 저장
   try {
     for (const productId of selectedIds) {
-      // 전체 주문 등록
-      // const { quantity } = await getFromDb('cart', productId);
-      //
-      // const order = {
-      //   productId,
-      //   quantity,
-      // };
-      // await Api.post('/api/v1/orders/', order);
+      const { quantity } = await getFromDb('cart', productId);
+      const userId = sessionStorage.getItem('userId');
+      const order = {
+        productId,
+        quantity,
+        userId,
+      };
+      await Api.post('/api/v1/orders/', order);
+
       // indexedDB에서 해당 제품 관련 데이터 제거
       await deleteFromDb('cart', productId);
       await putToDb('order', 'summary', (data) => {
@@ -148,15 +161,6 @@ checkoutBtn.addEventListener('click', async () => {
         data.productsTotal -= totalPrice;
       });
     }
-    // 변경된 배송지정보를 유저db에 저장
-    const data = {
-      Info: {
-        postalCode,
-        address,
-        addressDetail,
-      },
-    };
-    await Api.post('/api/v1/users/:id', data);
     alert('결제가 정상적으로 완료되었습니다.');
     window.location.href = '../home/home.html';
   } catch (err) {
