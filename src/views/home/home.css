@@ -1,48 +1,20 @@
-/* ------------↓공통영역↓------------ */
-@import '../_reset.css';
-body {
-  width: 1000px;
-  margin: auto;
-}
-/* header */
-header {
-  margin-bottom: 20px;
-}
-header > h1 {
-  text-align: center;
-}
-.main_logo {
-  width: 120px;
-  height: 120px;
-}
-.nav_bar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.nav_menu > ol {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-/* footer */
-.footer {
-  text-align: center;
-  margin: 30px;
-}
-/* ------------↑공통영역↑------------ */
-
-/********/
-/* main */
-/********/
 .carousel {
-  margin: 20px 0;
+  margin: 50px 0;
 }
 
 .carousel-item {
   height: 420px;
+}
+
+.recommended_products {
+  text-align: center;
+  margin: 40px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.product_list_area {
+  margin: 30px 0;
 }
 
 .product {
@@ -52,14 +24,27 @@ header > h1 {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-items: center;
+  align-items: baseline;
 }
 
 .product_item {
-  margin: 10px;
+  width: 23%;
+  margin: 30px 10px;
+}
+
+.product_item > a > h3 {
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+.product_item > a > div {
+  text-align: right;
+  margin: 30px 5px 10px 0;
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 
 .product_img {
+  /* border-radius: 10%; */
   width: 230px;
   height: 300px;
   object-fit: cover;
