@@ -86,7 +86,7 @@ productRouter.get('/category-search', async (req, res, next) => {
     const { keyword } = req.query;
     const DTO = { keyword };
 
-    const seachedProductsByCategory = await productService.searchProductByCategory(DTO);
+    const seachedProductsByCategory = await productService.readProductByCategory(DTO);
 
     res.status(200).json(seachedProductsByCategory);
   } catch (err) {
@@ -94,4 +94,15 @@ productRouter.get('/category-search', async (req, res, next) => {
   }
 });
 
+productRouter.get('/:_id', async (req, res, next) => {
+  try {
+    const { _id } = req.params;
+    const DTO = { _id };
+
+    const foundProductById = await productService.readProductById(DTO);
+    res.status(200).json(foundProductById);
+  } catch (err) {
+    next(err);
+  }
+});
 export { productRouter };

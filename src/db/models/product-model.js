@@ -37,10 +37,21 @@ export class ProductModel {
     return deletedProduct;
   }
 
-  // 상품검색
-  async findByKeyword(searchKey, keyword) {
+  // 상품검색(부분일치)
+  async searchByKeyword(searchKey, keyword) {
     const filter = {
       [searchKey]: new RegExp(keyword),
+      deleted_at: null,
+    };
+
+    const foundProductsByKeyword = await Product.find(filter);
+    return foundProductsByKeyword;
+  }
+
+  //카테고리 검색(정확히 일치)
+  async findByKeyword(searchKey, keyword) {
+    const filter = {
+      [searchKey]: keyword,
       deleted_at: null,
     };
 
