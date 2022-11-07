@@ -32,6 +32,10 @@ const headerStyle = `
   .dropdown-item {
     padding: 20px 50px 20px 20px;
   }
+
+  .log_out {
+    cursor: pointer;
+  }
 `;
 
 export default headerStyle;
