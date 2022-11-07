@@ -31,8 +31,19 @@ class ProductService {
 
   // 상품 검색
   async searchProduct(DTO) {
-    const searchedProducts = await this.productModel.findByKeyword(DTO);
+    const searchKey = 'category.species';
+    const { keyword } = DTO;
+
+    const searchedProducts = await this.productModel.findByKeyword(searchKey, keyword);
     return searchedProducts;
+  }
+
+  async searchProductByCategory(DTO) {
+    const searchKey = 'category.child_category';
+    const { keyword } = DTO;
+
+    const searchedProductsByCategory = await this.productModel.findByKeyword(searchKey, keyword);
+    return searchedProductsByCategory;
   }
 }
 
