@@ -10,9 +10,15 @@ const currentPasswordInput = document.querySelector('#currentPasswordInput');
 const passwordInput = document.querySelector('#passwordInput');
 const passwordConfirmInput = document.querySelector('#passwordConfirmInput');
 const submitButton = document.querySelector('#submitButton');
-
+const addressInput = document.querySelector('#addressInput1');
+const detailAddressInput = document.querySelector('#addressInput2');
+const mobileInput = document.querySelector('#mobileInput');
+const nameInput = document.querySelector('#nameInput');
+const postalCodeInput = document.querySelector('#postalCodeInput');
+const addressButton = document.querySelector('#addressButton');
 checkLogin();
 getUserInfo();
+
 addAllElements();
 addAllEvents();
 
@@ -22,12 +28,29 @@ async function addAllElements() {}
 // 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 async function addAllEvents() {
   submitButton.addEventListener('click', handleSubmit);
+  addressButton.addEventListener('click', searchAddress);
 }
 async function getUserInfo() {
   try {
     const userId = sessionStorage.getItem('userId');
     const user = await Api.get(`/api/v1/users/${userId}`);
     let userName = user.data.email;
+    if (user.data.shipping.name) {
+      userName = user.data.shipping.name;
+      nameInput.value = user.data.shipping.name;
+    }
+    if (user.data.shipping.mobile) {
+      mobileInput.value = user.data.shipping.mobile;
+    }
+    if (user.data.shipping.zencode) {
+      postalCodeInput.value = user.data.shipping.zencode;
+    }
+    if (user.data.shipping.address) {
+      addressInput.value = user.data.shipping.address;
+    }
+    if (user.data.shipping.detail_address) {
+      detailAddressInput.value = user.data.shipping.detail_address;
+    }
     userEmail.innerHTML = `${userName} 님`;
     userEmailValue.innerHTML = user.data.email;
     userGroupValue.innerHTML = checkGroup(user.data.group);
@@ -56,11 +79,17 @@ async function handleSubmit(e) {
   const current_password = currentPasswordInput.value;
   const password = passwordInput.value;
   const passwordConfirm = passwordConfirmInput.value;
+  const name = nameInput.value;
+  const mobile = mobileInput.value;
+  const zencode = postalCodeInput.value;
+  const address = addressInput.value;
+  const detail_address = detailAddressInput.value;
+
   // 새 비밀번호 잘 입력했는지 확인
   const isPasswordValid = password.length >= 4;
   const isPasswordSame = password === passwordConfirm;
 
-  if (!isPasswordValid) {
+  if (isPasswordValid && password) {
     return alert('비밀번호는 4글자 이상이어야 합니다.');
   }
 
@@ -73,8 +102,19 @@ async function handleSubmit(e) {
     const userId = sessionStorage.getItem('userId');
 
     const new_password = '';
-    const newData = { current_password, new_password };
-    if (password === current_password) {
+
+    const newData = {
+      current_password,
+      new_password,
+      name,
+      mobile,
+      zencode,
+      address,
+      detail_address,
+    };
+    if (password && password === current_password) {
+      return alert('업데이트된 정보가 없습니다');
+    } else if (!mobile && !address && !name) {
       return alert('업데이트된 정보가 없습니다');
     } else {
       newData.new_password = password;
@@ -86,9 +126,40 @@ async function handleSubmit(e) {
     alert(`회원정보가 정상적으로 수정되었습니다.`);
 
     // 로그인 페이지 이동
-    // window.location.href = '../login';
+    window.location.href = './';
   } catch (err) {
     console.error(err.stack);
     alert(`${err.message}`);
   }
+}
+function searchAddress() {
+  new daum.Postcode({
+    oncomplete: function (data) {
+      let addr = '';
+      let extraAddr = '';
+
+      if (data.userSelectedType === 'R') {
+        addr = data.roadAddress;
+      } else {
+        addr = data.jibunAddress;
+      }
+
+      if (data.userSelectedType === 'R') {
+        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+          extraAddr += data.bname;
+        }
+        if (data.buildingName !== '' && data.apartment === 'Y') {
+          extraAddr += extraAddr !== '' ? ', ' + data.buildingName : data.buildingName;
+        }
+        if (extraAddr !== '') {
+          extraAddr = ' (' + extraAddr + ')';
+        }
+      }
+
+      postalCodeInput.value = data.zonecode;
+      addressInput.value = `${addr} ${extraAddr}`;
+      detailAddressInput.placeholder = '상세 주소를 입력해 주세요.';
+      detailAddressInput.focus();
+    },
+  }).open();
 }
