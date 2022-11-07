@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-function loginRequired(req, res, next) {
+const loginRequired = (req, res, next) => {
   // request 헤더로부터 authorization bearer 토큰을 받음.
   const userToken = req.headers.authorization?.split(' ')[1];
 
@@ -35,6 +35,6 @@ function loginRequired(req, res, next) {
       reason: '정상적인 토큰이 아닙니다.',
     });
   }
-}
+};
 
 export { loginRequired };

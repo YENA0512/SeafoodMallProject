@@ -140,10 +140,9 @@ userRouter.delete('/:_id', loginRequired, async (req, res, next) => {
     const { password } = req.body;
     const DTO = { _id, password };
 
-    const deletedUser = await userService.deleteUser(DTO);
+    await userService.deleteUser(DTO);
 
-    const result = { success: true, data: deletedUser };
-    res.status(200).json(result);
+    res.status(204).end();
   } catch (err) {
     next(err);
   }
