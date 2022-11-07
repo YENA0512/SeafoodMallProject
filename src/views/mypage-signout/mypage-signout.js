@@ -1,5 +1,5 @@
 import * as Api from '../api.js';
-// import { createNavbar } from '../useful-functions.js';
+import { checkLogin } from '../useful-functions.js';
 
 // 요소(element), input 혹은 상수
 const passwordConfirmInput = document.querySelector('#passwordConfirmInput');
@@ -9,6 +9,7 @@ const modalCloseButton = document.querySelector('.modalCloseButton');
 const signoutCompleteButton = document.querySelector('.signoutCompleteButton');
 const signoutCancelButton = document.querySelector('.signoutCancelButton');
 
+checkLogin();
 addAllElements();
 addAllEvents();
 

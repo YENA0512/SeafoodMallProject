@@ -31,6 +31,7 @@ const notLoginHeaderHTML = `
 
 const LoginHeaderHTML = `
   <style>${headerStyle}</style>
+
   <h1>
     <a href="/"><img class="main_logo" src="/mainlogo.png" /></a>
   </h1>
@@ -49,11 +50,11 @@ const LoginHeaderHTML = `
     </div>
     <div class="nav_menu">
       <ul>
-        <li><a>마이페이지</a></li>
+        <li><a href="./mypage">마이페이지</a></li>
         <em>|</em>
         <li><a>장바구니</a></li>
         <em>|</em>
-        <li><a>로그아웃</a></li>
+        <li class="logout">로그아웃</li>
       </ul>
     </div>
   </nav>
@@ -104,6 +105,17 @@ const isLogin = () => {
     document.body.prepend(headerTag);
   }
 };
+
+// 로그아웃 버튼 누르면 로그아웃 수행
+
+// const logoutBtn = document.querySelector('.logout');
+
+// logoutBtn.addEventListener('click', () => {
+//   sessionStorage.removeItem('token');
+//   sessionStorage.removeItem('userId');
+
+//   window.location.href = '/';
+// });
 
 isLogin();
 getCategoriesList();

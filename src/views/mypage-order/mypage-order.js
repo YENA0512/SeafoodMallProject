@@ -1,4 +1,5 @@
 import * as Api from '../api.js';
+import { checkLogin } from '../useful-functions.js';
 
 // 요소(element), input 혹은 상수
 const orderTableBody = document.querySelector('.ordertable-body');
@@ -6,6 +7,7 @@ const userEmail = document.querySelector('#userEmail');
 const userEmailValue = document.querySelector('#userEmailValue');
 const userGroupValue = document.querySelector('#userGroupValue');
 
+checkLogin();
 getUserInfo();
 addAllElements();
 addAllEvents();
