@@ -27,10 +27,7 @@ async function addAllEvents() {
 // db에서 회원정보 삭제
 async function deleteUserData(e) {
   e.preventDefault();
-  const token = sessionStorage.getItem('token');
-
-  var result = parseJwt(token);
-  const userId = result.userId;
+  const userId = sessionStorage.getItem('userId');
 
   const password = passwordConfirmInput.value;
   const data = { password };
@@ -68,19 +65,4 @@ function keyDownCloseModal(e) {
   if (e.keyCode === 27) {
     closeModal();
   }
-}
-function parseJwt(token) {
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split('')
-      .map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join(''),
-  );
-
-  return JSON.parse(jsonPayload);
 }
