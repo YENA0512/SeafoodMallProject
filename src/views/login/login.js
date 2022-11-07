@@ -1,5 +1,5 @@
 import * as Api from '../api.js';
-import { validateEmail } from '../useful-functions.js';
+import { validateEmail, getUrlParams } from '../useful-functions.js';
 
 // 요소(element), input 혹은 상수
 const emailInput = document.querySelector('#emailInput');
@@ -40,8 +40,12 @@ async function handleSubmit(e) {
 
     const { token } = result.data;
 
+    const userToken = parseJwt(token);
+    const userId = userToken.userId;
+
     // 로그인 성공, 토큰을 세션 스토리지에 저장
     sessionStorage.setItem('token', token);
+    sessionStorage.setItem('userId', userId);
 
     alert(`정상적으로 로그인되었습니다.`);
 
@@ -68,16 +72,18 @@ async function handleSubmit(e) {
     alert(`이런이런! ${err.message}`);
   }
 }
-// 주소창의 url로부터 params를 얻어 객체로 만듦
-const getUrlParams = () => {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
+function parseJwt(token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(''),
+  );
 
-  const result = {};
-
-  for (const [key, value] of urlParams) {
-    result[key] = value;
-  }
-
-  return result;
-};
+  return JSON.parse(jsonPayload);
+}

@@ -18,9 +18,7 @@ function addAllEvents() {}
 
 async function getUserInfo() {
   try {
-    const token = sessionStorage.getItem('token');
-    var result = parseJwt(token);
-    const userId = result.userId;
+    const userId = sessionStorage.getItem('userId');
     const user = await Api.get(`/api/v1/users/${userId}`);
     let userName = user.data.email;
     userEmail.innerHTML = `${userName} 님`;
@@ -60,19 +58,4 @@ async function insertOrders() {
     `,
     );
   }
-}
-function parseJwt(token) {
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split('')
-      .map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join(''),
-  );
-
-  return JSON.parse(jsonPayload);
 }
