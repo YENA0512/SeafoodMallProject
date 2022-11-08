@@ -1,4 +1,3 @@
-console.log('hi');
 const categoriesButton = document.querySelector('.categories_btn');
 const productsButton = document.querySelector('.products_btn');
 const ordersButton = document.querySelector('.orders_btn');

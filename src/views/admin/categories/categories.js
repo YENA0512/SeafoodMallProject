@@ -33,20 +33,8 @@ const getCategoriesList = async () => {
               placeholder="수산물"
               readonly
             />
-            <input
-              id="modi_child_category"
-              class="${i}"
-              value="${item}"
-              placeholder="2차"
-              required
-            />
-            <input
-              id="modi_species"
-              class="${i}"
-              value="${el.species}"
-              placeholder="품종"
-              required
-            />
+            <input id="modi_child_category" class="${i}" value="${item}" placeholder="2차" required />
+            <input id="modi_species" class="${i}" value="${el.species}" placeholder="품종" required />
             <input
               id="modi_species_code"
               class="${i}"
@@ -62,8 +50,8 @@ const getCategoriesList = async () => {
             />
           </div>
           <div>
-            <button id="modi_category" class="${i}">수정</button>
-            <button class="${i}">삭제</button>
+            <button type="button" class="btn btn-outline-warning modi_category btn-sm ${i}">수정</button>
+            <button type="button" class="btn btn-outline-danger modi_category btn-sm ${i}">삭제</button>
           </div>
         </li>
         `,
