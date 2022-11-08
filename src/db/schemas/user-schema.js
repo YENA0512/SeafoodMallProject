@@ -24,8 +24,10 @@ const UserSchema = new Schema(
       default: null,
     },
     seller_info: SellerSchema,
-    shipping: ShippingSchema,
-    // cart: [CartSchema],
+    shipping: {
+      type: ShippingSchema,
+      // cart: [CartSchema],
+    },
   },
   {
     collection: 'Users',

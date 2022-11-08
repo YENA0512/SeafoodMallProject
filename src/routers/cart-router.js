@@ -1,4 +1,4 @@
-import { Router } from 'mongoose';
+import { Router } from 'express';
 import { cartService } from '../services/cart-service';
 import { asyncHandler } from '../utils/async-handler';
 
@@ -42,16 +42,9 @@ cartRouter.delete(
     const user_id = req.currentUserId;
     const DTO = { user_id };
     await cartService.deleteAll(DTO);
+    console.log(4);
     res.status(204);
-  }),
-);
-cartRouter.delete(
-  '/:_id',
-  asyncHandler(async (req, res) => {
-    const { _id } = req.params;
-    const DTO = { _id };
-    await cartService.deleteOne(DTO);
-    res.status(204);
+    res.end();
   }),
 );
 cartRouter.delete(
@@ -61,6 +54,17 @@ cartRouter.delete(
     const DTO = { deleted_ids };
     await cartService.deleteSome(DTO);
     res.status(204);
+    res.end();
+  }),
+);
+cartRouter.delete(
+  '/:_id',
+  asyncHandler(async (req, res) => {
+    const { _id } = req.params;
+    const DTO = { _id };
+    await cartService.deleteOne(DTO);
+    res.status(204);
+    res.end();
   }),
 );
 cartRouter.patch(

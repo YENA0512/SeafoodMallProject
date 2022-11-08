@@ -14,7 +14,7 @@ const v1Router = express.Router();
 v1Router.use('/categories', categoryRouter);
 v1Router.use('/users', userRouter);
 v1Router.use('/products', productRouter);
-// v1Router.use('/carts', loginRequired, cartRouter);
+v1Router.use('/carts', loginRequired, cartRouter);
 v1Router.use('/orders', loginRequired, orderRouter);
 
 export * from './views-router';

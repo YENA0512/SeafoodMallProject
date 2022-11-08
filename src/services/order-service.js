@@ -25,13 +25,8 @@ class OrderService {
     const order = await this.orderModel.updateOrderStatus(DTO);
     return order;
   }
-  async updateOrder(DTO) {
-    const { order_items } = DTO;
-    const order_price = order_items.reduce((sum, { cart_price }) => {
-      return (sum += cart_price);
-    }, 0);
-    DTO.order_price = order_price;
-    const order = await this.orderModel.updateOrder(DTO);
+  async updateOrderShipping(DTO) {
+    const order = await this.orderModel.updateShipping(DTO);
     return order;
   }
   async cancelOrder(DTO) {

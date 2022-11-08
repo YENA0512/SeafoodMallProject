@@ -2,9 +2,7 @@ import { Router } from 'express';
 import { orderService } from '../services/order-service';
 import { userService } from '../services/user-service';
 import { asyncHandler } from '../utils/async-handler';
-import { loginRequired } from '../middlewares';
 import { sanitizeObject } from '../utils/sanitizeObject';
-import is from '@sindresorhus/is';
 
 const orderRouter = Router();
 
@@ -40,15 +38,12 @@ orderRouter.get(
   }),
 );
 orderRouter.patch(
-  '/:id',
+  '/:_id',
   asyncHandler(async (req, res) => {
     const { _id } = req.params;
-    const { order_items } = req.body;
-    const DTO = sanitizeObject({
-      _id,
-      order_items,
-    });
-    const updatedOrder = await orderService.updateOrder(DTO);
+    const { shipping } = req.body;
+    const DTO = { _id, shipping };
+    const updatedOrder = await orderService.updateOrderShipping(DTO);
     const result = { success: true, data: updatedOrder };
     res.status(201).json(result);
   }),
@@ -80,6 +75,7 @@ orderRouter.delete(
     const DTO = { _id };
     await orderService.deleteOrder(DTO);
     res.status(204);
+    res.end();
   }),
 );
 
