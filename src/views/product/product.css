@@ -36,12 +36,15 @@
 .product_condition {
   width: 100%;
   height: 50%;
+  line-height: 120%;
   align-self: flex-end;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
+
+  color: grey;
 }
 
 .product_total_area {
