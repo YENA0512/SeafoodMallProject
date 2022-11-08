@@ -1,6 +1,6 @@
 import * as Api from '../api.js';
 import { addCommas, convertToNumber, navigate } from '../useful-functions.js';
-import { addToDb, deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
+import { deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
 // 요소 가져오기 /////////////
 const cartProductsContainer = document.querySelector('#cart_list');
@@ -11,67 +11,31 @@ const productsTotalElem = document.querySelector('#product_price');
 const deliveryFeeElem = document.querySelector('#shipping_price');
 const orderTotalElem = document.querySelector('#total_order_price');
 const purchaseButton = document.querySelector('#purchase_button');
-
 // 카트리스트 보여주기, 결제정보 보여주기, 전체 체크박스 업데이트
-insertProductsfromCart();
 insertOrderSummary();
 updateAllSelectCheckbox();
 
+// 로그인 확인
+const isLogin = sessionStorage.getItem('userId');
 // 전체선택, 선택삭제, 구매하기 버튼 클릭시
 allSelectCheckbox.addEventListener('change', toggleAll);
-partialDeleteLabel.addEventListener('click', deleteSelectedItems);
+partialDeleteLabel.addEventListener('click', () =>
+  isLogin ? deleteSelectedItemsLogin : deleteSelectedItems,
+);
 purchaseButton.addEventListener('click', navigate('../order/order.html'));
 
-// // 추가 버튼 클릭 시 추가(test) /////////////
-// const pathUrl = window.location.pathname;
-// const productId = pathUrl.split('/')[productId.length - 2];
+isLogin ? insertProductsfromCartLogin() : insertProductsfromCart();
 
-// document.getElementById('add_btn').addEventListener('click', async () => {
-//   // 비회원일때는 브라우저에 저장, 회원일때는 서버에 저장
-//   // 로그인 되어 있으면 서버에 저장된 장바구니 목록을 확인하여 동일한 상품이면 카트 수량을 추가해주기
-
-//     // 장바구니 추가 시, indexedDB에 제품 데이터 및
-//     // 주문수량 (기본값 1)을 저장함.
-//     if(isLogin){
-//       await Api.post('/api/v1/carts', productId)
-//     }else {
-//       await addToDb('cart', { ...product, quantity: 1 }, productId);
-//     }
-
-//     // 장바구니 요약(=전체 총합)을 업데이트함
-//     await putToDb('order', 'summary', (data) => {
-//       // 기존 데이터를 가져옴
-//       const count = data.productsCount;
-//       const total = data.productsTotal;
-//       const ids = data.ids;
-//       const selectedIds = data.selectedIds;
-
-//       // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
-//       data.productsCount = (count ?? 0) + 1;
-
-//       // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
-//       data.productsTotal = (total ?? 0) + price;
-
-//       // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
-//       data.ids = data.ids ? [...ids, id] : [id];
-
-//       // 위와 마찬가지 방식
-//       data.selectedIds = selectedIds ? [...selectedIds, id] : [id];
-//     });
-//   });
-
-const isLogin = sessionStorage.getItem('userId');
-
-// 데이터 읽어오기 ////////////////
+// 데이터 읽어오기(비로그인시)
 async function insertProductsfromCart() {
-  if (isLogin) {
-    products = await Api.get('/api/v1/carts');
-  } else {
-    products = await getFromDb('cart');
-  }
-  const { selectedIds } = await getFromDb('order', 'summary');
-  products.forEach(async (product) => {
-    const { _id: id, title, image, quantity, price } = product;
+  let products = await getFromDb('cart');
+  const { selectedIds, productsTotal } = await getFromDb('order', 'summary');
+
+  products.forEach((product) => {
+    const id = product._id;
+    const title = product.species;
+    const image = product.species_image;
+    const quantity = product.quantity;
 
     const isSelected = selectedIds.includes(id);
 
@@ -95,7 +59,7 @@ async function insertProductsfromCart() {
         isSelected ? 'checked' : ''
       } 
         >-</button>
-        <input type="number" class="quantity_input" min="1" max="99" value="1" id="quantityInput-${id}" ${
+        <input type="number" class="quantity_input" min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
         isSelected ? 'checked' : ''
       }  
       }/>
@@ -104,11 +68,12 @@ async function insertProductsfromCart() {
       } 
       }
        >+</button>
+
       </div>
       <div class="calculation">
-       <p id="unitPrice-${id}" style="display:none">${addCommas(price)}원</p>
+       <p id="unitPrice-${id}" style="display:none">${addCommas(productsTotal)}원</p>
        <p id="quantity-${id}" style="display:none">${quantity}</p>
-        <p id="total-${id}">${addCommas(price * quantity)}원</p>
+        <p id="total-${id}">${addCommas(productsTotal * quantity)}원</p>
       </div>
       <div class="delete">
         <button class="btn" id="delete-${id}">X</button>
@@ -139,6 +104,89 @@ async function insertProductsfromCart() {
     document
       .querySelector(`#title-${id}`)
       .addEventListener('click', navigate(`/product/detail?id=${id}`));
+  });
+}
+// 데이터 읽어오기(로그인시)
+async function insertProductsfromCartLogin() {
+  let products = await Api.get('/api/v1/carts');
+  const { selectedIds, productsTotal } = await getFromDb('order', 'summary');
+  console.log(products);
+  products.data.forEach((product) => {
+    const id = product.product_id?._id;
+    const title = product.product_id?.category?.species;
+    const image = product.product_id?.category?.species_image;
+    const quantity = product.quantity;
+    const price = productsTotal;
+    const _id = product._id;
+    const isSelected = selectedIds.includes(id);
+
+    cartProductsContainer.insertAdjacentHTML(
+      'beforeend',
+      `<div class="item_container" id="productItem-${id}">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-${id}" ${
+        isSelected ? 'checked' : ''
+      }   />
+          <div class="image">
+          <figure>
+        <img class="product_image" src="${image}" alt="상품이미지" id="image-${id}"/>
+        </figure>
+    </div>
+    <div class="content">
+      <div id="title-${id}">
+        <p>${title}</p>
+      </div>
+      <div class="quantity">
+        <button class="btn" id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${
+        isSelected ? 'checked' : ''
+      }
+        >-</button>
+        <input type="number" class="quantity_input" min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
+        isSelected ? 'checked' : ''
+      }
+      }/>
+        <button class="btn" id="plus-${id}" ${quantity >= 99 ? 'disabled' : ''} ${
+        isSelected ? 'checked' : ''
+      }
+      }
+       >+</button>
+
+      </div>
+      <div class="calculation">
+       <p id="unitPrice-${id}" style="display:none">${addCommas(price)}원</p>
+       <p id="quantity-${id}" style="display:none">${quantity}</p>
+        <p id="total-${id}">${addCommas(price * quantity)}원</p>
+      </div>
+      <div class="delete">
+        <button class="btn" id="delete-${id}">X</button>
+      </div>
+      <button class="btn btn-primary" id="cart_update_btn-${id}">변경사항 저장</button>
+    </div>
+    </div>`,
+    );
+    // 삭제 버튼 클릭
+    document
+      .querySelector(`#delete-${id}`)
+      .addEventListener('click', () => deleteItemLogin(id, _id));
+    // 체크박스 선택
+    document.querySelector(`#checkbox-${id}`).addEventListener('change', () => toggleItem(id));
+    // 수량 빼기 버튼 클릭
+    document
+      .querySelector(`#minus-${id}`)
+      .addEventListener('click', () => decreaseItemQuantity(id));
+    // 수량 추가 버튼 클릭
+    document.querySelector(`#plus-${id}`).addEventListener('click', () => increaseItemQuantity(id));
+    // 수량 입력
+    document
+      .querySelector(`#quantityInput-${id}`)
+      .addEventListener('change', () => handleQuantityInput(id));
+
+    // 페이지 이동
+    document.querySelector(`#image-${id}`).addEventListener('click', navigate(`/product/{id}`));
+
+    document.querySelector(`#title-${id}`).addEventListener('click', navigate(`/product/{id}`));
+    document
+      .querySelector(`#cart_update_btn-${id}`)
+      .addEventListener('click', () => updateCartforServer(id, _id));
   });
 }
 
@@ -297,21 +345,18 @@ function setQuantityBox(id, type) {
     plusButton.setAttribute('disabled', '');
   }
 }
-
+// 선택 시 삭제(비회원)
 async function deleteSelectedItems() {
   const { selectedIds } = await getFromDb('order', 'summary');
 
-  selectedIds.forEach(async (id) => {
-    if (isLogin) {
-      const deleted_ids = [];
-      deleted_ids.push(id);
-      await Api.delete('/api/v1/carts/some', id);
-    } else {
-      await deleteItem(id);
-    }
-  });
+  selectedIds.forEach((id) => deleteItem(id));
 }
+// 선택 시 삭제(회원)
+async function deleteSelectedItemsLogin() {
+  const { selectedIds } = await getFromDb('order', 'summary');
 
+  selectedIds.forEach((id) => deleteItemLogin(id, _id));
+}
 // 전체선택 체크박스를, 현재 상황에 맞추어
 // 체크 또는 언체크 상태로 만듦
 async function updateAllSelectCheckbox() {
@@ -329,13 +374,30 @@ async function updateAllSelectCheckbox() {
   }
 }
 
+// 로그인 시 삭제하는 버튼
+async function deleteItemLogin(id, _id) {
+  // indexedDB의 cart 목록에서 id를 key로 가지는 데이터를 삭제함.
+  await deleteFromDb('cart', id);
+  // 결제정보를 업데이트함.
+  await updateOrderSummary(id, 'removePermanent-deleteButton');
+
+  // 제품 요소(컴포넌트)를 페이지에서 제거함
+  document.querySelector(`#productItem-${id}`).remove();
+
+  // 전체선택 체크박스를 업데이트함
+  updateAllSelectCheckbox();
+
+  const deleteddata = [];
+  deleteddata.push(id);
+  const deletedIds = { deleted_ids: deleteddata };
+  await Api.delete(`/api/v1/carts`, _id, deletedIds);
+  window.location.href('/cart');
+}
+
+// 비회원시 삭제 버튼
 async function deleteItem(id) {
   // indexedDB의 cart 목록에서 id를 key로 가지는 데이터를 삭제함.
-  if (isLogin) {
-    await Api.delete('/api/v1/carts/some', id);
-  } else {
-    await deleteFromDb('cart', id);
-  }
+  await deleteFromDb('cart', id);
 
   // 결제정보를 업데이트함.
   await updateOrderSummary(id, 'removePermanent-deleteButton');
@@ -516,4 +578,15 @@ async function insertOrderSummary() {
     deliveryFeeElem.innerText = `0원`;
     orderTotalElem.innerText = `0원`;
   }
+}
+
+// 로그인 시 장바구니 변경 사항 저장 버튼
+async function updateCartforServer(id, _id) {
+  console.log(id);
+  console.log(_id);
+  const updateData = parseInt(document.querySelector(`#quantityInput-${id}`).value);
+  const updateQuantity = { quantity: updateData };
+  console.log(updateQuantity);
+  const res = await Api.patch(`/api/v1/carts`, _id, updateQuantity);
+  console.log('hey', res);
 }

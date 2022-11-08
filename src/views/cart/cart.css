@@ -65,3 +65,7 @@ header > h1 {
 .item_container {
   display: flex;
 }
+
+.cart_box {
+  min-height: 500px;
+}

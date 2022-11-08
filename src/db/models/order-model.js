@@ -10,16 +10,32 @@ export class OrderModel {
   }
   async readUserOrders(DTO) {
     const { user_id } = DTO;
-    const orders = await Order.find({ 'customer._id': user_id, deleted_at: null });
+    const orders = await Order.find({ 'customer._id': user_id, deleted_at: null }).populate({
+      path: 'order_items',
+      populate: {
+        path: 'product_id',
+        model: 'products',
+      },
+    });
     return orders;
   }
   async readAllOrders() {
-    const orders = await Order.find({ deleted_at: null });
+    const orders = await Order.find({ deleted_at: null }).populate({
+      path: 'order_items',
+      populate: {
+        path: 'product_id',
+        model: 'products',
+      },
+    });
     return orders;
   }
-  async updateOrder(DTO) {
-    const { _id } = DTO;
-    const updatedOrder = await Order.findOneAndUpdate({ _id }, DTO, { returnOriginal: false });
+  async updateShipping(DTO) {
+    const { _id, shipping } = DTO;
+    const updatedOrder = await Order.findOneAndUpdate(
+      { _id },
+      { 'customer.shipping': shipping },
+      { returnOriginal: false },
+    );
     return updatedOrder;
   }
   async updateOrderStatus(DTO) {

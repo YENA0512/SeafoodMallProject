@@ -4,13 +4,12 @@ const CartSchema = new Schema(
   {
     user_id: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'users',
       required: true,
-      index: true,
     },
     product_id: {
       type: Schema.Types.ObjectId,
-      ref: 'Product',
+      ref: 'products',
       required: true,
     },
     quantity: {
