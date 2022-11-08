@@ -37,14 +37,60 @@
             </div>
           </div>
           <div class="select_area">
-            <button class="categories_btn">카테고리 관리</button>
-            <button class="products_btn">상품 관리</button>
-            <button class="orders_btn">주문 상태 관리</button>
+            <button type="button" class="btn btn-light categories_btn">카테고리 관리</button>
+            <button type="button" class="btn btn-light products_btn">상품 관리</button>
+            <button type="button" class="btn btn-light orders_btn">주문 상태 관리</button>
           </div>
         </section>
         <section class="right_area">
           <div class="modify_area">
-            <h1>상품 관리창</h1>
+            <div class="modify_area">
+              <div class="mention"><p>- 상품 추가 -</p></div>
+              <div class="add_categories">
+                <form>
+                  <li>
+                    <div>
+                      <input
+                        class="make_parent_category"
+                        placeholder="수산물"
+                        value="수산물"
+                        readonly
+                      />
+                      <input class="make_child_category" placeholder="2차" required />
+                      <input class="make_species" placeholder="품종" required />
+                      <input class="make_species_code" placeholder="코드" required />
+                      <input class="make_species_image" placeholder="이미지" />
+                    </div>
+                    <div>
+                      <button type="button" class="btn btn-outline-success make_categories btn-sm">
+                        추가
+                      </button>
+                    </div>
+                  </li>
+                </form>
+              </div>
+              <div class="pick_product">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                  <option class="default_mention" selected>카테고리를 선택하세요.</option>
+                </select>
+                <button type="button" class="btn btn-primary btn-sm get_categories_btn">
+                  상품 조회
+                </button>
+              </div>
+              <div class="modify_categories">
+                <div class="modify_info">
+                  <div>1차</div>
+                  <div>2차</div>
+                  <div>품종</div>
+                  <div>코드</div>
+                  <div>이미지경로</div>
+                  <div>수정/삭제</div>
+                </div>
+                <form>
+                  <ol class="show_categories"></ol>
+                </form>
+              </div>
+            </div>
           </div>
         </section>
       </div>
