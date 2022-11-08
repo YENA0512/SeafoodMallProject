@@ -23,7 +23,7 @@ const notLoginHeaderHTML = `
       <ul>
         <li><a href="/login">로그인</a></li>
         <em>|</em>
-        <li><a>장바구니</a></li>
+        <li><a href="/cart">장바구니</a></li>
       </ul>
     </div>
   </nav>
@@ -50,9 +50,9 @@ const LoginHeaderHTML = `
     </div>
     <div class="nav_menu">
       <ul>
-        <li><a>마이페이지</a></li>
+        <li><a href="/mypage">마이페이지</a></li>
         <em>|</em>
-        <li><a>장바구니</a></li>
+        <li><a href="/cart">장바구니</a></li>
         <em>|</em>
         <li class="log_out">로그아웃</li>
       </ul>
