@@ -38,6 +38,16 @@ orderRouter.get(
   }),
 );
 orderRouter.patch(
+  '/status',
+  asyncHandler(async (req, res) => {
+    const { _id, order_status } = req.body;
+    const DTO = { _id, order_status };
+    const updatedOrder = await orderService.updateStatus(DTO);
+    const result = { success: true, data: updatedOrder };
+    res.status(201).json(result);
+  }),
+);
+orderRouter.patch(
   '/:_id',
   asyncHandler(async (req, res) => {
     const { _id } = req.params;
@@ -48,34 +58,24 @@ orderRouter.patch(
     res.status(201).json(result);
   }),
 );
-orderRouter.patch(
-  '/status',
-  asyncHandler(async (req, res) => {
-    const { _id, order_status } = req.body;
-    const DTO = { _id, order_status };
-    const updatedOrder = await orderService.updateStatus(DTO);
-    const result = { success: true, data: updatedOrder };
-    res.status(201).json(result);
-  }),
-);
 orderRouter.delete(
-  '/:id',
-  asyncHandler(async (req, res) => {
-    const { _id } = req.params;
-    const DTO = { _id };
-    const canceledOrder = await orderService.cancelOrder(DTO);
-    const result = { success: true, data: canceledOrder };
-    res.status(201).json(result);
-  }),
-);
-orderRouter.delete(
-  '/:_id/admin',
+  '/admin/:_id',
   asyncHandler(async (req, res) => {
     const { _id } = req.params;
     const DTO = { _id };
     await orderService.deleteOrder(DTO);
     res.status(204);
     res.end();
+  }),
+);
+orderRouter.delete(
+  '/:_id',
+  asyncHandler(async (req, res) => {
+    const { _id } = req.params;
+    const DTO = { _id };
+    const canceledOrder = await orderService.cancelOrder(DTO);
+    const result = { success: true, data: canceledOrder };
+    res.status(201).json(result);
   }),
 );
 
