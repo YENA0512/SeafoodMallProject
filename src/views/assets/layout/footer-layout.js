@@ -1,12 +1,13 @@
 import footerStyle from './footer-style.js';
-
+{
+  /* <img class="footer_logo" src="/mainlogo.png" /> */
+}
 const footerHTML = `
   <style>${footerStyle}</style>
   <hr />
   <footer>
     <div class="footer">
       <div>
-        <img class="footer_logo" src="/mainlogo.png" />
         <p>상호명: (주) 오늘바다</p>
         <p>공동대표: 해3물(3팀)</p>
         <p>주소: 서울 성동구 아차산로17길 48 성수낙낙 elice-lab 2층 라운지</p>
