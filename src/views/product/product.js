@@ -45,7 +45,7 @@ const LoginAddItemToCart = async () => {
   const _id = productId;
   const species = category.species;
   const species_image = category.species_image;
-  const aution_cost = price.auction_cost;
+  const auction_cost = price.auction_cost;
   const platform_commision = price.platform_commision;
   const packaging_cost = price.packaging_cost;
   const shipping_cost = price.shipping_cost;
@@ -54,7 +54,7 @@ const LoginAddItemToCart = async () => {
     _id,
     species,
     species_image,
-    aution_cost,
+    aution_cost: auction_cost,
     platform_commision,
     packaging_cost,
     shipping_cost,
@@ -93,7 +93,7 @@ const notLoginAddItemToCart = async () => {
   const _id = productId;
   const species = category.species;
   const species_image = category.species_image;
-  const aution_cost = price.auction_cost;
+  const auction_cost = price.auction_cost;
   const platform_commision = price.platform_commision;
   const packaging_cost = price.packaging_cost;
   const shipping_cost = price.shipping_cost;
@@ -102,7 +102,7 @@ const notLoginAddItemToCart = async () => {
     _id,
     species,
     species_image,
-    aution_cost,
+    aution_cost: auction_cost,
     platform_commision,
     packaging_cost,
     shipping_cost,
