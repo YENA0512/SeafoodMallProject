@@ -13,8 +13,8 @@ const getCategoriesList = async () => {
   showCategories.innerHTML = '';
   const res = await Api.get(`/api/v1/categories/list`);
   // TODO: parentCategory 수정되면 1번으로 바꿀것, 혹은 수산물을 찾는 로직을 만들것.
-  const parentCategories = res.data[1].parent_category;
-  const childCategories = res.data[1].child_category;
+  const parentCategories = res.data[0].parent_category;
+  const childCategories = res.data[0].child_category;
   childCategories.forEach(async (item) => {
     const response = await Api.get(`/api/v1/categories/${item}`);
     const speciesDetail = response.categoryByChildCategory;
@@ -33,20 +33,8 @@ const getCategoriesList = async () => {
               placeholder="수산물"
               readonly
             />
-            <input
-              id="modi_child_category"
-              class="${i}"
-              value="${item}"
-              placeholder="2차"
-              required
-            />
-            <input
-              id="modi_species"
-              class="${i}"
-              value="${el.species}"
-              placeholder="품종"
-              required
-            />
+            <input id="modi_child_category" class="${i}" value="${item}" placeholder="2차" required />
+            <input id="modi_species" class="${i}" value="${el.species}" placeholder="품종" required />
             <input
               id="modi_species_code"
               class="${i}"
@@ -62,8 +50,8 @@ const getCategoriesList = async () => {
             />
           </div>
           <div>
-            <button id="modi_category" class="${i}">수정</button>
-            <button class="${i}">삭제</button>
+            <button type="button" class="btn btn-outline-warning modi_category btn-sm ${i}">수정</button>
+            <button type="button" class="btn btn-outline-danger modi_category btn-sm ${i}">삭제</button>
           </div>
         </li>
         `,

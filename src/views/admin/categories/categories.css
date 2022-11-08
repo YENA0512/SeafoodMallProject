@@ -53,6 +53,7 @@
 .get_categories_btn {
   align-self: flex-end;
   margin: 10px;
+  width: 15%;
 }
 
 .modify_info {
@@ -94,7 +95,10 @@
 
   border: 1px solid black;
   border-radius: 5px;
+}
 
+.modify_categories > form {
+  width: 100%;
   overflow-y: auto;
 }
 
