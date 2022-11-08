@@ -15,6 +15,7 @@ speciesName.innerHTML = params.keyword;
 
 const getCategoriesData = async () => {
   const res = await Api.get(`/api/v1/products`, `category-search?keyword=${params.keyword}`);
+  console.log(res);
 
   res.forEach((item) => {
     const { _id, category, price } = item;
