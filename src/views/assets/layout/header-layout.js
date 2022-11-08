@@ -10,7 +10,7 @@ const notLoginHeaderHTML = `
   <nav class="nav_bar">
     <div class="dropdown">
       <button
-        class="btn btn-secondary dropdown-toggle"
+        class="btn dropdown-toggle"
         type="button"
         data-bs-toggle="dropdown"
         aria-expanded="false"
@@ -39,7 +39,7 @@ const LoginHeaderHTML = `
   <nav class="nav_bar">
     <div class="dropdown">
       <button
-        class="btn btn-secondary dropdown-toggle"
+        class="btn dropdown-toggle"
         type="button"
         data-bs-toggle="dropdown"
         aria-expanded="false"
@@ -65,7 +65,7 @@ const getCategoriesList = async () => {
   const dropMenu = document.querySelector('.dropdown-menu');
 
   const res = await Api.get('/api/v1/categories/list');
-  const categories = res.data[1].child_category;
+  const categories = res.data[0].child_category;
 
   let i = 1;
   categories.forEach((item) => {
