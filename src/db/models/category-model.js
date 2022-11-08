@@ -37,10 +37,10 @@ export class CategoryModel {
     return deletedCategory;
   }
 
-  async readCategory(DTO) {
-    const filter = { child_category: DTO.child_category, deleted_at: null };
-    const categoryByChildCategory = await Category.find(filter);
-    return categoryByChildCategory;
+  async find(additionalFilter) {
+    const filter = { deleted_at: null, ...additionalFilter };
+    const foundCategory = await Category.find(filter);
+    return foundCategory;
   }
 }
 
