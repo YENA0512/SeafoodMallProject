@@ -38,8 +38,22 @@
   align-items: center;
 }
 
+.no_product {
+  width: 100%;
+  margin: 150px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no_product > h1 {
+  font-size: 30px;
+  align-self: center;
+}
+
 .product_item {
   margin: 10px;
+  cursor: pointer;
 }
 
 .product_img {

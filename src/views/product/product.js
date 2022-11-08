@@ -1,5 +1,5 @@
-// import * as Api from '../api.js';
-import { addCommas } from '../useful-functions.js';
+import * as Api from '../../api.js';
+import { addCommas } from '../../useful-functions.js';
 
 const ProductTitle = document.querySelector('.product_title');
 const packageCondition = document.querySelector('.package_condition');
@@ -8,20 +8,22 @@ const deliveryCondition = document.querySelector('.delivery_condition');
 const totalPrice = document.querySelector('.product_total');
 // const cartButton = document.querySelector('.insert_cart');
 
+const pathUrl = window.location.pathname;
+const paramsId = pathUrl.substring(9, pathUrl.length - 1);
+
 // 상품 정보 받아오는 함수
 const getProductData = async () => {
-  const res = await fetch('./product.json');
-  // fetch로 테스트용으로 적은것. 결과물은 products 동일
-  const product = await res.json();
-  const { title, price, package_condition, platform_condition, delivery_condition } = product[0];
+  const res = await Api.get(`/api/v1/products/${paramsId}`);
+  const { category, price } = res;
 
-  ProductTitle.innerHTML = title;
-  packageCondition.innerHTML = addCommas(package_condition);
-  platformCondition.innerHTML = addCommas(platform_condition);
-  deliveryCondition.innerHTML = addCommas(delivery_condition);
+  ProductTitle.innerHTML = category.species;
+  packageCondition.innerHTML = addCommas(price.packaging_cost);
+  platformCondition.innerHTML = addCommas(price.platform_commision);
+  deliveryCondition.innerHTML = addCommas(price.shipping_cost);
 
-  let total = package_condition + platform_condition + delivery_condition + price;
+  let totalCost =
+    price.packaging_cost + price.platform_commision + price.shipping_cost + price.auction_cost;
 
-  totalPrice.innerHTML = addCommas(total);
+  totalPrice.innerHTML = addCommas(totalCost);
 };
 getProductData();

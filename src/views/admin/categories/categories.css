@@ -1,0 +1,136 @@
+@import '../../_reset.css';
+@import '../../admin.css';
+
+.right_area > div > h1 {
+  font-size: 30px;
+}
+
+.modify_area {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 추가영역 */
+.mention {
+  align-self: flex-start;
+  margin: 10px;
+}
+
+.add_categories {
+  border: 1px solid black;
+}
+
+.add_categories > form {
+  width: 90%;
+  margin: auto;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.add_categories > form > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add_categories > form > li > div > input {
+  width: 15%;
+  margin: 10px;
+}
+
+.add_categories > form > li > div > button {
+  width: 50px;
+  height: 30px;
+}
+
+/* 조회 영역 */
+.get_categories_btn {
+  align-self: flex-end;
+  margin: 10px;
+}
+
+.modify_info {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  border-bottom: 1px solid black;
+}
+
+.modify_info > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-left: 1px solid black;
+  background-color: rgb(183, 180, 253);
+}
+
+.modify_info > div:first-child {
+  border-left: none;
+  border-radius: 5px 0 0 0;
+}
+
+.modify_info > div:last-child {
+  border-radius: 0 5px 0 0;
+}
+
+.s1 {
+  width: 20%;
+}
+.s2 {
+  width: 18%;
+}
+.s3 {
+  width: 18%;
+}
+
+.modify_categories {
+  width: 100%;
+  height: 80%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  border: 1px solid black;
+  border-radius: 5px;
+
+  overflow: scroll;
+}
+
+.modify_categories > form > ol {
+  width: 95%;
+  margin: 10px auto;
+
+  /* display: flex; */
+  /* justify-content: flex-end; */
+  /* align-items: center; */
+}
+
+.modify_categories > form > ol > li {
+  margin: 10px auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.modify_categories > form > ol > li > div > input {
+  width: 16%;
+  margin: 10px;
+}
+
+.modify_categories > form > ol > li > div > button {
+  width: 50px;
+  height: 30px;
+  margin: 5px 15px;
+}

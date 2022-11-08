@@ -23,16 +23,17 @@ export class CartModel {
   async deleteAll(DTO) {
     const { user_id } = DTO;
     const updated = { deleted_at: new Date() };
-    const option = { returnOriginal: false };
-    const deletedCarts = await Cart.updateMany({ user_id, deleted_at: null }, updated, option);
-    return deletedCarts;
+    console.log(1);
+    await Cart.updateMany({ user_id, deleted_at: null }, updated);
+    console.log(2);
+    return;
   }
   async delete(DTO) {
     const { _id } = DTO;
     const updated = { deleted_at: new Date() };
     const option = { returnOriginal: false };
-    const deletedCart = await Cart.findOneAndUpdate({ _id }, updated, option);
-    return deletedCart;
+    await Cart.findOneAndUpdate({ _id }, updated, option);
+    return;
   }
   async update(DTO) {
     const { _id, quantity, cart_price } = DTO;
