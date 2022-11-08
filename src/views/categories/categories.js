@@ -17,12 +17,12 @@ const getCategoriesData = async () => {
   const res = await Api.get(`/api/v1/products`, `category-search?keyword=${params.keyword}`);
 
   res.forEach((item) => {
-    const { category, price } = item;
+    const { _id, category, price } = item;
     console.log(category, price);
     productItemContainer.insertAdjacentHTML(
       'beforeend',
       `
-    <div class="product_item">
+    <div class="product_item" onclick="window.location.href='/product/${_id}';">
       <img class="product_img" src="${category.species_image}" />
       <h3>${category.species}</h3>
       <div>

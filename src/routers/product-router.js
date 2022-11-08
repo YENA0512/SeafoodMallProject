@@ -59,7 +59,7 @@ productRouter.delete('/:_id', async (req, res, next) => {
 
     await productService.deleteProduct(DTO);
 
-    res.status(204);
+    res.status(204).end();
   } catch (err) {
     next(err);
   }
