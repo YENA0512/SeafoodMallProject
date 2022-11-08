@@ -49,6 +49,7 @@
   height: 30px;
 }
 
+/* 조회 영역 */
 .pick_product {
   width: 100%;
   display: flex;
@@ -59,10 +60,6 @@
 
 .pick_product > button {
   width: 17.8%;
-}
-/* 조회 영역 */
-.get_categories_btn {
-  align-self: flex-end;
   margin: 10px;
 }
 
