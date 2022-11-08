@@ -39,11 +39,55 @@ const getProductData = async () => {
 };
 getProductData();
 
-const addItemToCart = async () => {
-  // 비회원일때는 브라우저에 저장, 회원일때는 서버에 저장
-  // 로그인 되어 있으면 서버에 저장된 장바구니 목록을 확인하여 동일한 상품이면 카트 수량을 추가해주기
-  // 장바구니 추가 시, indexedDB에 제품 데이터 및
-  // 주문수량 (기본값 1)을 저장함.
+//TODO: 리펙토링 필수
+const LoginAddItemToCart = async () => {
+  const product_id = productId;
+  const _id = productId;
+  const species = category.species;
+  const species_image = category.species_image;
+  const aution_cost = price.auction_cost;
+  const packaging_cost = price.packaging_cost;
+  const shipping_cost = price.shipping_cost;
+  // indexDB
+  const cartItem = {
+    _id,
+    species,
+    species_image,
+    aution_cost,
+    packaging_cost,
+    shipping_cost,
+    quantity: 1,
+  };
+
+  await addToDb('cart', cartItem, productId);
+
+  // 장바구니 요약(=전체 총합)을 업데이트함
+  await putToDb('order', 'summary', (data) => {
+    // 기존 데이터를 가져옴
+    const count = data.productsCount;
+    const total = data.productsTotal;
+    const ids = data.ids;
+    const selectedIds = data.selectedIds;
+
+    // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
+    data.productsCount = (count ?? 0) + 1;
+
+    // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
+    data.productsTotal = (total ?? 0) + totalCost;
+
+    // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
+    data.ids = data.ids ? [...ids, productId] : [productId];
+
+    // 위와 마찬가지 방식
+    data.selectedIds = selectedIds ? [...selectedIds, productId] : [productId];
+  });
+
+  // API POST
+  const loginCartItem = { product_id, quantity: 1 };
+  await Api.post('/api/v1/carts', loginCartItem);
+};
+
+const notLoginAddItemToCart = async () => {
   const _id = productId;
   const species = category.species;
   const species_image = category.species_image;
@@ -61,7 +105,7 @@ const addItemToCart = async () => {
     quantity: 1,
   };
 
-  isLogin ? await Api.post('/api/v1/carts', cartItem) : await addToDb('cart', cartItem, productId);
+  await addToDb('cart', cartItem, productId);
 
   // 장바구니 요약(=전체 총합)을 업데이트함
   await putToDb('order', 'summary', (data) => {
@@ -85,7 +129,60 @@ const addItemToCart = async () => {
   });
 };
 
-cartButton.addEventListener('click', addItemToCart);
+cartButton.addEventListener('click', () => {
+  isLogin ? LoginAddItemToCart() : notLoginAddItemToCart();
+});
 MoveCart.addEventListener('click', () => {
   window.location.href = '/cart';
 });
+
+// const addItemToCart = async () => {
+//   // 비회원일때는 브라우저에 저장, 회원일때는 서버에 저장
+//   // 로그인 되어 있으면 서버에 저장된 장바구니 목록을 확인하여 동일한 상품이면 카트 수량을 추가해주기
+//   // 장바구니 추가 시, indexedDB에 제품 데이터 및
+//   // 주문수량 (기본값 1)을 저장함.
+//   const _id = productId;
+//   const species = category.species;
+//   const species_image = category.species_image;
+//   const aution_cost = price.auction_cost;
+//   const packaging_cost = price.packaging_cost;
+//   const shipping_cost = price.shipping_cost;
+
+//   const cartItem = {
+//     _id,
+//     species,
+//     species_image,
+//     aution_cost,
+//     packaging_cost,
+//     shipping_cost,
+//     quantity: 1,
+//   };
+
+//   isLogin ? await Api.post('/api/v1/carts', cartItem) : await addToDb('cart', cartItem, productId);
+
+//   // 장바구니 요약(=전체 총합)을 업데이트함
+//   await putToDb('order', 'summary', (data) => {
+//     // 기존 데이터를 가져옴
+//     const count = data.productsCount;
+//     const total = data.productsTotal;
+//     const ids = data.ids;
+//     const selectedIds = data.selectedIds;
+
+//     // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
+//     data.productsCount = (count ?? 0) + 1;
+
+//     // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
+//     data.productsTotal = (total ?? 0) + totalCost;
+
+//     // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
+//     data.ids = data.ids ? [...ids, productId] : [productId];
+
+//     // 위와 마찬가지 방식
+//     data.selectedIds = selectedIds ? [...selectedIds, productId] : [productId];
+//   });
+// };
+
+// cartButton.addEventListener('click', addItemToCart);
+// MoveCart.addEventListener('click', () => {
+//   window.location.href = '/cart';
+// });
