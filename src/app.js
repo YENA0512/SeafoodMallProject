@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import { viewsRouter, v1Router } from './routers';
-import { errorHandler } from './middlewares';
+import { loginRequired, errorHandler, isAdmin } from './middlewares';
 
 const app = express();
 

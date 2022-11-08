@@ -29,21 +29,29 @@ class ProductService {
     return deletedProduct;
   }
 
-  // 상품 검색
+  // 카워드로 상품 검색(부분일치)
   async searchProduct(DTO) {
     const searchKey = 'category.species';
     const { keyword } = DTO;
 
-    const searchedProducts = await this.productModel.findByKeyword(searchKey, keyword);
+    const searchedProducts = await this.productModel.searchByKeyword(searchKey, keyword);
     return searchedProducts;
   }
 
-  async searchProductByCategory(DTO) {
+  // 하위 카테고리로 상품 검색(정확히 일치)
+  async readProductByCategory(DTO) {
     const searchKey = 'category.child_category';
     const { keyword } = DTO;
 
-    const searchedProductsByCategory = await this.productModel.findByKeyword(searchKey, keyword);
-    return searchedProductsByCategory;
+    const foundProductsByCategory = await this.productModel.findByKeyword(searchKey, keyword);
+    return foundProductsByCategory;
+  }
+
+  // id로 상품 검색(정확히 일치)
+  async readProductById(DTO) {
+    const { _id } = DTO;
+    const foundProductById = await this.productModel.findById(_id);
+    return foundProductById[0];
   }
 }
 

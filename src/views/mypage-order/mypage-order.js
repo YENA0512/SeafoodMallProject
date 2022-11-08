@@ -1,8 +1,7 @@
-// import { get } from 'mongoose';
 import * as Api from '../api.js';
-const orderTableBody = document.querySelector('.ordertable-body');
 
 // 요소(element), input 혹은 상수
+const orderTableBody = document.querySelector('.ordertable-body');
 const userEmail = document.querySelector('#userEmail');
 const userEmailValue = document.querySelector('#userEmailValue');
 const userGroupValue = document.querySelector('#userGroupValue');
@@ -21,6 +20,10 @@ async function getUserInfo() {
     const userId = sessionStorage.getItem('userId');
     const user = await Api.get(`/api/v1/users/${userId}`);
     let userName = user.data.email;
+    if (user.data.shipping.name) {
+      userName = user.data.shipping.name;
+    }
+
     userEmail.innerHTML = `${userName} 님`;
     userEmailValue.innerHTML = user.data.email;
     userGroupValue.innerHTML = checkGroup(user.data.group);
@@ -31,12 +34,13 @@ async function getUserInfo() {
 }
 
 function checkGroup(userGroup) {
-  if (userGroup === 'admin') {
-    return '관리자';
-  } else if (userGroup === 'seller') {
-    return '판매자';
-  } else if (userGroup === 'customer') {
-    return '소비자';
+  switch (userGroup) {
+    case 'admin':
+      return '관리자';
+    case 'seller':
+      return '판매자';
+    case 'customer':
+      return '소비자';
   }
 }
 
