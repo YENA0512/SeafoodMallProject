@@ -35,20 +35,20 @@ async function getUserInfo() {
     const userId = sessionStorage.getItem('userId');
     const user = await Api.get(`/api/v1/users/${userId}`);
     let userName = user.data.email;
-    if (user.data.shipping.name) {
-      userName = user.data.shipping.name;
+    if (user.data?.shipping?.name) {
+      userName = user.data?.shipping?.name;
       nameInput.value = user.data.shipping.name;
     }
-    if (user.data.shipping.mobile) {
+    if (user.data?.shipping?.mobile) {
       mobileInput.value = user.data.shipping.mobile;
     }
-    if (user.data.shipping.zencode) {
+    if (user.data?.shipping?.zencode) {
       postalCodeInput.value = user.data.shipping.zencode;
     }
-    if (user.data.shipping.address) {
+    if (user.data?.shipping?.address) {
       addressInput.value = user.data.shipping.address;
     }
-    if (user.data.shipping.detail_address) {
+    if (user.data?.shipping?.detail_address) {
       detailAddressInput.value = user.data.shipping.detail_address;
     }
     userEmail.innerHTML = `${userName} 님`;

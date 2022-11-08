@@ -63,22 +63,123 @@
             </div>
             <div class="mypage_orderinfo">
               <h3>주문 내역</h3>
-              <table class="table table-bordered ordertable">
-                <thead>
-                  <tr>
-                    <th scope="col" id="orderDate">주문 날짜</th>
-                    <th scope="col" id="orderProduct">주문 상품</th>
-                    <th scope="col" id="orderQuantity">주문 수량</th>
-                    <th scope="col" id="orderTotalPrice">최종 금액</th>
-                    <th scope="col" id="orderStatus">주문 상태</th>
-                  </tr>
-                </thead>
-                <tbody class="ordertable-body"></tbody>
-              </table>
+              <div class="order_table">
+                <div class="order_thead">
+                  <div class="row order_basic_info">
+                    <div class="col-2" id="orderId">주문 번호</div>
+                    <div class="col-2" id="orderDate">주문일</div>
+                    <div class="col-3" id="orderProduct">상품 정보</div>
+                    <div class="col-2" id="orderPrice">상품 금액</div>
+                    <div class="col-3" id="orderStatus">주문 상태</div>
+                  </div>
+                 
+                    
+                  </div>
+                </div>
+                <div>
+                  <ul class="show_orders">
+                    <li>
+                      <div class="col-2" id="orderIdValue">주문 번호</div>
+                      <div class="col-2" id="orderDateValue">주문일</div>
+                      <div class="col-3" id="orderProductValue">상품 정보</div>
+                      <div class="col-2"id="orderPriceValue">상품 금액</div>
+                      <div class="col-1.5" id="orderStatusValue">
+                        <p>배송여부</p>
+                        <button>변경버튼</button>
+                      </div>
+                      <div class="col-1.5">
+                        <button>취소버튼</button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
+      <div id="modal updateOrderInfoModal" class="modal">
+        <div class="modal-background" id="modalBackground"></div>
+        <div class="modal-title">주문/배송 정보 변경</div>
+        <div class="modal-content">
+          <div class="box">
+            <div class="field mb-3">
+              <label class="label mb-3" for="nameInput">수령자</label>
+              <div class="control">
+                <input
+                  class="input"
+                  id="nameInput"
+                  type="text"
+                  placeholder="받으시는 분 성함을 추가해주세요"
+                  autocomplete="on"
+                />
+              </div>
+            </div>
+            <div class="field address">
+              <label class="label mb-3" for="addressInput">주소</label>
+              <div class="control">
+                <input
+                  class="input mb-2"
+                  id="postalCodeInput"
+                  type="text"
+                  placeholder="주소 검색을 클릭해 주세요."
+                  readonly
+                />
+                <input
+                  class="input mb-2"
+                  id="addressInput1"
+                  type="text"
+                  placeholder=""
+                  autocomplete="on"
+                  readonly
+                />
+                <input
+                  class="input mb-3"
+                  id="addressInput2"
+                  type="text"
+                  placeholder=""
+                  autocomplete="on"
+                />
+
+                <button class="button mb-3" id="addressButton">🔍 주소 검색</button>
+              </div>
+              <div class="field mb-3">
+                <label class="label mb-3" for="mobileInput">휴대폰번호</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    id="mobileInput"
+                    type="tel"
+                    placeholder="010-0000-0000"
+                    pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                    required
+                    autocomplete="on"
+                  />
+                </div>
+              </div>
+              <br />
+              <button class="button mb-3 mt-5" id="submitButton">변경 완료</button>
+            </div>
+          </div>
+          <button class="modal-close is-large" id="modalCloseButton" aria-label="close"></button>
+        </div>
+      </div>
+      <div id="modal cancelOrderModal" class="modal">
+        <div class="modal-background" id="modalBackground"></div>
+        <div class="modal-title">주문 취소 안내</div>
+        <div class="modal-content">
+          <div class="box">
+            <p class="mb-3">선택하신 주문은 환불이 불가합니다.<br />주문을 취소하시겠습니까?</p>
+            <div class="buttons">
+              <button class="button mt-5" id="deleteCompleteButton" aria-label="close">네</button>
+              <button class="button is-primary mt-5" id="deleteCancelButton" aria-label="close">
+                아니오
+              </button>
+            </div>
+          </div>
+        </div>
+        <button class="modal-close is-large" id="modalCloseButton" aria-label="close"></button>
+      </div>
     </main>
   </body>
 </html>

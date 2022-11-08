@@ -82,17 +82,7 @@ body {
   border: 2px solid #000;
   border-radius: 40px;
 }
-.ordertable {
-  border: 1px solid #000;
-  margin-top: 20px;
-  text-align: center;
-}
-.ordertable thead {
-  background-color: lightgrey;
-}
-.ordertable tr {
-  border: 1px solid #000;
-}
+
 .mypage_userinfo {
   width: 100%;
 
@@ -141,23 +131,59 @@ body {
   box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
 }
 
-.mypage_signout {
+.order_table {
   width: 100%;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-  box-sizing: border-box;
-  border: 2px solid #000;
-  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+
+  border: 1px #000 solid;
 }
-.mypage_signout .button {
+.order_thead {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  font-weight: bold;
-  display: block;
-  width: 200px;
+}
+.order_basic_info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+}
+
+.order_basic_info > div {
   text-align: center;
+}
+
+.show_orders {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  height: 40px;
-  border-radius: 10px;
-  margin: 0 auto;
+}
+
+.show_orders li {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.show_orders div {
+  text-align: center;
+}
+.show_orders > ul > div {
+  height: 50px;
+}
+
+.show_orders > li > div:nth-child(5) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
