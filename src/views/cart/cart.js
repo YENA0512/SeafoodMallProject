@@ -1,6 +1,6 @@
 import * as Api from '../api.js';
 import { addCommas, convertToNumber, navigate } from '../useful-functions.js';
-import { addToDb, deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
+import { deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
 // 요소 가져오기 /////////////
 const cartProductsContainer = document.querySelector('#cart_list');
@@ -22,56 +22,20 @@ allSelectCheckbox.addEventListener('change', toggleAll);
 partialDeleteLabel.addEventListener('click', deleteSelectedItems);
 purchaseButton.addEventListener('click', navigate('../order/order.html'));
 
-// // 추가 버튼 클릭 시 추가(test) /////////////
-// const pathUrl = window.location.pathname;
-// const productId = pathUrl.split('/')[productId.length - 2];
-
-// document.getElementById('add_btn').addEventListener('click', async () => {
-//   // 비회원일때는 브라우저에 저장, 회원일때는 서버에 저장
-//   // 로그인 되어 있으면 서버에 저장된 장바구니 목록을 확인하여 동일한 상품이면 카트 수량을 추가해주기
-
-//     // 장바구니 추가 시, indexedDB에 제품 데이터 및
-//     // 주문수량 (기본값 1)을 저장함.
-//     if(isLogin){
-//       await Api.post('/api/v1/carts', productId)
-//     }else {
-//       await addToDb('cart', { ...product, quantity: 1 }, productId);
-//     }
-
-//     // 장바구니 요약(=전체 총합)을 업데이트함
-//     await putToDb('order', 'summary', (data) => {
-//       // 기존 데이터를 가져옴
-//       const count = data.productsCount;
-//       const total = data.productsTotal;
-//       const ids = data.ids;
-//       const selectedIds = data.selectedIds;
-
-//       // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
-//       data.productsCount = (count ?? 0) + 1;
-
-//       // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
-//       data.productsTotal = (total ?? 0) + price;
-
-//       // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
-//       data.ids = data.ids ? [...ids, id] : [id];
-
-//       // 위와 마찬가지 방식
-//       data.selectedIds = selectedIds ? [...selectedIds, id] : [id];
-//     });
-//   });
-
+// 로그인 확인
 const isLogin = sessionStorage.getItem('userId');
 
 // 데이터 읽어오기 ////////////////
 async function insertProductsfromCart() {
-  if (isLogin) {
-    products = await Api.get('/api/v1/carts');
-  } else {
-    products = await getFromDb('cart');
-  }
+  const isLogin = sessionStorage.getItem('userId');
+  let products = isLogin ? await Api.get('/api/v1/carts') : await getFromDb('cart');
+  let productsData = isLogin ? products.data : products;
+
   const { selectedIds } = await getFromDb('order', 'summary');
-  products.forEach(async (product) => {
-    const { _id: id, title, image, quantity, price } = product;
+
+  productsData.forEach(async (product) => {
+    const { _id: id, species: title, species_image: image } = product.product_id;
+    const { quantity, price } = product;
 
     const isSelected = selectedIds.includes(id);
 
@@ -104,6 +68,7 @@ async function insertProductsfromCart() {
       } 
       }
        >+</button>
+
       </div>
       <div class="calculation">
        <p id="unitPrice-${id}" style="display:none">${addCommas(price)}원</p>
