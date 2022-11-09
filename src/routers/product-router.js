@@ -8,8 +8,8 @@ const productRouter = Router();
 // 상품 추가
 productRouter.post('/', async (req, res, next) => {
   try {
-    const { category, price, stock, product_image } = req.body;
-    const DTO = { category, price, stock, product_image };
+    const { category, price, stock } = req.body;
+    const DTO = { category, price, stock };
 
     const createdProduct = await productService.createProduct(DTO);
     const result = { success: true, data: createdProduct };
@@ -24,11 +24,9 @@ productRouter.post('/', async (req, res, next) => {
 productRouter.patch('/:_id', async (req, res, next) => {
   try {
     const { _id } = req.params;
-    const { stock, product_image } = req.body;
-    const category = sanitizeObject(req.body.category);
-    const price = sanitizeObject(req.body.price);
 
-    const DTO = sanitizeObject({ category, price, stock, product_image, _id });
+    const { category, price, stock } = req.body;
+    const DTO = { category, price, stock, _id };
 
     const updatedProduct = await productService.updateProduct(DTO);
     const result = { success: true, data: updatedProduct };
