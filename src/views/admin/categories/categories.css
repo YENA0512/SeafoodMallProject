@@ -6,6 +6,7 @@
 }
 
 .modify_area {
+  width: 100%;
   height: 100%;
 
   display: flex;
@@ -21,16 +22,13 @@
 }
 
 .add_categories {
+  width: 100%;
   border: 1px solid black;
 }
 
 .add_categories > form {
   width: 90%;
   margin: auto;
-
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
 }
 
 .add_categories > form > li {
@@ -40,7 +38,8 @@
 }
 
 .add_categories > form > li > div > input {
-  width: 15%;
+  align-self: flex-start;
+  width: 40%;
   margin: 10px;
 }
 
@@ -82,7 +81,9 @@
 }
 
 .modify_info > div {
-  width: 18%;
+  width: 33.4%;
+  height: 30px;
+  border-bottom: 1px solid black;
 }
 
 .modify_categories {
@@ -107,6 +108,8 @@
 }
 
 .modify_categories > form > ol > li {
+  height: 70px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -114,9 +117,26 @@
   border-bottom: 1px solid black;
 }
 
+.modify_categories > form > ol > li > div:nth-child(1) {
+  width: 68.5%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.modify_categories > form > ol > li > div:nth-child(2) {
+  width: 31.5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .modify_categories > form > ol > li > div > input {
-  width: 15.8%;
-  margin: 10px;
+  width: 33.3%;
+  margin: 10px 0;
 }
 
 #modi_species_code {
