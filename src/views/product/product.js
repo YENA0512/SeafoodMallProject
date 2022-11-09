@@ -6,6 +6,8 @@ const ProductTitle = document.querySelector('.product_title');
 const packageCondition = document.querySelector('.package_condition');
 const platformCondition = document.querySelector('.platform_condition');
 const deliveryCondition = document.querySelector('.delivery_condition');
+const sellerCondition = document.querySelector('.seller_condition');
+const auctionCondition = document.querySelector('.auction_condition');
 const totalPrice = document.querySelector('.product_total');
 const cartButton = document.querySelector('.insert_cart');
 const MoveCart = document.querySelector('.go_cart');
@@ -18,7 +20,6 @@ const productId = pathUrl[pathUrl.length - 2];
 
 let category;
 let price;
-let totalCost;
 
 // 상품 정보 받아오는 함수
 const getProductData = async () => {
@@ -28,14 +29,12 @@ const getProductData = async () => {
   price = res.price;
 
   ProductTitle.innerHTML = category.species;
+  auctionCondition.innerHTML = addCommas(price.auction_cost);
   packageCondition.innerHTML = addCommas(price.packaging_cost);
-  platformCondition.innerHTML = addCommas(price.platform_commision);
-  deliveryCondition.innerHTML = addCommas(price.shipping_cost);
+  platformCondition.innerHTML = price.platform_commision;
+  sellerCondition.innerHTML = price.seller_commision;
 
-  totalCost =
-    price.packaging_cost + price.platform_commision + price.shipping_cost + price.auction_cost;
-
-  totalPrice.innerHTML = addCommas(totalCost);
+  totalPrice.innerHTML = addCommas(price.product_cost);
 };
 getProductData();
 

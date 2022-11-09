@@ -47,9 +47,29 @@
   color: grey;
 }
 
+.product_condition > div > span {
+  margin: 1px 2px;
+}
+
 .product_total_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+.product_total_area > div {
   align-self: flex-end;
+  margin: 2px 0;
+}
+
+.product_total_area > div:nth-child(1) > span:nth-child(2) {
   font-size: 2.3rem;
+  font-weight: bold;
+}
+
+.product_total_area > div:nth-child(2) > span:nth-child(2) {
+  font-size: 1.1rem;
+  color: grey;
 }
 
 .product_submit_btn {

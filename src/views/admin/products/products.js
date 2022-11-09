@@ -35,8 +35,7 @@ const showValue = () => {
   }
 };
 
-const makeProductsList = async (e) => {
-  e.preventDefault();
+const makeProductsList = async () => {
   let parent_category = makeParentCateInput.value;
   let childCategoryValue = makeChildCateInput.value;
   let speciesValue = makeSpeciesInput.value;
@@ -66,7 +65,7 @@ const makeProductsList = async (e) => {
     !platform_commision
   ) {
     console.log('값 부족!');
-    alert('값을 입력해주세요.');
+    // alert('값을 입력해주세요.');
   } else {
     const postData = {
       category: {
@@ -173,7 +172,6 @@ const getProductsList = async () => {
         !platform_commision
       ) {
         console.log('값 부족!');
-        alert('값을 입력해주세요.');
       } else {
         const patchData = {
           category: {

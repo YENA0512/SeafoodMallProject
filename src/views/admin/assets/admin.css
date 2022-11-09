@@ -60,7 +60,7 @@ main {
 
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
 
   border: 1px solid black;
@@ -69,8 +69,8 @@ main {
 }
 
 .info_area > img {
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   border: 1px soild black;
 }
 
@@ -79,7 +79,7 @@ main {
 
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -89,6 +89,7 @@ main {
 
 .admin_info > h1 {
   font-size: 30px;
+  margin: 40px;
 }
 
 /* 선택 영역 */

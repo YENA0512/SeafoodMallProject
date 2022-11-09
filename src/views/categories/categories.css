@@ -28,6 +28,10 @@
   margin: 0 7px;
 }
 
+.species_nav_menu > ul > li > a {
+  cursor: pointer;
+}
+
 .product {
   width: 1000px;
   height: 100%;
