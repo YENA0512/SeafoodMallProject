@@ -28,7 +28,7 @@ const addAllEvents = () => {
   // 선택삭제 버튼 클릭
   partialDeleteLabel.addEventListener('click', deleteSelectedItemsLogin);
   // 구매하기 버튼 클릭
-  purchaseButton.addEventListener('click', navigate('../order/order.html'));
+  purchaseButton.addEventListener('click', navigate('/order'));
 };
 
 addAllElements();
@@ -97,9 +97,7 @@ async function insertProductsfromCartLogin() {
     </div>`,
     );
     // 삭제 버튼 클릭
-    document
-      .querySelector(`#delete-${id}`)
-      .addEventListener('click', () => deleteItemLogin(id, cartId));
+    document.querySelector(`#delete-${id}`).addEventListener('click', () => deleteItemLogin(id));
     // 체크박스 선택
     document.querySelector(`#checkbox-${id}`).addEventListener('change', () => toggleItem(id));
     // 수량 빼기 버튼 클릭
@@ -311,7 +309,7 @@ async function deleteSelectedItemsLogin() {
 }
 
 // 삭제(회원)
-async function deleteItemLogin(id, cartId) {
+async function deleteItemLogin(id) {
   // indexedDB의 cart 목록에서 id를 key로 가지는 데이터를 삭제함.
   await deleteFromDb('cart', id);
   // 결제정보를 업데이트함.
@@ -322,11 +320,15 @@ async function deleteItemLogin(id, cartId) {
   updateAllSelectCheckbox();
 
   // Api서버에서 삭제함
-  const deleteddata = [];
-  deleteddata.push(id);
-  const deletedIds = { deleted_ids: deleteddata };
-  await Api.delete(`/api/v1/carts`, cartId, deletedIds);
-  window.location.href('/cart');
+  const products = await Api.get('/api/v1/carts');
+  products.data.forEach(async (product) => {
+    const deleteddata = [];
+    const cartId = product._id;
+    deleteddata.push(cartId);
+    const deletedIds = { deleted_ids: deleteddata };
+    await Api.delete(`/api/v1/carts`, cartId, deletedIds);
+    navigate('/cart');
+  });
 }
 
 // 결제정보 카드 업데이트 및, indexedDB 업데이트를 진행함.

@@ -27,9 +27,7 @@ const addAllEvents = () => {
   // 선택삭제 버튼 클릭
   partialDeleteLabel.addEventListener('click', deleteSelectedItems);
   // 구매하기 버튼 클릭
-  purchaseButton.addEventListener('click', () => {
-    isLogin ? navigate('/order') : navigate('/login');
-  });
+  purchaseButton.addEventListener('click', isLogin ? navigate('/order') : navigate('/login'));
 };
 
 addAllElements();
