@@ -43,11 +43,21 @@
           </div>
         </section>
         <section class="right_area">
+          <div class="mention"><p>- 상품 추가 -</p></div>
           <div class="modify_area">
             <div class="modify_area">
-              <div class="mention"><p>- 상품 추가 -</p></div>
-              <div class="add_categories">
-                <form>
+              <div class="pick_product">
+                <select
+                  class="form-select form-select-sm select_box"
+                  aria-label=".form-select-sm example"
+                >
+                  <option class="default_mention" selected>카테고리를 선택하세요.</option>
+                </select>
+                <button type="button" class="btn btn-primary btn-sm get_products_btn">선택</button>
+              </div>
+
+              <div class="add_product">
+                <form id="add">
                   <li>
                     <div>
                       <input
@@ -56,41 +66,40 @@
                         value="수산물"
                         readonly
                       />
-                      <input class="make_child_category" placeholder="2차" required />
+                      <input class="make_child_category" placeholder="2차" readonly />
                       <input class="make_species" placeholder="품종" required />
                       <input class="make_species_code" placeholder="코드" required />
-                      <input class="make_species_image" placeholder="이미지" />
+                      <input class="make_species_image" placeholder="이미지경로" />
+                      <input class="make_price_auction" placeholder="위판가" required />
+                      <input class="make_price_seller" placeholder="판매자 수수료" required />
+                      <input class="make_price_platform" placeholder="플랫폼 수수료" />
                     </div>
                     <div>
-                      <button type="button" class="btn btn-outline-success make_categories btn-sm">
+                      <button
+                        type="submit"
+                        form="add"
+                        class="btn btn-outline-success make_product btn-sm"
+                      >
                         추가
                       </button>
                     </div>
                   </li>
                 </form>
               </div>
-              <div class="pick_product">
-                <select
-                  class="form-select form-select-sm select_box"
-                  aria-label=".form-select-sm example"
-                >
-                  <option class="default_mention" selected>카테고리를 선택하세요.</option>
-                </select>
-                <button type="button" class="btn btn-primary btn-sm get_products_btn">
-                  상품 조회
-                </button>
-              </div>
-              <div class="modify_categories">
+              <div class="modify_product">
                 <div class="modify_info">
                   <div>1차</div>
                   <div>2차</div>
                   <div>품종</div>
                   <div>코드</div>
                   <div>이미지경로</div>
+                  <div>위판가</div>
+                  <div>판매자수수료</div>
+                  <div>플랫폼수수료</div>
                   <div>수정/삭제</div>
                 </div>
-                <form>
-                  <ol class="show_categories"></ol>
+                <form id="modify">
+                  <ol class="show_product"></ol>
                 </form>
               </div>
             </div>

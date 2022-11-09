@@ -129,7 +129,7 @@ const isLogin = () => {
   const isToken = sessionStorage.token;
   const isAdmin = sessionStorage.role;
 
-  if (isAdmin) {
+  if (isAdmin === 'admin') {
     const headerTag = document.createElement('header');
     headerTag.innerHTML = adminLoginHeaderHTML;
     document.body.prepend(headerTag);
