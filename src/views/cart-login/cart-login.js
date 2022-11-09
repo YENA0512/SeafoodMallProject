@@ -1,6 +1,6 @@
 import * as Api from '../api.js';
 import { addCommas, convertToNumber, navigate } from '../useful-functions.js';
-import { deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
+import { addToDb, deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
 // 요소 가져오기
 const cartProductsContainer = document.querySelector('#cart_list');
@@ -36,9 +36,35 @@ addAllEvents();
 
 // 회원 데이터 Read : Api 서버 통신
 async function insertProductsfromCartLogin() {
-  let products = await Api.get('/api/v1/carts');
+  const products = await Api.get('/api/v1/carts');
+  products.data.forEach(async (product) => {
+    const cartId = product._id;
+    const cartPrice = product.cart_price;
+    // indexedDB도 업데이트 하기
+    await addToDb('cart', products, cartId);
+
+    // 장바구니 요약(=전체 총합)을 업데이트함
+    await putToDb('order', 'summary', (data) => {
+      // 기존 데이터를 가져옴
+      const count = data.productsCount;
+      const total = data.productsTotal;
+      const ids = data.ids;
+      const selectedIds = data.selectedIds;
+
+      // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
+      data.productsCount = (count ?? 0) + 1;
+
+      // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
+      data.productsTotal = (total ?? 0) + cartPrice;
+
+      // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
+      data.ids = data.ids ? [...ids, cartId] : [cartId];
+
+      // 위와 마찬가지 방식
+      data.selectedIds = selectedIds ? [...selectedIds, cartId] : [cartId];
+    });
+  });
   const { selectedIds } = await getFromDb('order', 'summary');
-  console.log(products);
   products.data.forEach((product) => {
     const id = product.product_id?._id;
     const title = product.product_id?.category?.species;
@@ -517,5 +543,11 @@ async function updateCartforServer(id) {
   await Api.patch(`/api/v1/carts`, id, updateQuantity);
   window.location.reload();
 }
-// // 서버에 주문 정보 추가
-// async function saveToOrder() {}
+
+// 서버에 주문 정보 추가
+async function saveToOrder() {
+  const Ids = await Api.post('');
+  const orders = [];
+  const order = orders.push(cartId);
+  await Api.post('/api/v1/orders', orderData);
+}

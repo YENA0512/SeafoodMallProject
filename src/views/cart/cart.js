@@ -18,6 +18,7 @@ const addAllElements = () => {
   // 전체 체크박스 업데이트
   updateAllSelectCheckbox();
   // 카트 목록
+  addemptyHtml();
   insertProductsfromCart();
 };
 const isLogin = sessionStorage.getItem('userId');
@@ -27,15 +28,26 @@ const addAllEvents = () => {
   // 선택삭제 버튼 클릭
   partialDeleteLabel.addEventListener('click', deleteSelectedItems);
   // 구매하기 버튼 클릭
-  purchaseButton.addEventListener('click', isLogin ? navigate('/order') : navigate('/login'));
+  purchaseButton.addEventListener('click', navigate('/order'));
 };
 
 addAllElements();
 addAllEvents();
 
+// 장바구니가 비었을때
+async function addemptyHtml() {
+  const { ids } = await getFromDb('order', 'summary');
+  if (ids.length == 0) {
+    cartProductsContainer.insertAdjacentHTML(
+      'beforeend',
+      `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
+    );
+  }
+}
+
 // 비회원 데이터 Read : indexedDB 이용
 async function insertProductsfromCart() {
-  let products = await getFromDb('cart');
+  const products = await getFromDb('cart');
   const { selectedIds } = await getFromDb('order', 'summary');
 
   products.forEach((product) => {
@@ -43,11 +55,7 @@ async function insertProductsfromCart() {
     const title = product.species;
     const image = product.species_image;
     const quantity = product.quantity;
-    const productPrice =
-      product.auction_cost +
-      product.packaging_cost +
-      product.platform_commision +
-      product.shipping_cost;
+    const productPrice = product.product_cost;
     const isSelected = selectedIds.includes(id);
 
     cartProductsContainer.insertAdjacentHTML(
