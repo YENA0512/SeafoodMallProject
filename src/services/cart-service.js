@@ -1,5 +1,5 @@
 import { cartModel, productModel } from '../db';
-import { calculateCartPrice } from '../utils/calculate-price';
+import { calculateCartPrice } from '../utils/calculate-cart-cost';
 
 class CartService {
   constructor(cartModel, productModel) {
@@ -8,14 +8,19 @@ class CartService {
   }
   async addCartItem(DTO) {
     const { product_id, quantity, user_id } = DTO;
-    const productCart = await this.cartModel.readCartByProduct({ user_id, product_id });
+    const [productCart, product] = await Promise.all([
+      await this.cartModel.readCartByProduct({ user_id, product_id }),
+      await this.productModel.findById(product_id),
+    ]);
     if (productCart?.product_id?._id?.toString() === product_id) {
-      const { _id, quantity, cart_price } = productCart;
-      const DTO_s = { _id, quantity: quantity + 1, cart_price };
+      const { _id, quantity } = productCart;
+      const { product_cost } = product.price;
+      const updatedCartCost = calculateCartPrice(product_cost, quantity + 1);
+      const DTO_s = { _id, quantity: quantity + 1, cart_price: updatedCartCost };
       const updatedCart = await this.cartModel.update(DTO_s);
       return updatedCart;
     }
-    const product = await this.productModel.findById(product_id);
+
     DTO.cart_price = calculateCartPrice(product[0].price, quantity);
     const createdCart = await this.cartModel.create(DTO);
     return createdCart;
@@ -26,7 +31,7 @@ class CartService {
     for (const item of cart_items) {
       const { product_id, quantity } = item;
       const product = await this.productModel.findById(product_id);
-      const cart_price = calculateCartPrice(product[0].price, quantity);
+      const cart_price = calculateCartPrice(product[0].price.product_cost, quantity);
       const DTO_s = { product_id, quantity, user_id, cart_price };
       const createdItem = await this.cartModel.create(DTO_s);
       created_items.push(createdItem);
@@ -58,8 +63,8 @@ class CartService {
   async updateOne(DTO) {
     const { _id, quantity } = DTO;
     const cart = await this.cartModel.read(DTO);
-    const { price } = cart.product_id;
-    const cart_price = calculateCartPrice(price, quantity);
+    const { product_cost } = cart.product_id.price;
+    const cart_price = calculateCartPrice(product_cost, quantity);
     const DTO_s = { _id, quantity, cart_price };
     const updatedCart = await this.cartModel.update(DTO_s);
     return updatedCart;

@@ -9,7 +9,7 @@ class OrderService {
     const order_price = order_items.reduce((sum, { cart_price }) => {
       return (sum += cart_price);
     }, 0);
-    DTO.order_price = order_price;
+    DTO.order_price = order_price + process.env.SHIPPING_COST;
     const createdOrder = await this.orderModel.create(DTO);
     return createdOrder;
   }
