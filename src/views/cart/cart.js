@@ -20,14 +20,14 @@ const addAllElements = () => {
   // 카트 목록
   insertProductsfromCart();
 };
-
+const isLogin = sessionStorage.getItem('userId');
 const addAllEvents = () => {
   // 전체선택 버튼 클릭
   allSelectCheckbox.addEventListener('change', toggleAll);
   // 선택삭제 버튼 클릭
   partialDeleteLabel.addEventListener('click', deleteSelectedItems);
   // 구매하기 버튼 클릭
-  purchaseButton.addEventListener('click', navigate('../order/order.html'));
+  purchaseButton.addEventListener('click', isLogin ? navigate('/order') : navigate('/login'));
 };
 
 addAllElements();

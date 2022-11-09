@@ -17,6 +17,7 @@ viewsRouter.use('/categories/category-search?', serveStatic('categories'));
 viewsRouter.use('/product/:id', serveStatic('product'));
 viewsRouter.use('/cart', serveStatic('cart'));
 viewsRouter.use('/cart-login', serveStatic('cart-login'));
+viewsRouter.use('/order', serveStatic('order'));
 
 // 어드민 관련 라우터
 viewsRouter.use(express.static(path.join(__dirname, '../views/admin/assets')));
