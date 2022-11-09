@@ -92,10 +92,10 @@ async function insertOrders() {
   console.log(orders);
   const order = orders.data;
   order.forEach((el) => {
+    console.log(el);
     let orderIdValue = el._id;
     let orderDateValue = el.createdAt.split('T')[0];
     let orderPriceValue = el.order_price;
-
     const orderItem = el.order_items;
     orderItem.forEach((item) => {
       let orderProductValue = item.product_id.category.species;
@@ -107,7 +107,7 @@ async function insertOrders() {
         'beforeend',
         `
         <li>
-        <div class="col-2" id="orderIdValue">${orderIdValue}</div>
+        <div class="col-2 orderIdValue" id="orderIdValue-${orderIdValue}">${orderIdValue}</div>
         <div class="col-2" id="orderDateValue">${orderDateValue}</div>
         <div class="col-3" id="orderProductValue">${orderProductValues}</div>
         <div class="col-2" id="orderPriceValue">${orderPriceValue}</div>
@@ -199,7 +199,7 @@ async function insertOrders() {
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                  <button type="button" id="submitButton" class="btn btn-primary">변경 완료</button>
+                  <button type="button" id="submitButton-${orderIdValue}" class="btn btn-primary">변경 완료</button>
                 </div>
               </div>
             </div>
@@ -237,7 +237,7 @@ async function insertOrders() {
                   <p>선택하신 주문은 환불이 불가합니다.<br />주문을 취소하시겠습니까?</p>
                 </div>
                 <div class="modal-footer">
-                  <button class="button" id="deleteCompleteButton" aria-label="close">네</button>
+                  <button class="button" id="deleteCompleteButton-${orderIdValue}" aria-label="close">네</button>
                   <button class="button" id="deleteCancelButton" aria-label="close">아니오</button>
                 </div>
               </div>
@@ -245,7 +245,6 @@ async function insertOrders() {
           </div>
         </div>
       </li>
-      <script src="./test.js" type="module"></script>
 
       `,
       );
@@ -253,24 +252,30 @@ async function insertOrders() {
         document.querySelector('.orderChangeButton').style.display = 'none';
         document.querySelector('.orderCancelButton').style.display = 'none';
       }
-    });
+      const submitButton = document.querySelector(`submitButton-${orderIdValue}`);
+      const deleteCompleteButton = document.querySelector(`#deleteCompleteButton-${orderIdValue}`);
+      const addressButton = document.querySelector('#addressButton');
 
-    const addressButton = document.querySelector('#addressButton');
-    const submitButton = document.querySelector('#submitButton');
-    const deleteCompleteButton = document.querySelector('#deleteCompleteButton');
-    addressButton.addEventListener('click', searchAddress);
-    submitButton.addEventListener('click', handleSubmit);
-    deleteCompleteButton.addEventListener('click', deleteOrderData);
+      addressButton?.addEventListener('click', searchAddress);
+      submitButton?.addEventListener('click', (e) => {
+        console.log(`orderId : ${orderIdValue}`);
+        handleSubmit(orderIdValue, e);
+      });
+      deleteCompleteButton?.addEventListener('click', (e) => {
+        deleteOrderData(orderIdValue, e);
+      });
+    });
   });
 }
 
 // db에서 주문정보 삭제
-async function deleteOrderData(e) {
+async function deleteOrderData(orderIdValue, e) {
+  console.log(orderIdValue);
   e.preventDefault();
-  const userId = sessionStorage.getItem('userId');
+  const order_id = orderIdValue;
   try {
     // 취소 진행
-    const res = await Api.delete(`/api/v1/orders`, userId);
+    const res = await Api.delete(`/api/v1/orders`, order_id);
     console.log(res);
     // 취소 성공
     alert('주문이 취소되었습니다.');
@@ -281,8 +286,9 @@ async function deleteOrderData(e) {
   }
 }
 
-async function handleSubmit(e) {
+async function handleSubmit(orderIdValue, e) {
   e.preventDefault();
+
   const addressInput = document.querySelector('#addressInput1');
   const detailAddressInput = document.querySelector('#addressInput2');
   const mobileInput = document.querySelector('#mobileInput');
@@ -295,10 +301,10 @@ async function handleSubmit(e) {
   const detail_address = detailAddressInput?.value;
   // 주문정보 수정 api 요청
   try {
-    const user_Id = sessionStorage.getItem('userId');
-
+    const user_id = sessionStorage.getItem('userId');
+    const order_id = orderIdValue;
     const userData = {
-      user_Id,
+      user_id,
       name,
       mobile,
       zencode,
@@ -312,7 +318,7 @@ async function handleSubmit(e) {
       return alert('업데이트된 정보가 없습니다');
     }
 
-    const newUserInfo = await Api.patch(`/api/v1/orders`, user_Id, newData);
+    const newUserInfo = await Api.patch(`/api/v1/orders`, order_id, newData);
     console.log(newUserInfo);
     alert(`주문정보가 정상적으로 수정되었습니다.`);
 

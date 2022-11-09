@@ -205,7 +205,7 @@ body {
   align-items: center;
 }
 
-#orderIdValue {
+.orderIdValue {
   white-space: inherit;
   word-break: break-all;
   font-size: 12px;
