@@ -2,12 +2,13 @@ import { Router } from 'express';
 import { orderService } from '../services/order-service';
 import { userService } from '../services/user-service';
 import { asyncHandler } from '../utils/async-handler';
-import { sanitizeObject } from '../utils/sanitizeObject';
+import orderValidator from '../middlewares/validation/orderValidator';
 
 const orderRouter = Router();
 
 orderRouter.post(
   '/',
+  orderValidator.createOrder,
   asyncHandler(async (req, res) => {
     const user_id = req.currentUserId;
     const customer = await userService.getUser(user_id);
@@ -39,6 +40,7 @@ orderRouter.get(
 );
 orderRouter.patch(
   '/status',
+  orderValidator.updateStatusOrder,
   asyncHandler(async (req, res) => {
     const { _id, order_status } = req.body;
     const DTO = { _id, order_status };
@@ -49,6 +51,7 @@ orderRouter.patch(
 );
 orderRouter.patch(
   '/:_id',
+  orderValidator.updateShippingOrder,
   asyncHandler(async (req, res) => {
     const { _id } = req.params;
     const { shipping } = req.body;
@@ -60,6 +63,7 @@ orderRouter.patch(
 );
 orderRouter.delete(
   '/admin/:_id',
+  orderValidator.cancelOrder,
   asyncHandler(async (req, res) => {
     const { _id } = req.params;
     const DTO = { _id };
@@ -70,6 +74,7 @@ orderRouter.delete(
 );
 orderRouter.delete(
   '/:_id',
+  orderValidator.deleteOrder,
   asyncHandler(async (req, res) => {
     const { _id } = req.params;
     const DTO = { _id };
