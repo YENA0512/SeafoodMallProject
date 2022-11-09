@@ -211,6 +211,7 @@ async function insertOrders() {
     <button
       type="button"
       class="orderCancelButton"
+      id="orderCancelButton-${orderIdValue}"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal2-${orderIdValue}"
       style="display: block"
@@ -236,13 +237,13 @@ async function insertOrders() {
             ></button>
           </div>
           <div class="modal-body">
-            <p>선택하신 주문은 환불이 불가합니다.<br />주문을 취소하시겠습니까?</p>
+            <p>선택하신 내역이 주문 취소 처리 됩니다.<br />주문을 취소하시겠습니까?</p>
           </div>
           <div class="modal-footer">
             <button class="button" id="deleteCompleteButton-${orderIdValue}" aria-label="close">
               네
             </button>
-            <button class="button" id="deleteCancelButton" aria-label="close">아니오</button>
+            <button class="button" id="deleteCancelButton" data-bs-dismiss="modal" aria-label="Close">아니오</button>
           </div>
         </div>
       </div>
@@ -255,8 +256,8 @@ async function insertOrders() {
       `,
       );
       if (orderStatusValue === '주문취소') {
-        document.querySelector('.orderChangeButton').style.display = 'none';
-        document.querySelector('.orderCancelButton').style.display = 'none';
+        document.querySelector(`#orderChangeButton-${orderIdValue}`).style.display = 'none';
+        document.querySelector(`#orderCancelButton-${orderIdValue}`).style.display = 'none';
       }
       const submitButton = document.querySelector(`#submitButton-${orderIdValue}`);
       const deleteCompleteButton = document.querySelector(`#deleteCompleteButton-${orderIdValue}`);
