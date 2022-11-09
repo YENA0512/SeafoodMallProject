@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import { cartService } from '../services/cart-service';
 import { asyncHandler } from '../utils/async-handler';
+import cartValidator from '../middlewares/validation/cartValidator';
 
 const cartRouter = Router();
 
 cartRouter.post(
   '/',
+  cartValidator.createCart,
   asyncHandler(async (req, res) => {
     const { product_id, quantity } = req.body;
     const user_id = req.currentUserId;
@@ -17,6 +19,7 @@ cartRouter.post(
 );
 cartRouter.post(
   '/login',
+  cartValidator.createLoginCart,
   asyncHandler(async (req, res) => {
     const user_id = req.currentUserId;
     const { cart_items } = req.body;
@@ -42,7 +45,6 @@ cartRouter.delete(
     const user_id = req.currentUserId;
     const DTO = { user_id };
     await cartService.deleteAll(DTO);
-    console.log(4);
     res.status(204);
     res.end();
   }),
@@ -59,6 +61,7 @@ cartRouter.delete(
 );
 cartRouter.delete(
   '/:_id',
+  cartValidator.deleteOneCart,
   asyncHandler(async (req, res) => {
     const { _id } = req.params;
     const DTO = { _id };
@@ -69,6 +72,7 @@ cartRouter.delete(
 );
 cartRouter.patch(
   '/:_id',
+  cartValidator.updateQuantityCart,
   asyncHandler(async (req, res) => {
     const { _id } = req.params;
     const { quantity } = req.body;

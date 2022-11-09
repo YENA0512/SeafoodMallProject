@@ -1,4 +1,5 @@
 import { productModel } from '../db';
+import { calculateProductCost } from '../utils/calculate-product-cost';
 
 class ProductService {
   constructor(productModel) {
@@ -7,12 +8,14 @@ class ProductService {
 
   // 상품 추가
   async createProduct(DTO) {
+    DTO.price.product_cost = Math.round(calculateProductCost(DTO.price));
     const createdProduct = await this.productModel.create(DTO);
     return createdProduct;
   }
 
   // 상품 수정
   async updateProduct(DTO) {
+    DTO.price.product_cost = Math.round(calculateProductCost(DTO.price));
     const updatedProduct = await this.productModel.update(DTO);
     return updatedProduct;
   }

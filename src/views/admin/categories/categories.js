@@ -11,7 +11,6 @@ const getCategoriesList = async () => {
   showCategories.innerHTML = '';
   const res = await Api.get(`/api/v1/categories/list/admin`);
   console.log(res);
-  // 이전 데이터 slice
 
   let i = 1;
   res.forEach((item) => {
@@ -30,43 +29,72 @@ const getCategoriesList = async () => {
           </div>
           <div>
             <button type="submit" form="modify" class="btn btn-outline-warning modi_category${i} btn-sm">수정</button>
-            <button type="submit" class="btn btn-outline-danger del_category${i} btn-sm">삭제</button>
+            <button type="submit" form="modify" class="btn btn-outline-danger del_category${i} btn-sm">삭제</button>
           </div>
         </li>
         `,
     );
     // 카테고리 수정
+    // TODO: 만약 내용이 디비의 내용과 같다면 프론트단에서 막는 로직설정
     const modiButton = document.querySelector(`.modi_category${i}`);
-    modiButton.addEventListener('click', async (e) => {
-      e.preventDefault();
+    modiButton.addEventListener('click', async () => {
       const modiParentCate = document.querySelector(`#modi_parent_category`);
       const modiChildCate = document.querySelector(`#modi_child_category_${item._id}`);
       let parent_category = modiParentCate.value;
-      let child_category = modiChildCate.value;
+      let ChildCategoryValue = modiChildCate.value;
+      const child_category = ChildCategoryValue.trim();
+      if (!ChildCategoryValue || modiChildCate.value === '') {
+        console.log('값 부족!');
+        makeChildCategoryInput.value = '';
+      } else {
+        const patchData = {
+          parent_category,
+          child_category,
+        };
+        await Api.patch(`/api/v1/categories`, item._id, patchData);
+      }
+    });
+
+    const delButton = document.querySelector(`.del_category${i}`);
+    delButton.addEventListener('click', async () => {
+      const modiParentCate = document.querySelector(`#modi_parent_category`);
+      const modiChildCate = document.querySelector(`#modi_child_category_${item._id}`);
+
+      const parent_category = modiParentCate.value;
+      const child_category = modiChildCate.value;
+
       const patchData = {
         parent_category,
         child_category,
       };
-      await Api.patch(`/api/v1/categories`, item._id, patchData);
+      await Api.delete(`/api/v1/categories`, item._id, patchData);
     });
     i++;
   });
 };
-
+getCategoriesList();
 // 카테고리 생성 api
-const makeCategoriesList = async () => {
-  const parent_category = makeParentCategoryInput.value;
-  const child_category = makeChildCategoryInput.value;
-  if (!child_category) {
+const makeCategoriesList = async (e) => {
+  e.preventDefault();
+  const parentCategortValue = makeParentCategoryInput.value;
+  const childCategoryValue = makeChildCategoryInput.value;
+  // 트림으로 공백은 삭제해주기
+  const child_category = childCategoryValue.trim();
+
+  if (!child_category || child_category === '') {
     console.log('값 부족!');
+    makeChildCategoryInput.value = '';
   } else {
     const postData = {
-      parent_category,
-      child_category,
+      parent_category: parentCategortValue,
+      child_category: child_category,
     };
 
     await Api.post('/api/v1/categories/', postData);
     alert('정상적으로 추가 되었습니다!');
+    console.log(postData);
+    makeChildCategoryInput.innerHTML = '';
+    getCategoriesList();
   }
 };
 

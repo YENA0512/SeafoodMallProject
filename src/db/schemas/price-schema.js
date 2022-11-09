@@ -2,6 +2,10 @@ import { Schema } from 'mongoose';
 
 const PriceSchema = new Schema(
   {
+    product_cost: {
+      type: Number,
+      required: true,
+    },
     auction_cost: {
       type: Number,
       required: true,
@@ -15,10 +19,6 @@ const PriceSchema = new Schema(
       required: true,
     },
     packaging_cost: {
-      type: Number,
-      required: true,
-    },
-    shipping_cost: {
       type: Number,
       required: true,
     },

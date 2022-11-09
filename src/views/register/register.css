@@ -29,6 +29,7 @@ body {
   height: 60px;
   border-radius: 7px;
   margin: 0 auto;
+  font-size: 1.4rem;
   background-color: #048abf;
 }
 
@@ -46,6 +47,7 @@ body {
   height: 60px;
   border-radius: 7px;
   margin: 0 auto;
+  padding-left: 20px;
 }
 
 .register-user-form-box .input:focus {
