@@ -7,15 +7,15 @@ const userEmail = document.querySelector('#userEmail');
 const userEmailValue = document.querySelector('#userEmailValue');
 const userGroupValue = document.querySelector('#userGroupValue');
 // const updateOrderInfoModal = document.querySelector('.updateOrderInfoModal');
-const addressInput = document.querySelector('#addressInput1');
-const detailAddressInput = document.querySelector('#addressInput2');
-const mobileInput = document.querySelector('#mobileInput');
-const nameInput = document.querySelector('#nameInput');
-const postalCodeInput = document.querySelector('#postalCodeInput');
-const submitButton = document.querySelector('#submitButton');
+// const addressInput = document.querySelector('#addressInput1');
+// const detailAddressInput = document.querySelector('#addressInput2');
+// const mobileInput = document.querySelector('#mobileInput');
+// const nameInput = document.querySelector('#nameInput');
+// const postalCodeInput = document.querySelector('#postalCodeInput');
+// const submitButton = document.querySelector('#submitButton');
 // const cancelOrderModal = document.querySelector('.cancelOrderModal');
-const deleteCompleteButton = document.querySelector('#deleteCompleteButton');
-const deleteCancelButton = document.querySelector('#deleteCancelButton');
+// const deleteCompleteButton = document.querySelector('#deleteCompleteButton');
+// const deleteCancelButton = document.querySelector('#deleteCancelButton');
 // const modalCloseButton = document.querySelector('#modalCloseButton');
 // const orderChangeButton = document.querySelector('.orderChangeButton');
 // const orderCancelButton = document.querySelector('.orderCancelButton');
@@ -102,166 +102,176 @@ async function insertOrders() {
       let orderProductQuantity = item.quantity;
       let orderProductValues = `${orderProductValue} / 수량 : ${orderProductQuantity}`;
       let orderStatusValue = checkStatus(el.order_status);
-
+      console.log(orderIdValue);
       show_orders.insertAdjacentHTML(
         'beforeend',
         `
-        <li>
-        <div class="col-2 orderIdValue" id="orderIdValue-${orderIdValue}">${orderIdValue}</div>
-        <div class="col-2" id="orderDateValue">${orderDateValue}</div>
-        <div class="col-3" id="orderProductValue">${orderProductValues}</div>
-        <div class="col-2" id="orderPriceValue">${orderPriceValue}</div>
-        <div class="col-1_5" id="orderStatusValue">
-          <p>${orderStatusValue}</p>
-          <button
-            type="button"
-            class="orderChangeButton"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal1"
-            style="display: block"
-          >
-            정보변경
-          </button>
-          <div
-            class="modal fade"
-            id="exampleModal1"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">주문/배송 정보 변경</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div class="field mb-3">
-                    <label class="label mb-3" for="nameInput">수령자</label>
-                    <div class="control">
-                      <input
-                        class="input"
-                        id="nameInput"
-                        type="text"
-                        placeholder="받으시는 분 성함을 추가해주세요"
-                        autocomplete="on"
-                      />
-                    </div>
-                  </div>
-                  <div class="field address">
-                    <label class="label mb-3" for="addressInput">주소</label>
-                    <div class="control">
-                      <input
-                        class="input mb-2"
-                        id="postalCodeInput"
-                        type="text"
-                        placeholder="주소 검색을 클릭해 주세요."
-                        readonly
-                      />
-                      <input
-                        class="input mb-2"
-                        id="addressInput1"
-                        type="text"
-                        placeholder=""
-                        autocomplete="on"
-                        readonly
-                      />
-                      <input
-                        class="input mb-3"
-                        id="addressInput2"
-                        type="text"
-                        placeholder=""
-                        autocomplete="on"
-                      />
+        <li id="orderItemList-${orderIdValue}">
+  <div class="col-2 orderIdValue" id="orderIdValue-${orderIdValue}">${orderIdValue}</div>
+  <div class="col-2" id="orderDateValue">${orderDateValue}</div>
+  <div class="col-3" id="orderProductValue">${orderProductValues}</div>
+  <div class="col-2" id="orderPriceValue">${orderPriceValue}</div>
+  <div class="col-1_5" id="orderStatusValue">
+    <p>${orderStatusValue}</p>
+    <button
+      type="button"
+      class="orderChangeButton"
+      id="orderChangeButton-${orderIdValue}"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal1-${orderIdValue}"
+      style="display: block"
+    >
+      정보변경
+    </button>
+    <div
+      class="modal fade"
+      id="exampleModal1-${orderIdValue}"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">주문/배송 정보 변경</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="field mb-3">
+              <label class="label mb-3" for="nameInput">수령자</label>
+              <div class="control">
+                <input
+                  class="input"
+                  id="nameInput-${orderIdValue}"
+                  type="text"
+                  placeholder="받으시는 분 성함을 추가해주세요"
+                  autocomplete="on"
+                />
+              </div>
+            </div>
+            <div class="field address">
+              <label class="label mb-3" for="addressInput">주소</label>
+              <div class="control">
+                <input
+                  class="input mb-2"
+                  id="postalCodeInput-${orderIdValue}"
+                  type="text"
+                  placeholder="주소 검색을 클릭해 주세요."
+                  readonly
+                />
+                <input
+                  class="input mb-2"
+                  id="addressInput1-${orderIdValue}"
+                  type="text"
+                  placeholder=""
+                  autocomplete="on"
+                  readonly
+                />
+                <input
+                  class="input mb-3"
+                  id="addressInput2-${orderIdValue}"
+                  type="text"
+                  placeholder=""
+                  autocomplete="on"
+                />
+                <button class="button mb-3" id="addressButton-${orderIdValue}">🔍 주소 검색</button>
+              </div>
+            </div>
+            <div class="field mb-3">
+              <label class="label mb-3" for="mobileInput">휴대폰번호</label>
+              <div class="control">
+                <input
+                  class="input"
+                  id="mobileInput-${orderIdValue}"
+                  type="tel"
+                  placeholder="010-0000-0000"
+                  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                  required
+                  autocomplete="on"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            <button type="button" id="submitButton-${orderIdValue}" class="btn btn-primary">
+              변경 완료
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-1_5">
+    <button
+      type="button"
+      class="orderCancelButton"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal2-${orderIdValue}"
+      style="display: block"
+    >
+      주문취소
+    </button>
+    <div
+      class="modal fade"
+      id="exampleModal2-${orderIdValue}"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">주문 취소 안내</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>선택하신 주문은 환불이 불가합니다.<br />주문을 취소하시겠습니까?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="button" id="deleteCompleteButton-${orderIdValue}" aria-label="close">
+              네
+            </button>
+            <button class="button" id="deleteCancelButton" aria-label="close">아니오</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>
+
       
-                      <button class="button mb-3" id="addressButton">🔍 주소 검색</button>
-                    </div>
-                  </div>
-                  <div class="field mb-3">
-                    <label class="label mb-3" for="mobileInput">휴대폰번호</label>
-                    <div class="control">
-                      <input
-                        class="input"
-                        id="mobileInput"
-                        type="tel"
-                        placeholder="010-0000-0000"
-                        pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
-                        required
-                        autocomplete="on"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                  <button type="button" id="submitButton-${orderIdValue}" class="btn btn-primary">변경 완료</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-1_5">
-          <button
-            type="button"
-            class="orderCancelButton"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal2"
-            style="display: block"
-          >
-            주문취소
-          </button>
-          <div
-            class="modal fade"
-            id="exampleModal2"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-          >
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">주문 취소 안내</h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <p>선택하신 주문은 환불이 불가합니다.<br />주문을 취소하시겠습니까?</p>
-                </div>
-                <div class="modal-footer">
-                  <button class="button" id="deleteCompleteButton-${orderIdValue}" aria-label="close">네</button>
-                  <button class="button" id="deleteCancelButton" aria-label="close">아니오</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
 
       `,
       );
-      if (orderStatusValue === '주문완료') {
+      if (orderStatusValue === '주문취소') {
         document.querySelector('.orderChangeButton').style.display = 'none';
         document.querySelector('.orderCancelButton').style.display = 'none';
       }
-      const submitButton = document.querySelector(`submitButton-${orderIdValue}`);
+      const submitButton = document.querySelector(`#submitButton-${orderIdValue}`);
       const deleteCompleteButton = document.querySelector(`#deleteCompleteButton-${orderIdValue}`);
-      const addressButton = document.querySelector('#addressButton');
+      const addressButton = document.querySelector(`#addressButton-${orderIdValue}`);
 
-      addressButton?.addEventListener('click', searchAddress);
+      addressButton.addEventListener('click', () => {
+        console.log('hey');
+        searchAddress(orderIdValue);
+      });
       submitButton?.addEventListener('click', (e) => {
         console.log(`orderId : ${orderIdValue}`);
         handleSubmit(orderIdValue, e);
       });
       deleteCompleteButton?.addEventListener('click', (e) => {
+        console.log(`orderId : ${orderIdValue}`);
         deleteOrderData(orderIdValue, e);
       });
     });
@@ -279,21 +289,25 @@ async function deleteOrderData(orderIdValue, e) {
     console.log(res);
     // 취소 성공
     alert('주문이 취소되었습니다.');
+    // const deletedItem = document.querySelector(`#orderItemList-${orderIdValue}`);
+    // deletedItem.remove();
 
-    //window.location.href = './';
+    window.location.href = './';
   } catch (err) {
     alert(`주문 취소 과정에서 오류가 발생하였습니다\n`);
   }
 }
 
 async function handleSubmit(orderIdValue, e) {
+  console.log(orderIdValue);
   e.preventDefault();
+  const order_id = orderIdValue;
+  const addressInput = document.querySelector(`#addressInput1-${orderIdValue}`);
+  const detailAddressInput = document.querySelector(`#addressInput2-${orderIdValue}`);
+  const mobileInput = document.querySelector(`#mobileInput-${orderIdValue}`);
+  const nameInput = document.querySelector(`#nameInput-${orderIdValue}`);
+  const postalCodeInput = document.querySelector(`#postalCodeInput-${orderIdValue}`);
 
-  const addressInput = document.querySelector('#addressInput1');
-  const detailAddressInput = document.querySelector('#addressInput2');
-  const mobileInput = document.querySelector('#mobileInput');
-  const nameInput = document.querySelector('#nameInput');
-  const postalCodeInput = document.querySelector('#postalCodeInput');
   const name = nameInput?.value;
   const mobile = mobileInput?.value;
   const zencode = postalCodeInput?.value;
@@ -302,7 +316,7 @@ async function handleSubmit(orderIdValue, e) {
   // 주문정보 수정 api 요청
   try {
     const user_id = sessionStorage.getItem('userId');
-    const order_id = orderIdValue;
+
     const userData = {
       user_id,
       name,
@@ -322,16 +336,17 @@ async function handleSubmit(orderIdValue, e) {
     console.log(newUserInfo);
     alert(`주문정보가 정상적으로 수정되었습니다.`);
 
-    // window.location.href = './';
+    window.location.href = './';
   } catch (err) {
     console.error(err.stack);
     alert(`${err.message}`);
   }
 }
-function searchAddress() {
-  const addressInput = document.querySelector('#addressInput1');
-  const detailAddressInput = document.querySelector('#addressInput2');
-  const postalCodeInput = document.querySelector('#postalCodeInput');
+function searchAddress(orderIdValue) {
+  console.log('herehey');
+  const addressInput = document.querySelector(`#addressInput1-${orderIdValue}`);
+  const detailAddressInput = document.querySelector(`#addressInput2-${orderIdValue}`);
+  const postalCodeInput = document.querySelector(`#postalCodeInput-${orderIdValue}`);
   new daum.Postcode({
     oncomplete: function (data) {
       let addr = '';

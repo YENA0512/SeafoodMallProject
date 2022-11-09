@@ -42,11 +42,14 @@ async function handleSubmit(e) {
 
     const userToken = parseJwt(token);
     const userId = userToken.userId;
+    // role추가
+    const role = userToken.role;
 
     // 로그인 성공, 토큰을 세션 스토리지에 저장
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('userId', userId);
-
+    // role 저장
+    sessionStorage.setItem('role', role);
     alert(`정상적으로 로그인되었습니다.`);
 
     // 로그인 성공

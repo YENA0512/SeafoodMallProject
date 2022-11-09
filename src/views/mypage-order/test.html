@@ -1,5 +1,5 @@
-<li>
-  <div class="col-2" id="orderIdValue">${orderIdValue}</div>
+<li id="orderItemList-${orderIdValue}">
+  <div class="col-2 orderIdValue" id="orderIdValue-${orderIdValue}">${orderIdValue}</div>
   <div class="col-2" id="orderDateValue">${orderDateValue}</div>
   <div class="col-3" id="orderProductValue">${orderProductValues}</div>
   <div class="col-2" id="orderPriceValue">${orderPriceValue}</div>
@@ -8,15 +8,16 @@
     <button
       type="button"
       class="orderChangeButton"
+      id="orderChangeButton-${orderIdValue}"
       data-bs-toggle="modal"
-      data-bs-target="#exampleModal1"
+      data-bs-target="#exampleModal1-${orderIdValue}"
       style="display: block"
     >
       정보변경
     </button>
     <div
       class="modal fade"
-      id="exampleModal1"
+      id="exampleModal1-${orderIdValue}"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -90,8 +91,10 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            <button type="button" id="submitButton-${orderIdValue}" class="btn btn-primary">
+              변경 완료
+            </button>
           </div>
         </div>
       </div>
@@ -102,14 +105,14 @@
       type="button"
       class="orderCancelButton"
       data-bs-toggle="modal"
-      data-bs-target="#exampleModal2"
+      data-bs-target="#exampleModal2-${orderIdValue}"
       style="display: block"
     >
       주문취소
     </button>
     <div
       class="modal fade"
-      id="exampleModal2"
+      id="exampleModal2-${orderIdValue}"
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -129,7 +132,9 @@
             <p>선택하신 주문은 환불이 불가합니다.<br />주문을 취소하시겠습니까?</p>
           </div>
           <div class="modal-footer">
-            <button class="button" id="deleteCompleteButton" aria-label="close">네</button>
+            <button class="button" id="deleteCompleteButton-${orderIdValue}" aria-label="close">
+              네
+            </button>
             <button class="button" id="deleteCancelButton" aria-label="close">아니오</button>
           </div>
         </div>
