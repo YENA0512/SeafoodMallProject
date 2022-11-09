@@ -2,95 +2,78 @@ import * as Api from '../../api.js';
 
 const makeParentCategoryInput = document.querySelector('.make_parent_category');
 const makeChildCategoryInput = document.querySelector('.make_child_category');
-const makeSpeciesInput = document.querySelector('.make_species');
-const makeSpeciesCodeInput = document.querySelector('.make_species_code');
-// const makeSpeciesImageInput = document.querySelector('.make_species_image');
 const getCategoryButton = document.querySelector('.get_categories_btn');
 const showCategories = document.querySelector('.show_categories');
 const makecategoriesButton = document.querySelector('.make_categories');
 
+let res;
+// 카테고리 가져오기
 const getCategoriesList = async () => {
   showCategories.innerHTML = '';
-  const res = await Api.get(`/api/v1/categories/list`);
-  // TODO: parentCategory 수정되면 1번으로 바꿀것, 혹은 수산물을 찾는 로직을 만들것.
-  const parentCategories = res.data[0].parent_category;
-  const childCategories = res.data[0].child_category;
-  childCategories.forEach(async (item) => {
-    const response = await Api.get(`/api/v1/categories/${item}`);
-    const speciesDetail = response.categoryByChildCategory;
+  res = await Api.get(`/api/v1/categories/list/admin`);
+  console.log(res);
+  // 이전 데이터 slice
 
-    let i = 1;
-    speciesDetail.forEach((el) => {
-      showCategories.insertAdjacentHTML(
-        'beforeend',
-        `
+  let i = 1;
+  res.forEach((item) => {
+    showCategories.insertAdjacentHTML(
+      'beforeend',
+      `
         <li>
           <div>
             <input
               id="modi_parent_category"
-              class="${i}"
-              value="${parentCategories}"
+              value="${item.parent_category}"
               placeholder="수산물"
               readonly
             />
-            <input id="modi_child_category" class="${i}" value="${item}" placeholder="2차" required />
-            <input id="modi_species" class="${i}" value="${el.species}" placeholder="품종" required />
-            <input
-              id="modi_species_code"
-              class="${i}"
-              value="${el.species_code}"
-              placeholder="코드"
-              required
-            />
-            <input
-              id="modi_species_image"
-              class="${i}"
-              value="${el.species_image}"
-              placeholder="이미지 경로"
-            />
+            <input id="modi_child_category_${item._id}" value="${item.child_category}" placeholder="2차" required />
           </div>
           <div>
-            <button type="button" class="btn btn-outline-warning modi_category btn-sm ${i}">수정</button>
-            <button type="button" class="btn btn-outline-danger modi_category btn-sm ${i}">삭제</button>
+            <button type="submit" form="modify" class="btn btn-outline-warning modi_category${i} btn-sm">수정</button>
+            <button type="submit" class="btn btn-outline-danger del_category btn-sm">삭제</button>
           </div>
         </li>
         `,
-      );
-      i++;
+    );
+    // 카테고리 수정
+    const modiButton = document.querySelector(`.modi_category${i}`);
+    console.log(modiButton);
+    modiButton.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const modiParentCate = document.querySelector(`#modi_parent_category`);
+      const modiChildCate = document.querySelector(`#modi_child_category_${item._id}`);
+      console.log(modiParentCate); // 이건 왜 null 인가?
+      console.log(modiChildCate); // 이건 왜 null 인가?
+      let parent_category = modiParentCate.value;
+      let child_category = modiChildCate.value;
+      const patchData = {
+        parent_category,
+        child_category,
+      };
+      const tmp = await Api.patch(`/api/v1/categories`, item._id, patchData);
+      console.log(tmp);
     });
+    i++;
   });
 };
+
 // 카테고리 생성 api
 const makeCategoriesList = async () => {
   const parent_category = makeParentCategoryInput.value;
   const child_category = makeChildCategoryInput.value;
-  const species = makeSpeciesInput.value;
-  const species_code = makeSpeciesCodeInput.value;
-  // const image_path = makeSpeciesImageInput.value;
-  if (!child_category || !species || !species_code) {
+  if (!child_category) {
     console.log('값 부족!');
   } else {
-    const data = {
+    const postData = {
       parent_category,
       child_category,
-      species,
-      species_code,
     };
-    // TODO: 지금 오징어에 넣은 '/' 때문에 계속 오류 뜨나본데? 해결요망
-    // try {
-    await Api.post('/api/v1/categories/', data);
+
+    await Api.post('/api/v1/categories/', postData);
     alert('정상적으로 추가 되었습니다!');
-    // } catch (err) {
-    //   alert(`문제가 발생하였습니다. 잠시후에 다시 시도해주세요. errorCode: ${err}`);
-    // }
   }
 };
-// 카테고리 수정 api
-// const modifyCategoriesList = async () => {
-//   const res = document.getElementById('1');
-//   console.log(res);
-// };
-// modifyCategoriesList();
 
 makecategoriesButton.addEventListener('click', makeCategoriesList);
 getCategoryButton.addEventListener('click', getCategoriesList);

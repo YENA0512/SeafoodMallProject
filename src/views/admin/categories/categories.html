@@ -46,7 +46,7 @@
           <div class="modify_area">
             <div class="mention"><p>- 카테고리 추가 -</p></div>
             <div class="add_categories">
-              <form>
+              <form id="make_category">
                 <li>
                   <div>
                     <input
@@ -56,12 +56,13 @@
                       readonly
                     />
                     <input class="make_child_category" placeholder="2차" required />
-                    <input class="make_species" placeholder="품종" required />
-                    <input class="make_species_code" placeholder="코드" required />
-                    <input class="make_species_image" placeholder="이미지" />
                   </div>
                   <div>
-                    <button type="button" class="btn btn-outline-success make_categories btn-sm">
+                    <button
+                      type="submit"
+                      form="make_category"
+                      class="btn btn-outline-success make_categories btn-sm"
+                    >
                       추가
                     </button>
                   </div>
@@ -75,12 +76,9 @@
               <div class="modify_info">
                 <div>1차</div>
                 <div>2차</div>
-                <div>품종</div>
-                <div>코드</div>
-                <div>이미지경로</div>
                 <div>수정/삭제</div>
               </div>
-              <form>
+              <form id="modify">
                 <ol class="show_categories"></ol>
               </form>
             </div>
