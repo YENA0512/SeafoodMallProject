@@ -6,11 +6,10 @@ const getCategoryButton = document.querySelector('.get_categories_btn');
 const showCategories = document.querySelector('.show_categories');
 const makecategoriesButton = document.querySelector('.make_categories');
 
-let res;
 // 카테고리 가져오기
 const getCategoriesList = async () => {
   showCategories.innerHTML = '';
-  res = await Api.get(`/api/v1/categories/list/admin`);
+  const res = await Api.get(`/api/v1/categories/list/admin`);
   console.log(res);
   // 이전 데이터 slice
 
@@ -31,28 +30,24 @@ const getCategoriesList = async () => {
           </div>
           <div>
             <button type="submit" form="modify" class="btn btn-outline-warning modi_category${i} btn-sm">수정</button>
-            <button type="submit" class="btn btn-outline-danger del_category btn-sm">삭제</button>
+            <button type="submit" class="btn btn-outline-danger del_category${i} btn-sm">삭제</button>
           </div>
         </li>
         `,
     );
     // 카테고리 수정
     const modiButton = document.querySelector(`.modi_category${i}`);
-    console.log(modiButton);
     modiButton.addEventListener('click', async (e) => {
       e.preventDefault();
       const modiParentCate = document.querySelector(`#modi_parent_category`);
       const modiChildCate = document.querySelector(`#modi_child_category_${item._id}`);
-      console.log(modiParentCate); // 이건 왜 null 인가?
-      console.log(modiChildCate); // 이건 왜 null 인가?
       let parent_category = modiParentCate.value;
       let child_category = modiChildCate.value;
       const patchData = {
         parent_category,
         child_category,
       };
-      const tmp = await Api.patch(`/api/v1/categories`, item._id, patchData);
-      console.log(tmp);
+      await Api.patch(`/api/v1/categories`, item._id, patchData);
     });
     i++;
   });
