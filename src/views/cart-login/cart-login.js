@@ -28,7 +28,7 @@ const addAllEvents = () => {
   // 선택삭제 버튼 클릭
   partialDeleteLabel.addEventListener('click', deleteSelectedItemsLogin);
   // 구매하기 버튼 클릭
-  purchaseButton.addEventListener('click', navigate('/order'));
+  purchaseButton.addEventListener('click', saveToOrder);
 };
 
 addAllElements();
@@ -50,7 +50,6 @@ async function insertProductsfromCartLogin() {
       product.product_id?.price?.platform_commision +
       product.product_id?.price?.shipping_cost;
     const cartId = product._id;
-
     const isSelected = selectedIds.includes(id);
 
     cartProductsContainer.insertAdjacentHTML(
@@ -97,7 +96,9 @@ async function insertProductsfromCartLogin() {
     </div>`,
     );
     // 삭제 버튼 클릭
-    document.querySelector(`#delete-${id}`).addEventListener('click', () => deleteItemLogin(id));
+    document
+      .querySelector(`#delete-${id}`)
+      .addEventListener('click', () => deleteItemLogin(id, cartId));
     // 체크박스 선택
     document.querySelector(`#checkbox-${id}`).addEventListener('change', () => toggleItem(id));
     // 수량 빼기 버튼 클릭
@@ -116,7 +117,7 @@ async function insertProductsfromCartLogin() {
     // 변경사항 저장
     document
       .querySelector(`#cart_update_btn_${id}`)
-      .addEventListener('click', () => updateCartforServer(id, cartId));
+      .addEventListener('click', () => updateCartforServer(id));
   });
 }
 
@@ -299,17 +300,35 @@ async function updateAllSelectCheckbox() {
 
 // 선택 시 삭제(회원)
 async function deleteSelectedItemsLogin() {
-  const products = await Api.get('/api/v1/carts');
+  const cartIds = await Api.get(`/api/v1/carts`);
+  console.log(cartIds);
+  const deletedIds = [];
+  cartIds.data.forEach(async (ids) => {
+    const cartId = ids._id;
+    deletedIds.push(cartId);
+  });
+  const deletedIdsData = { deleted_ids: deletedIds };
+  await Api.delete(`/api/v1/carts/some`, '', deletedIdsData);
+
   const { selectedIds } = await getFromDb('order', 'summary');
-  products.data.forEach((product) => {
-    const cartId = product._id;
-    console.log(cartId);
-    selectedIds.forEach((id) => deleteItemLogin(id, cartId));
+
+  selectedIds.forEach(async (id) => {
+    // indexedDB의 cart 목록에서 id를 key로 가지는 데이터를 삭제함.
+    await deleteFromDb('cart', id);
+    // 결제정보를 업데이트함.
+    await updateOrderSummary(id, 'removePermanent-deleteButton');
+    // 제품 요소(컴포넌트)를 페이지에서 제거
+    document.querySelector(`#productItem-${id}`).remove();
+    // 전체선택 체크박스를 업데이트함
+    updateAllSelectCheckbox();
   });
 }
 
 // 삭제(회원)
-async function deleteItemLogin(id) {
+async function deleteItemLogin(id, cartId) {
+  // Api서버에서 삭제함
+  await Api.delete(`/api/v1/carts/${cartId}`);
+  window.location.reload;
   // indexedDB의 cart 목록에서 id를 key로 가지는 데이터를 삭제함.
   await deleteFromDb('cart', id);
   // 결제정보를 업데이트함.
@@ -318,17 +337,6 @@ async function deleteItemLogin(id) {
   document.querySelector(`#productItem-${id}`).remove();
   // 전체선택 체크박스를 업데이트함
   updateAllSelectCheckbox();
-
-  // Api서버에서 삭제함
-  const products = await Api.get('/api/v1/carts');
-  products.data.forEach(async (product) => {
-    const deleteddata = [];
-    const cartId = product._id;
-    deleteddata.push(cartId);
-    const deletedIds = { deleted_ids: deleteddata };
-    await Api.delete(`/api/v1/carts`, cartId, deletedIds);
-    navigate('/cart');
-  });
 }
 
 // 결제정보 카드 업데이트 및, indexedDB 업데이트를 진행함.
@@ -503,9 +511,11 @@ async function insertOrderSummary() {
 }
 
 // 회원 장바구니 변경 사항 저장
-async function updateCartforServer(id, cartId) {
+async function updateCartforServer(id) {
   const updateData = parseInt(document.querySelector(`#quantityInput-${id}`).value);
   const updateQuantity = { quantity: updateData };
-  await Api.patch(`/api/v1/carts`, cartId, updateQuantity);
+  await Api.patch(`/api/v1/carts`, id, updateQuantity);
   window.location.reload();
 }
+// // 서버에 주문 정보 추가
+// async function saveToOrder() {}

@@ -19,7 +19,7 @@ categoryRouter.post('/', async (req, res, next) => {
   }
 });
 
-// 카테고리 리스트 조회
+// 카테고리 리스트 조회(홈화면)
 categoryRouter.get('/list', async (req, res, next) => {
   try {
     const categoryList = await categoryService.readCategoryList();
@@ -31,18 +31,27 @@ categoryRouter.get('/list', async (req, res, next) => {
   }
 });
 
+// 카테고리 리스트 조회(admin)
+categoryRouter.get('/list/admin', async (req, res, next) => {
+  try {
+    const categoryList = await categoryService.readCategoryListAdmin();
+
+    res.status(200).json(categoryList);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // 카테고리 수정
 categoryRouter.patch('/:_id', async (req, res, next) => {
   try {
     const { _id } = req.params;
     const { parent_category, child_category } = req.body;
-    // these two categories is optional
-    const DTO = sanitizeObject({
+    const DTO = {
+      _id,
       parent_category,
       child_category,
-    });
-    // _id is required!
-    DTO._id = _id;
+    };
 
     const updatedCategory = await categoryService.updateCategory(DTO);
     const result = { success: true, data: updatedCategory };
