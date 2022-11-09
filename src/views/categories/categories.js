@@ -23,13 +23,15 @@ const getCategoriesData = async () => {
     productItemContainer.insertAdjacentHTML(
       'beforeend',
       `
-    <div class="product_item" onclick="window.location.href='/product/${_id}';">
-      <img class="product_img" src="${category.species_image}" />
-      <h3>${category.species}</h3>
-      <div>
-        <span>${price.auction_cost}</span>
-        <span>원</span>
-      </div>
+    <div class="product_item">
+      <a href="/product/${_id}">
+        <img class="product_img" src="${category.species_image}" />
+        <h3>${category.species}</h3>
+        <div>
+          <span>${price.auction_cost}</span>
+          <span>&nbsp;원</span>
+        </div>
+      </a>
     </div>
   `,
     );

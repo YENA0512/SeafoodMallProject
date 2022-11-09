@@ -11,8 +11,8 @@ const headerStyle = `
     text-align: center;
   }
   .main_logo {
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
   }
   .nav_bar {
     width: 100%;

@@ -52,7 +52,40 @@ const LoginHeaderHTML = `
       <ul>
         <li><a href="/mypage">마이페이지</a></li>
         <em>|</em>
-        <li><a href="/cart">장바구니</a></li>
+        <li><a href="/cart-login">장바구니</a></li>
+        <em>|</em>
+        <li class="log_out">로그아웃</li>
+      </ul>
+    </div>
+  </nav>
+`;
+
+const adminLoginHeaderHTML = `
+  <style>${headerStyle}</style>
+
+  <h1>
+    <a href="/"><img class="main_logo" src="/mainlogo.png" /></a>
+  </h1>
+  <hr />
+  <nav class="nav_bar">
+    <div class="dropdown">
+      <button
+        class="btn dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        카테고리
+      </button>
+      <ul class="dropdown-menu"></ul>
+    </div>
+    <div class="nav_menu">
+      <ul>
+        <li><a href="/admin/home">관리자페이지</a></li>
+        <em>|</em>
+        <li><a href="/mypage">마이페이지</a></li>
+        <em>|</em>
+        <li><a href="/cart-login">장바구니</a></li>
         <em>|</em>
         <li class="log_out">로그아웃</li>
       </ul>
@@ -94,15 +127,22 @@ const getCategoriesList = async () => {
 // 로그인 여부에 따라 네브바 변경
 const isLogin = () => {
   const isToken = sessionStorage.token;
+  const isAdmin = sessionStorage.role;
 
-  if (!isToken) {
+  if (isAdmin) {
     const headerTag = document.createElement('header');
-    headerTag.innerHTML = notLoginHeaderHTML;
+    headerTag.innerHTML = adminLoginHeaderHTML;
     document.body.prepend(headerTag);
   } else {
-    const headerTag = document.createElement('header');
-    headerTag.innerHTML = LoginHeaderHTML;
-    document.body.prepend(headerTag);
+    if (!isToken) {
+      const headerTag = document.createElement('header');
+      headerTag.innerHTML = notLoginHeaderHTML;
+      document.body.prepend(headerTag);
+    } else {
+      const headerTag = document.createElement('header');
+      headerTag.innerHTML = LoginHeaderHTML;
+      document.body.prepend(headerTag);
+    }
   }
 };
 
@@ -114,6 +154,7 @@ const logoutBtn = document.querySelector('.log_out');
 logoutBtn.addEventListener('click', () => {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('userId');
+  sessionStorage.removeItem('role');
 
   window.location.href = '/';
 });
