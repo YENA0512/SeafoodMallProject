@@ -110,12 +110,13 @@ async function insertOrders() {
   <div class="col-2 orderIdValue" id="orderIdValue-${orderIdValue}">${orderIdValue}</div>
   <div class="col-2" id="orderDateValue">${orderDateValue}</div>
   <div class="col-3" id="orderProductValue">${orderProductValues}</div>
-  <div class="col-2" id="orderPriceValue">${orderPriceValue}</div>
+  <div class="col-2" id="orderPriceValue">${orderPriceValue}원</div>
   <div class="col-1_5" id="orderStatusValue">
     <p>${orderStatusValue}</p>
     <button
       type="button"
-      class="orderChangeButton"
+      class="btn btn-success orderChangeButton"
+      style="background-color: #04B2D9"
       id="orderChangeButton-${orderIdValue}"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal1-${orderIdValue}"
@@ -133,7 +134,7 @@ async function insertOrders() {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">주문/배송 정보 변경</h5>
+            <p class="h5 modal-title">주문/배송 정보 변경</p>
             <button
               type="button"
               class="btn-close"
@@ -143,7 +144,7 @@ async function insertOrders() {
           </div>
           <div class="modal-body">
             <div class="field mb-3">
-              <label class="label mb-3" for="nameInput">수령자</label>
+              <label class="label" for="nameInput">수령자</label>
               <div class="control">
                 <input
                   class="input"
@@ -155,7 +156,7 @@ async function insertOrders() {
               </div>
             </div>
             <div class="field address">
-              <label class="label mb-3" for="addressInput">주소</label>
+              <label class="label" for="addressInput">주소</label>
               <div class="control">
                 <input
                   class="input mb-2"
@@ -179,11 +180,11 @@ async function insertOrders() {
                   placeholder=""
                   autocomplete="on"
                 />
-                <button class="button mb-3" id="addressButton-${orderIdValue}">🔍 주소 검색</button>
+                <button class="button mb-3 btn btn-warning" id="addressButton-${orderIdValue}">🔍 주소 검색</button>
               </div>
             </div>
             <div class="field mb-3">
-              <label class="label mb-3" for="mobileInput">휴대폰번호</label>
+              <label class="label" for="mobileInput">휴대폰번호</label>
               <div class="control">
                 <input
                   class="input"
@@ -210,7 +211,7 @@ async function insertOrders() {
   <div class="col-1_5">
     <button
       type="button"
-      class="orderCancelButton"
+      class="orderCancelButton btn btn-outline-danger"
       id="orderCancelButton-${orderIdValue}"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal2-${orderIdValue}"
@@ -228,7 +229,7 @@ async function insertOrders() {
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">주문 취소 안내</h5>
+            <p class="h5 modal-title">주문 취소 안내</p>
             <button
               type="button"
               class="btn-close"
@@ -240,16 +241,17 @@ async function insertOrders() {
             <p>선택하신 내역이 주문 취소 처리 됩니다.<br />주문을 취소하시겠습니까?</p>
           </div>
           <div class="modal-footer">
-            <button class="button" id="deleteCompleteButton-${orderIdValue}" aria-label="close">
+            <button class="button btn btn-secondary" id="deleteCompleteButton-${orderIdValue}" aria-label="close">
               네
             </button>
-            <button class="button" id="deleteCancelButton" data-bs-dismiss="modal" aria-label="Close">아니오</button>
+            <button class="button btn btn-primary" id="deleteCancelButton" data-bs-dismiss="modal" aria-label="Close">아니오</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </li>
+
 
       
 

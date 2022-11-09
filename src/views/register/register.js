@@ -50,7 +50,7 @@ async function handleSubmit(e) {
 
     await Api.post('/api/v1/users/signup', data);
 
-    alert(`정상적으로 회원가입되었습니다.`);
+    alert(`환영합니다. 정상적으로 회원가입되었습니다.`);
 
     // 로그인 페이지 이동
     window.location.href = '/login';

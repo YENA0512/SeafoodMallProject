@@ -50,7 +50,7 @@ async function handleSubmit(e) {
     sessionStorage.setItem('userId', userId);
     // role 저장
     sessionStorage.setItem('role', role);
-    alert(`정상적으로 로그인되었습니다.`);
+    alert(`어서오세요. 정상적으로 로그인되었습니다.`);
 
     // 로그인 성공
 

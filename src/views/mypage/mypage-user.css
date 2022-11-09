@@ -27,7 +27,7 @@ body {
 }
 .mypage_list a {
   text-decoration: none;
-  color: #000;
+  /* color: #000; */
 }
 .mypage_list a:hover {
   color: #048abf;
@@ -47,7 +47,7 @@ body {
   padding-top: 30px;
   box-sizing: border-box;
   border: 2px solid #04b2d9;
-  border-radius: 40px;
+  border-radius: 7px;
 }
 .mypage_userintro h3 {
   font-weight: 800;
@@ -80,7 +80,7 @@ body {
   padding: 30px;
   box-sizing: border-box;
   border: 2px solid #000;
-  border-radius: 40px;
+  border-radius: 7px;
 }
 .ordertable {
   border: 1px solid #000;
@@ -102,7 +102,7 @@ body {
   padding: 30px;
   box-sizing: border-box;
   border: 2px solid #000;
-  border-radius: 40px;
+  border-radius: 7px;
 }
 .field {
   width: 100%;
@@ -133,9 +133,11 @@ body {
   width: 100%;
   height: 35px;
   border-radius: 10px;
+  border: none;
   margin: 0 auto;
   padding-left: 20px;
   font-size: 12px;
+  background-color: #f2d194;
 }
 .mypage_userinfo .button {
   align-items: center;
@@ -146,31 +148,11 @@ body {
   text-align: center;
   align-items: center;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 7px;
+  background-color: #048abf;
   margin: 0 auto;
 }
 .mypage_userinfo .input:focus {
   border-color: #00d1b2;
   box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
-}
-
-.mypage_signout {
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-  box-sizing: border-box;
-  border: 2px solid #000;
-  border-radius: 40px;
-}
-.mypage_signout .button {
-  align-items: center;
-  font-weight: bold;
-  display: block;
-  width: 200px;
-  text-align: center;
-  align-items: center;
-  height: 40px;
-  border-radius: 10px;
-  margin: 0 auto;
 }

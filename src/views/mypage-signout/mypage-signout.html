@@ -45,7 +45,7 @@
           </div>
 
           <div class="mypage_signout">
-            <h3>회원 탈퇴하기</h3>
+            <p class="h4">회원 탈퇴하기</p>
 
             <div class="field mt-5 mb-5">
               <label class="label mb-3" for="passwordConfirmInput">비밀번호 확인</label>
@@ -54,7 +54,7 @@
                   class="input"
                   id="passwordConfirmInput"
                   type="password"
-                  placeholder="********"
+                  placeholder="비밀번호를 입력해주세요"
                   autocomplete="off"
                 />
               </div>
@@ -63,12 +63,14 @@
               type="button"
               class="button btn btn-outline-danger mb-3 mt-4"
               id="submitButtonSignout"
+              data-bs-toggle="modal"
+              data-bs-target="#signoutModal"
             >
               회원탈퇴하기
             </button>
             <!-- Modal -->
             <div
-              class="modal"
+              class="modal fade"
               id="signoutModal"
               tabindex="-1"
               role="dialog"
@@ -81,13 +83,20 @@
                     <h5 class="modal-title" id="signoutConfirmTitle">
                       정말로 회원 탈퇴 하시겠습니까?
                     </h5>
-                    <button type="button" class="modalCloseButton" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
                   </div>
                   <!-- <div class="modal-body">...</div> -->
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary signoutCancelButton">
+                    <button
+                      type="button"
+                      class="btn btn-secondary signoutCancelButton"
+                      data-bs-dismiss="modal"
+                    >
                       아니요
                     </button>
                     <button type="button" class="btn btn-danger signoutCompleteButton">예</button>
