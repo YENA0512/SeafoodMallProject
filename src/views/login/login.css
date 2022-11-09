@@ -33,6 +33,12 @@
 }
 #submitButtonLogin {
   background-color: #048abf;
+  font-size: 1.4rem;
+  /* letter-spacing: 6px; */
+}
+#submitButtonRegister {
+  font-size: 1.4rem;
+  /* letter-spacing: 6px; */
 }
 
 .title {
@@ -45,6 +51,7 @@
 }
 .input {
   font-weight: bold;
+  padding-left: 20px;
   width: 100%;
   height: 60px;
   border-radius: 7px;
