@@ -19,13 +19,24 @@ categoryRouter.post('/', async (req, res, next) => {
   }
 });
 
-// 카테고리 리스트 조회
+// 카테고리 리스트 조회(홈화면)
 categoryRouter.get('/list', async (req, res, next) => {
   try {
     const categoryList = await categoryService.readCategoryList();
 
     const result = { success: true, data: categoryList };
     res.status(200).json(result);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// 카테고리 리스트 조회(admin)
+categoryRouter.get('/list/admin', async (req, res, next) => {
+  try {
+    const categoryList = await categoryService.readCategoryListAdmin();
+
+    res.status(200).json(categoryList);
   } catch (err) {
     next(err);
   }

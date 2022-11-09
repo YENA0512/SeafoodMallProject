@@ -34,6 +34,12 @@ class CategoryService {
     return categoryList;
   }
 
+  // 카테고리 리스트 조회(관리자)
+  async readCategoryListAdmin() {
+    const allCategory = await this.categoryModel.find({});
+    return allCategory;
+  }
+
   // 카테고리 수정
   async updateCategory(DTO) {
     // 카테고리 수정, 삭제의 경우 상품 중에 parent, child category가 같은 상품들의 카테고리도 수정해줘야함
