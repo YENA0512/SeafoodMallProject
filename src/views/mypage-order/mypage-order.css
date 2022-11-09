@@ -98,14 +98,16 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
+  vertical-align: middle;
 }
 .label {
   width: 30%;
+  text-align: left;
 }
 .control {
   font-weight: bold;
   width: 70%;
-  height: 35px;
+  height: 100%;
 }
 .input {
   width: 100%;
@@ -175,6 +177,12 @@ body {
   justify-content: space-around;
   align-items: center;
 }
+.show_orders > li > div {
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 .show_orders div {
   text-align: center;
 }
@@ -182,8 +190,27 @@ body {
   height: 50px;
 }
 
+.col-1_5 {
+  font-size: 0.8rem;
+  width: 12.6%;
+}
+
+.col-1_5 > button {
+  font-size: 0.6rem;
+}
+
 .show_orders > li > div:nth-child(5) {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#orderIdValue {
+  white-space: inherit;
+  word-break: break-all;
+  font-size: 12px;
+}
+
+#exampleModal1 .modal-content {
+  height: 100%;
 }

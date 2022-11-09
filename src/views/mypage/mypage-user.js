@@ -126,7 +126,7 @@ async function handleSubmit(e) {
     alert(`회원정보가 정상적으로 수정되었습니다.`);
 
     // 로그인 페이지 이동
-    window.location.href = './';
+    // window.location.href = './';
   } catch (err) {
     console.error(err.stack);
     alert(`${err.message}`);
