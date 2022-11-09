@@ -72,9 +72,10 @@ const getCategoriesList = async () => {
     i++;
   });
 };
-
+getCategoriesList();
 // 카테고리 생성 api
-const makeCategoriesList = async () => {
+const makeCategoriesList = async (e) => {
+  e.preventDefault();
   const parentCategortValue = makeParentCategoryInput.value;
   const childCategoryValue = makeChildCategoryInput.value;
   // 트림으로 공백은 삭제해주기
@@ -91,7 +92,9 @@ const makeCategoriesList = async () => {
 
     await Api.post('/api/v1/categories/', postData);
     alert('정상적으로 추가 되었습니다!');
+    console.log(postData);
     makeChildCategoryInput.innerHTML = '';
+    getCategoriesList();
   }
 };
 
