@@ -55,6 +55,9 @@ header > h1 {
 .list-group-item {
   display: flex;
   justify-content: space-between;
+  height: 60px;
+  align-items: center;
+  font-size: 20px;
 }
 
 .title {
@@ -68,4 +71,27 @@ header > h1 {
 
 .cart_box {
   min-height: 500px;
+}
+
+.empty_cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+.empty_cart p {
+  font-size: 30px;
+}
+
+.card-title {
+  margin-bottom: 0;
+}
+
+#purchase_button {
+  font-size: 20px;
+}
+
+.form-check-input {
+  width: 2rem;
+  height: 2rem;
 }
