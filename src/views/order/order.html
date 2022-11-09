@@ -58,39 +58,65 @@
               </div>
             </div>
             <hr />
-            <div class="order_product"></div>
-            <div>주문자 정보</div>
+            <div class="order_info_title">주문자 정보</div>
             <hr />
-            <div>
+            <div class="order_info">
               <ul>
                 <li>
                   받는분
-                  <input id="username" />
+                  <input
+                    class="form-control"
+                    id="nameInput"
+                    type="text"
+                    placeholder="이름을 추가해주세요"
+                    autocomplete="on"
+                  />
                 </li>
                 <li>
                   휴대폰
-                  <input id="phonenumber" />
+                  <input
+                    class="form-control"
+                    id="mobileInput"
+                    type="tel"
+                    placeholder="010-0000-0000"
+                    pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                    required
+                    autocomplete="on"
+                  />
                 </li>
                 <li>
                   이메일
-                  <input id="email" />
+                  <input class="form-control" id="email" />
                 </li>
               </ul>
             </div>
-            <br />
-            <div>배송 정보</div>
             <hr />
-            <div>
-              <span>배송지 </span>
-              <input id="postalCode" />
-              <input id="address" />
-              <input id="address_detail" />
-              <button class="btn btn-outline-secondary" id="address_update_btn">배송지변경</button>
+            <div class="address_info_title">배송 정보</div>
+            <hr />
+            <div class="address_info">
+              배송지
+              <ul>
+                <li>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="주소 검색을 클릭해 주세요."
+                    id="postalCode"
+                  />
+                </li>
+                <li>
+                  <input type="text" class="form-control" id="address" readonly />
+                </li>
+                <li>
+                  <input type="text" class="form-control" id="address_detail" />
+                </li>
+              </ul>
+              <button id="address_update_btn" class="btn btn-outline-primary">배송지 변경</button>
             </div>
           </div>
           <div class="order_box col-md-4">
             <div class="card" style="width: 18rem">
-              <h5 class="card-header fs-5 fw-bold">결제 금액</h5>
+              <div class="card-header fw-bold"><p>결제 금액</p></div>
               <div class="card-body">
                 <div class="card-title">주문금액</div>
                 <p id="order_price"></p>
