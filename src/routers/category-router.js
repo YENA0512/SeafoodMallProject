@@ -36,13 +36,11 @@ categoryRouter.patch('/:_id', async (req, res, next) => {
   try {
     const { _id } = req.params;
     const { parent_category, child_category } = req.body;
-    // these two categories is optional
-    const DTO = sanitizeObject({
+    const DTO = {
+      _id,
       parent_category,
       child_category,
-    });
-    // _id is required!
-    DTO._id = _id;
+    };
 
     const updatedCategory = await categoryService.updateCategory(DTO);
     const result = { success: true, data: updatedCategory };
