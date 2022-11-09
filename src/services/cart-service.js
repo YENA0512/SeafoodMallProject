@@ -7,7 +7,14 @@ class CartService {
     this.productModel = productModel;
   }
   async addCartItem(DTO) {
-    const { product_id, quantity } = DTO;
+    const { product_id, quantity, user_id } = DTO;
+    const productCart = await this.cartModel.readCartByProduct({ user_id, product_id });
+    if (productCart?.product_id?._id?.toString() === product_id) {
+      const { _id, quantity, cart_price } = productCart;
+      const DTO_s = { _id, quantity: quantity + 1, cart_price };
+      const updatedCart = await this.cartModel.update(DTO_s);
+      return updatedCart;
+    }
     const product = await this.productModel.findById(product_id);
     DTO.cart_price = calculateCartPrice(product[0].price, quantity);
     const createdCart = await this.cartModel.create(DTO);
@@ -32,7 +39,6 @@ class CartService {
   }
   async deleteAll(DTO) {
     await this.cartModel.deleteAll(DTO);
-    console.log(3);
     return;
   }
   async deleteOne(DTO) {

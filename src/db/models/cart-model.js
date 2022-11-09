@@ -20,12 +20,17 @@ export class CartModel {
       .populate('product_id');
     return allCarts;
   }
+  async readCartByProduct(DTO) {
+    const { user_id, product_id } = DTO;
+    const productCart = await Cart.findOne({ user_id, product_id, deleted_at: null })
+      .populate('user_id')
+      .populate('product_id');
+    return productCart;
+  }
   async deleteAll(DTO) {
     const { user_id } = DTO;
     const updated = { deleted_at: new Date() };
-    console.log(1);
     await Cart.updateMany({ user_id, deleted_at: null }, updated);
-    console.log(2);
     return;
   }
   async delete(DTO) {
