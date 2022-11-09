@@ -31,13 +31,11 @@ export class OrderModel {
   }
   async updateShipping(DTO) {
     const { _id, shipping } = DTO;
-    console.log(shipping);
     const updatedOrder = await Order.findOneAndUpdate(
       { _id },
       { 'customer.shipping': shipping },
       { returnOriginal: false },
     );
-    console.log(updatedOrder);
     return updatedOrder;
   }
   async updateOrderStatus(DTO) {

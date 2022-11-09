@@ -20,6 +20,7 @@
       defer
     ></script>
     <script src="orders.js" type="module" defer></script>
+    <script src="../../admin.js" type="module" defer></script>
   </head>
   <body>
     <header>
@@ -36,15 +37,9 @@
             </div>
           </div>
           <div class="select_area">
-            <button class="categories">
-              <a href="/admin/categories">카테고리 관리</a>
-            </button>
-            <button class="products">
-              <a href="/admin/products">상품 관리</a>
-            </button>
-            <button class="orders">
-              <a href="/admin/orders">주문 상태 관리</a>
-            </button>
+            <button type="button" class="btn btn-light categories_btn">카테고리 관리</button>
+            <button type="button" class="btn btn-light products_btn">상품 관리</button>
+            <button type="button" class="btn btn-light orders_btn">주문 상태 관리</button>
           </div>
         </section>
         <section class="right_area">

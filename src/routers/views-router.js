@@ -15,9 +15,11 @@ viewsRouter.use('/mypage-order', serveStatic('mypage-order'));
 viewsRouter.use('/mypage-signout', serveStatic('mypage-signout'));
 viewsRouter.use('/categories/category-search?', serveStatic('categories'));
 viewsRouter.use('/product/:id', serveStatic('product'));
+viewsRouter.use('/cart', serveStatic('cart'));
+viewsRouter.use('/cart-login', serveStatic('cart-login'));
+
 // 어드민 관련 라우터
 viewsRouter.use(express.static(path.join(__dirname, '../views/admin/assets')));
-viewsRouter.use('/admin/login', adminServeStatic('login'));
 viewsRouter.use('/admin/home', adminServeStatic('home'));
 viewsRouter.use('/admin/categories', adminServeStatic('categories'));
 viewsRouter.use('/admin/products', adminServeStatic('products'));

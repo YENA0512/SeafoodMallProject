@@ -53,6 +53,7 @@
 .get_categories_btn {
   align-self: flex-end;
   margin: 10px;
+  width: 15%;
 }
 
 .modify_info {
@@ -80,13 +81,7 @@
   border-radius: 0 5px 0 0;
 }
 
-.s1 {
-  width: 20%;
-}
-.s2 {
-  width: 18%;
-}
-.s3 {
+.modify_info > div {
   width: 18%;
 }
 
@@ -100,33 +95,32 @@
 
   border: 1px solid black;
   border-radius: 5px;
+}
 
-  overflow: scroll;
+.modify_categories > form {
+  width: 100%;
+  overflow-y: auto;
 }
 
 .modify_categories > form > ol {
-  width: 95%;
-  margin: 10px auto;
-
-  /* display: flex; */
-  /* justify-content: flex-end; */
-  /* align-items: center; */
+  width: 100%;
 }
 
 .modify_categories > form > ol > li {
-  margin: 10px auto;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  border: 1px solid black;
-  border-radius: 5px;
+  border-bottom: 1px solid black;
 }
 
 .modify_categories > form > ol > li > div > input {
-  width: 16%;
+  width: 15.8%;
   margin: 10px;
+}
+
+#modi_species_code {
+  width: 15%;
 }
 
 .modify_categories > form > ol > li > div > button {
