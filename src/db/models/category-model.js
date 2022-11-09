@@ -22,18 +22,16 @@ export class CategoryModel {
 
   async update(DTO) {
     const filter = { _id: DTO._id, deleted_at: null };
-    const option = { returnOriginal: false };
 
-    const updatedCategory = await Category.findOneAndUpdate(filter, DTO, option);
+    const updatedCategory = await Category.findOneAndUpdate(filter, DTO);
     return updatedCategory;
   }
 
   async delete(DTO) {
     const filter = { _id: DTO._id };
     const deletedAtNow = { deleted_at: new Date() };
-    const option = { returnOriginal: false };
 
-    const deletedCategory = await Category.findOneAndUpdate(filter, deletedAtNow, option);
+    const deletedCategory = await Category.findOneAndUpdate(filter, deletedAtNow);
     return deletedCategory;
   }
 

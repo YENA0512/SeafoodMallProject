@@ -19,6 +19,30 @@ export class ProductModel {
     return updatedProduct;
   }
 
+  async updateMany(oldDTO, newDTO) {
+    const { _id, ...toUpdateDTO } = newDTO;
+    const filter = {
+      'category.parent_category': oldDTO.parent_category,
+      'category.child_category': oldDTO.child_category,
+      deleted_at: null,
+    };
+    const update = { category: toUpdateDTO };
+
+    const updatedProducts = await Product.updateMany(filter, update);
+    return updatedProducts;
+  }
+
+  async deleteMany(toDeleteDTO) {
+    const filter = {
+      'category.parent_category': toDeleteDTO.parent_category,
+      'category.child_category': toDeleteDTO.child_category,
+      deleted_at: null,
+    };
+
+    const deletedAtNow = { deleted_at: new Date() };
+    await Product.updateMany(filter, deletedAtNow);
+  }
+
   // 상품 조회
   async find() {
     const filter = { deleted_at: null };

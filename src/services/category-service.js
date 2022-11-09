@@ -1,8 +1,9 @@
-import { categoryModel } from '../db';
+import { categoryModel, productModel } from '../db';
 
 class CategoryService {
-  constructor(categoryModel) {
+  constructor(categoryModel, productModel) {
     this.categoryModel = categoryModel;
+    this.productModel = productModel;
   }
 
   // 카테고리 추가
@@ -33,16 +34,43 @@ class CategoryService {
     return categoryList;
   }
 
+  // 카테고리 리스트 조회(관리자)
+  async readCategoryListAdmin() {
+    const allCategory = await this.categoryModel.find({});
+    return allCategory;
+  }
+
   // 카테고리 수정
   async updateCategory(DTO) {
-    const updatedCategory = await this.categoryModel.update(DTO);
+    // 카테고리 수정, 삭제의 경우 상품 중에 parent, child category가 같은 상품들의 카테고리도 수정해줘야함
+    // 1. 먼저 카테고리 수정(returnOriginal : true 라서 원본반환)
+    const originalCategory = await this.categoryModel.update(DTO);
+    const oldCategory = {
+      parent_category: originalCategory.parent_category,
+      child_category: originalCategory.child_category,
+    };
+
+    // 2. 해당 카테고리들의 상품속 카테고리정보도 수정
+    await this.productModel.updateMany(oldCategory, DTO);
+
+    // 바뀐 카테고리 조회(for return)
+    const addnitionalFilter = { _id: DTO._id };
+    const updatedCategory = await this.categoryModel.find(addnitionalFilter);
     return updatedCategory;
   }
 
   // 카테고리 삭제
   async deleteCategory(DTO) {
+    // 카테고리 삭제
     const deletedCategory = await this.categoryModel.delete(DTO);
-    return deletedCategory;
+
+    // 해당 카테고리 parent, child에 해당하는 상품들 모두 삭제
+    const toDeleteDTO = {
+      parent_category: deletedCategory.parent_category,
+      child_category: deletedCategory.child_category,
+    };
+
+    await this.productModel.deleteMany(toDeleteDTO);
   }
 
   // 특정 카테고리 조회
@@ -53,6 +81,6 @@ class CategoryService {
   }
 }
 
-const categoryService = new CategoryService(categoryModel);
+const categoryService = new CategoryService(categoryModel, productModel);
 
 export { categoryService };
