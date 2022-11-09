@@ -112,7 +112,7 @@ async function del(endpoint, params = '', data = {}) {
     throw new Error(reason);
   }
 
-  const result = await res.json();
+  const result = res ?? (await res.json());
 
   return result;
 }
