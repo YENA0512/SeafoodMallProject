@@ -7,8 +7,8 @@ const categoryRouter = Router();
 // 카테고리 추가
 categoryRouter.post('/', async (req, res, next) => {
   try {
-    const { parent_category, child_category, species, species_code, species_image } = req.body;
-    const DTO = { parent_category, child_category, species, species_code, species_image };
+    const { parent_category, child_category } = req.body;
+    const DTO = { parent_category, child_category };
 
     const createdCategory = await categoryService.createCategory(DTO);
     const result = { success: true, data: createdCategory };
@@ -35,15 +35,14 @@ categoryRouter.get('/list', async (req, res, next) => {
 categoryRouter.patch('/:_id', async (req, res, next) => {
   try {
     const { _id } = req.params;
-    const { parent_category, child_category, species, species_code, species_image } = req.body;
+    const { parent_category, child_category } = req.body;
+    // these two categories is optional
     const DTO = sanitizeObject({
-      _id,
       parent_category,
       child_category,
-      species,
-      species_code,
-      species_image,
     });
+    // _id is required!
+    DTO._id = _id;
 
     const updatedCategory = await categoryService.updateCategory(DTO);
     const result = { success: true, data: updatedCategory };

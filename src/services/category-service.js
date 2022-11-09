@@ -11,40 +11,6 @@ class CategoryService {
     return createdCategory;
   }
 
-  // // 카테고리 리스트 조회
-  // async readCategoryList() {
-  //   const parentList = await this.categoryModel.readParentList();
-  //   const categoryList = [];
-  //   for (const parent of parentList) {
-  //     const children = await this.categoryModel.readChildList(parent);
-  //     categoryList.push({ parent_category: parent, child_category: children });
-  //   }
-  //   return categoryList;
-  // }
-
-  /*
-  {
-	"success": true,
-	"data": [
-		{
-			"parent_category": "농산물",
-			"child_category": [
-				"과일",
-				"채소"
-			]
-		},
-		{
-			"parent_category": "수산물",
-			"child_category": [
-				"갑각류",
-				"생선",
-				"조개",
-				"조개류"
-			]
-		}
-	]
-}
-   */
   // 카테고리 리스트 조회
   async readCategoryList() {
     // 전체 카테고리 조회
