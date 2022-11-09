@@ -1,3 +1,4 @@
+import is from '@sindresorhus/is';
 import { categoryModel, productModel } from '../db';
 
 class CategoryService {
@@ -8,6 +9,12 @@ class CategoryService {
 
   // 카테고리 추가
   async createCategory(DTO) {
+    // 카테고리 중복 확인
+    const foundCategory = await this.categoryModel.find(DTO);
+    if (!is.emptyArray(foundCategory)) {
+      throw new Error('중복된 카테고리입니다.');
+    }
+
     const createdCategory = await this.categoryModel.create(DTO);
     return createdCategory;
   }
@@ -42,6 +49,12 @@ class CategoryService {
 
   // 카테고리 수정
   async updateCategory(DTO) {
+    // 카테고리 중복 확인
+    const foundCategory = await this.categoryModel.find(DTO);
+    if (!is.emptyArray(foundCategory)) {
+      throw new Error('중복된 카테고리입니다.');
+    }
+
     // 카테고리 수정, 삭제의 경우 상품 중에 parent, child category가 같은 상품들의 카테고리도 수정해줘야함
     // 1. 먼저 카테고리 수정(returnOriginal : true 라서 원본반환)
     const originalCategory = await this.categoryModel.update(DTO);
