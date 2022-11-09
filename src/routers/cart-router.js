@@ -42,7 +42,6 @@ cartRouter.delete(
     const user_id = req.currentUserId;
     const DTO = { user_id };
     await cartService.deleteAll(DTO);
-    console.log(4);
     res.status(204);
     res.end();
   }),
