@@ -86,11 +86,12 @@ async function handleSubmit(e) {
   const detail_address = detailAddressInput.value;
 
   // 새 비밀번호 잘 입력했는지 확인
-  const isPasswordValid = password.length >= 4;
+  //비번 유효성 최소 4글자, 최대 20글자
+  const isPasswordValid = password.length >= 4 && password.length <= 20;
   const isPasswordSame = password === passwordConfirm;
 
   if (isPasswordValid && password) {
-    return alert('비밀번호는 4글자 이상이어야 합니다.');
+    return alert('비밀번호는 4글자 이상 20글자 이하이어야 합니다.');
   }
 
   if (!isPasswordSame) {
