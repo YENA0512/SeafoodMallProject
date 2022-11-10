@@ -29,11 +29,13 @@ async function handleSubmit(e) {
 
   // 잘 입력했는지 확인
   const isEmailValid = validateEmail(email);
-  const isPasswordValid = password.length >= 4;
+  //비번 유효성 최소 4글자, 최대 20글자
+  const isPasswordValid = password.length >= 4 && password.length <= 20;
+
   const isPasswordSame = password === passwordConfirm;
 
   if (!isPasswordValid) {
-    return alert('비밀번호는 4글자 이상이어야 합니다.');
+    return alert('비밀번호는 4글자 이상 20글자 이하이어야 합니다.');
   }
 
   if (!isEmailValid) {
