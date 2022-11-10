@@ -12,7 +12,6 @@ const deliveryFeeElem = document.querySelector('#shipping_price');
 const orderTotalElem = document.querySelector('#total_order_price');
 const purchaseButton = document.querySelector('#purchase_button');
 
-// 로그인 확인
 const addAllElements = () => {
   // 결제정보
   insertOrderSummary();
@@ -41,6 +40,7 @@ async function insertProductsfromCartLogin() {
   carts.data.forEach(async (cart) => {
     const cartId = cart._id;
     const cartPrice = cart.cart_price;
+    const productId = cart.product_id?._id;
     // indexedDB도 업데이트 하기
     await addToDb('cart', cart, cartId);
 
@@ -82,40 +82,40 @@ async function insertProductsfromCartLogin() {
       <input class="form-check-input" type="checkbox" value="" id="checkbox-${id}" ${
         isSelected ? 'checked' : ''
       }   />
-          <div class="image">
-          <figure>
-        <img class="product_image" src="${image}" alt="상품이미지" id="image-${id}"/>
-        </figure>
+      <div class="content">
+      <div class="image col-3">
+      <figure>
+    <img class="product_image " src="${image}" alt="상품이미지" id="image-${id}"/>
+    </figure>
     </div>
-    <div class="content">
-      <div id="title-${id}">
-        <p>${title}</p>
-      </div>
-      <div class="quantity">
-        <button class="btn" id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${
-        isSelected ? 'checked' : ''
-      }
-        >-</button>
-        <input type="number" class="quantity_input" min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
-        isSelected ? 'checked' : ''
-      }
-      }/>
-        <button class="btn" id="plus-${id}" ${quantity >= 99 ? 'disabled' : ''} ${
-        isSelected ? 'checked' : ''
-      }
-      }
-       >+</button>
-
-      </div>
-      <div class="calculation">
-       <p id="unitPrice-${id}" style="display:none">${addCommas(productPrice)}원</p>
-       <p id="quantity-${id}" style="display:none">${quantity}</p>
-        <p id="total-${id}">${addCommas(productPrice * quantity)}원</p>
+        <div id="title-${id}" class="col-2">
+          <p>${title}</p>
         </div>
-      <button class="btn btn-light" id="cart_update_btn_${id}">수량변경</button>
-      <div class="delete">
-        <button class="btn" id="delete-${id}">X</button>
-      </div>
+        <div class="quantity col-3">
+          <button class="btn btn-outline-secondary" style="
+          border: none;
+      " id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
+          >-</button>
+          <input type="number" class="quantity_input"  min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
+        isSelected ? 'checked' : ''
+      }
+        }/>
+          <button class="btn btn-outline-secondary" style="
+          border: none;
+      "id="plus-${id}" ${quantity >= 99 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
+        }
+         >+</button>
+         <button class="btn btn-light" id="cart_update_btn_${id}">수량변경</button>
+        </div>
+        <div class="calculation col-2">
+         <p id="unitPrice-${id}" style="display:none">${addCommas(productPrice)}원</p>
+         <p id="quantity-${id}" style="display:none">${quantity}</p>
+          <p id="total-${id}">${addCommas(productPrice * quantity)}원</p>
+    
+        </div>
+      <div class="delete col-2">
+      <button class="btn btn-dark btn-sm" id="delete-${id}">삭제</button>
+    </div>
     </div>
     </div>`,
     );
