@@ -103,7 +103,6 @@ class UserService {
     if (userInfo.new_password) {
       const hashedPassword = await bcrypt.hash(userInfo.new_password, 10);
       const update = { password: hashedPassword, shipping: shipping };
-      console.log(update);
 
       // 업데이트 진행(비밀번호 변경)
       user = await this.userModel.update({
