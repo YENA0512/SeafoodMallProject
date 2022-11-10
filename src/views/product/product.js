@@ -5,7 +5,6 @@ import { addToDb, putToDb } from '../../indexed-db.js';
 const ProductTitle = document.querySelector('.product_title');
 const packageCondition = document.querySelector('.package_condition');
 const platformCondition = document.querySelector('.platform_condition');
-const deliveryCondition = document.querySelector('.delivery_condition');
 const sellerCondition = document.querySelector('.seller_condition');
 const auctionCondition = document.querySelector('.auction_condition');
 const totalPrice = document.querySelector('.product_total');
@@ -41,46 +40,14 @@ getProductData();
 //TODO: 리펙토링 필수
 const LoginAddItemToCart = async () => {
   const product_id = productId;
-  const _id = productId;
-  const species = category.species;
-  const species_image = category.species_image;
-  const auction_cost = price.auction_cost;
-  const platform_commision = price.platform_commision;
-  const packaging_cost = price.packaging_cost;
-  const shipping_cost = price.shipping_cost;
-  // indexDB
-  const cartItem = {
-    _id,
-    species,
-    species_image,
-    auction_cost: auction_cost,
-    platform_commision,
-    packaging_cost,
-    shipping_cost,
-    quantity: 1,
-  };
-
-  await addToDb('cart', cartItem, productId);
 
   // 장바구니 요약(=전체 총합)을 업데이트함
   await putToDb('order', 'summary', (data) => {
-    // 기존 데이터를 가져옴
-    const count = data.productsCount;
-    const total = data.productsTotal;
-    const ids = data.ids;
-    const selectedIds = data.selectedIds;
-
-    // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
-    data.productsCount = (count ?? 0) + 1;
-
-    // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
-    data.productsTotal = (total ?? 0) + totalCost;
-
-    // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
-    data.ids = data.ids ? [...ids, productId] : [productId];
-
-    // 위와 마찬가지 방식
-    data.selectedIds = selectedIds ? [...selectedIds, productId] : [productId];
+    // 데이터 초기화
+    data.productsCount = 0;
+    data.productsTotal = 0;
+    data.ids = [];
+    data.selectedIds = [];
   });
 
   // API POST
@@ -92,19 +59,13 @@ const notLoginAddItemToCart = async () => {
   const _id = productId;
   const species = category.species;
   const species_image = category.species_image;
-  const auction_cost = price.auction_cost;
-  const platform_commision = price.platform_commision;
-  const packaging_cost = price.packaging_cost;
-  const shipping_cost = price.shipping_cost;
+  const product_cost = price.product_cost;
 
   const cartItem = {
     _id,
     species,
     species_image,
-    auction_cost: auction_cost,
-    platform_commision,
-    packaging_cost,
-    shipping_cost,
+    product_cost,
     quantity: 1,
   };
 
@@ -122,7 +83,7 @@ const notLoginAddItemToCart = async () => {
     data.productsCount = (count ?? 0) + 1;
 
     // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
-    data.productsTotal = (total ?? 0) + totalCost;
+    data.productsTotal = (total ?? 0) + product_cost;
 
     // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
     data.ids = data.ids ? [...ids, productId] : [productId];
@@ -136,5 +97,5 @@ cartButton.addEventListener('click', () => {
   isLogin ? LoginAddItemToCart() : notLoginAddItemToCart();
 });
 MoveCart.addEventListener('click', () => {
-  window.location.href = '/cart';
+  isLogin ? (window.location.href = '/cart-login') : (window.location.href = '/cart');
 });

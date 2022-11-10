@@ -12,5 +12,5 @@ ordersButton.addEventListener('click', () => {
   window.location.href = '/admin/orders';
 });
 
-const isToken = sessionStorage.token;
-const isAdmin = sessionStorage.role;
+// const isToken = sessionStorage.token;
+// const isAdmin = sessionStorage.role;

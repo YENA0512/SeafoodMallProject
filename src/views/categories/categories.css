@@ -66,8 +66,14 @@
 }
 
 .product_item {
-  width: 23%;
-  margin: 30px 10px;
+  width: 25%;
+  padding: 30px 10px;
+  border-radius: 10px;
+}
+
+.product_item:hover {
+  background-color: rgba(151, 151, 151, 0.116);
+  opacity: 0.8;
 }
 
 .product_item > a > h3 {

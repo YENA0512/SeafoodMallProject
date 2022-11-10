@@ -1,5 +1,5 @@
 import * as Api from '../../api.js';
-import { getUrlParams } from '../../useful-functions.js';
+import { getUrlParams, addCommas } from '../../useful-functions.js';
 
 const speciesTotal = document.querySelector('.species_total');
 const productItemContainer = document.querySelector('.product');
@@ -19,7 +19,9 @@ const getCategoriesData = async () => {
 
   res.forEach((item) => {
     const { _id, category, price } = item;
-    console.log(category, price);
+    if (!price.product_cost) {
+      price.product_cost = 0;
+    }
     productItemContainer.insertAdjacentHTML(
       'beforeend',
       `
@@ -28,8 +30,8 @@ const getCategoriesData = async () => {
         <img class="product_img" src="${category.species_image}" />
         <h3>${category.species}</h3>
         <div>
-          <span>${price.auction_cost}</span>
-          <span>&nbsp;원</span>
+          <span>${addCommas(price.product_cost)}</span>
+          <span>원</span>
         </div>
       </a>
     </div>

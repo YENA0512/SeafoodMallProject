@@ -39,8 +39,15 @@
 }
 
 .add_product > form > li {
+  width: 100%;
   display: flex;
 
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add_product > form > li > div {
+  display: flex;
   justify-content: space-between;
   align-items: center;
 }
@@ -81,6 +88,14 @@
   margin: 10px;
 }
 
+.show_product {
+  text-align: center;
+}
+
+.show_product > h1 {
+  margin: 50px;
+}
+
 .modify_info {
   width: 100%;
   height: 30px;
@@ -108,12 +123,15 @@
 
 .modify_info > div {
   width: 100%;
+  font-size: 12px;
 }
 
+/* .modify_info > div:nth-child(5),
 .modify_info > div:nth-child(7),
-.modify_info > div:nth-child(8) {
+.modify_info > div:nth-child(8),
+.modify_info > div:nth-child(10) {
   font-size: 13px;
-}
+} */
 
 .modify_product {
   width: 100%;
@@ -145,10 +163,14 @@
 
   border-bottom: 1px solid black;
 }
+.modify_product > form > ol > li > div:nth-child(1) {
+  display: flex;
+  justify-content: space-around;
+}
 
 .modify_product > form > ol > li > div > input {
-  width: 9%;
-  margin: 9.2px;
+  width: 8.5%;
+  margin: 4.2px;
 }
 
 #modi_species_code {

@@ -52,9 +52,10 @@ const getCategoriesList = async () => {
           child_category,
         };
         await Api.patch(`/api/v1/categories`, item._id, patchData);
+        alert('정상적으로 수정되었습니다.');
       }
     });
-
+    // 카테고리 삭제
     const delButton = document.querySelector(`.del_category${i}`);
     delButton.addEventListener('click', async () => {
       const modiParentCate = document.querySelector(`#modi_parent_category`);
