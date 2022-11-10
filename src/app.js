@@ -14,7 +14,7 @@ class Server {
   constructor() {
     const app = express();
     this.app = app;
-    this.isProd = this.env === 'production';
+    this.isProd = process.env.NODE_ENV === 'production';
   }
 
   connectDB() {
