@@ -16,6 +16,7 @@ const orderTotal = document.querySelector('#total_order_price');
 const checkoutBtn = document.querySelector('#checkout_btn');
 
 // 배송지 변경
+postalCodeInfo.addEventListener('click', searchAddress);
 addressUpdateBtn.addEventListener('click', searchAddress);
 // Daum 주소 API
 function searchAddress() {
@@ -52,20 +53,21 @@ function searchAddress() {
 // 장바구니 주문 상품 목록 보여주기
 async function insertOrderSummary() {
   // order api로 가져오기
-  await Api.get('/api/v1/orders/');
+  // await Api.get('/api/v1/orders/');
   const { selectedIds, productsTotal } = await getFromDb('order', 'summary');
   const hasItemToCheckout = selectedIds.length !== 0;
   // 선택된 상품이 없으면 장바구니로 다시 이동
   if (!hasItemToCheckout) {
     alert('구매할 상품이 없습니다. 장바구니에서 선택해 주세요');
     // 장바구니 페이지로 이동
-    return window.location.replace('../cart/cart.html');
+    return window.location.replace('/cart');
   }
   for (const id of selectedIds) {
     const products = await getFromDb('cart', id);
+    console.log(products);
 
     Array(products).forEach(async (product) => {
-      const { title, image, quantity, price } = product;
+      const { species: title, species_image: image, quantity, product_cost: price } = product;
 
       cartList.insertAdjacentHTML(
         'beforeend',
