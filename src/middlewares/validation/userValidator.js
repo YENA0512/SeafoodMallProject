@@ -46,7 +46,7 @@ export const updateUser = [
     .isMongoId()
     .withMessage('_id param가 MongoId 타입이 아닙니다.'),
   body('current_password').notEmpty().withMessage('current_password가 없습니다.'),
-  body('new_password').notEmpty().withMessage('new_password가 없습니다.'),
+  body('new_password').optional().notEmpty().withMessage('new_password가 없습니다.'),
   body('name').notEmpty().withMessage('name이 없습니다.'),
   body('mobile').notEmpty().withMessage('mobile이 없습니다.'),
   body('zencode')
