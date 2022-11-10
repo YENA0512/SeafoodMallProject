@@ -42,6 +42,7 @@
                   data-bs-target="#collapseOne"
                   aria-expanded="true"
                   aria-controls="collapseOne"
+                  style="color: #0c63e4; font-size: 20px"
                 >
                   주문상품 목록
                 </button>
@@ -58,60 +59,48 @@
               </div>
             </div>
             <hr />
-            <div class="order_info_title">주문자 정보</div>
-            <hr />
+            <div class="order_info_title mb-4 mt-4" style="color: #0c63e4; font-size: 20px">
+              주문자 정보
+            </div>
             <div class="order_info">
-              <ul>
-                <li>
-                  받는분
-                  <input
-                    class="form-control"
-                    id="nameInput"
-                    type="text"
-                    placeholder="이름을 추가해주세요"
-                    autocomplete="on"
-                  />
-                </li>
-                <li>
-                  휴대폰
-                  <input
-                    class="form-control"
-                    id="mobileInput"
-                    type="tel"
-                    placeholder="010-0000-0000"
-                    pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
-                    required
-                    autocomplete="on"
-                  />
-                </li>
-                <li>
-                  이메일
-                  <input class="form-control" id="email" />
-                </li>
-              </ul>
+              <label for="nameInput" class="mb-3"> 받는분 </label>
+              <input
+                class="form-control mb-3"
+                id="nameInput"
+                type="text"
+                placeholder="이름을 추가해주세요"
+                autocomplete="on"
+              />
+              <label for="mobileInput" class="mb-3"> 휴대폰 </label>
+              <input
+                class="form-control mb-3"
+                id="mobileInput"
+                type="tel"
+                placeholder="010-0000-0000"
+                pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                required
+                autocomplete="on"
+              />
+              <label for="email" class="mb-3"> 이메일</label>
+              <input class="form-control mb-3" id="email" />
             </div>
             <hr />
-            <div class="address_info_title">배송 정보</div>
-            <hr />
+            <div class="address_info_title mb-4 mt-4" style="color: #0c63e4; font-size: 20px">
+              배송 정보
+            </div>
+            <div class="address_info mb-3">배송지</div>
             <div class="address_info">
-              배송지
-              <ul>
-                <li>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="주소 검색을 클릭해 주세요."
-                    id="postalCode"
-                  />
-                </li>
-                <li>
-                  <input type="text" class="form-control" id="address" readonly />
-                </li>
-                <li>
-                  <input type="text" class="form-control" id="address_detail" />
-                </li>
-              </ul>
-              <button id="address_update_btn" class="btn btn-outline-primary">배송지 변경</button>
+              <input
+                type="text"
+                class="form-control mb-2"
+                placeholder="주소 검색을 클릭해 주세요."
+                id="postalCode"
+              />
+              <input type="text" class="form-control mb-2" id="address" readonly />
+              <input type="text" class="form-control mb-2" id="address_detail" />
+              <button id="address_update_btn" class="btn btn-outline-primary mt-2 mb-3">
+                배송지 변경
+              </button>
             </div>
           </div>
           <div class="order_box col-md-4">

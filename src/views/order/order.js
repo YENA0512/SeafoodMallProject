@@ -72,17 +72,17 @@ async function insertOrderSummary() {
       cartList.insertAdjacentHTML(
         'beforeend',
         `<div class="item_container" >
-        <div class="image">
+      <div class="content">
+      <div class="image col-3">
       <img class="product_image" src="${image}" alt="상품이미지"/>
       </div>
-      <div class="content">
-      <div>
+      <div class="col-3">
       <p>${title}</p>
       </div>
-      <div>
+      <div class="col-3">
       <p>${quantity}개<p>
       </div>
-     <div>
+     <div class="col-3">
      <p>
      ${addCommas(price)}원
      </p>
