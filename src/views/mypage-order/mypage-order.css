@@ -1,7 +1,6 @@
-body {
-  font-family: Arial, Helvetica, sans-serif;
+.mypage_headertitle {
+  text-align: center;
 }
-
 .mypage_headertitle > h1 {
   margin-top: 50px;
   font-weight: 500;
@@ -27,6 +26,7 @@ body {
 }
 .mypage_list a {
   text-decoration: none;
+  font-size: 1.3rem;
 }
 .mypage_list a:hover {
   color: #048abf;
@@ -39,7 +39,7 @@ body {
 }
 .mypage_userintro {
   width: 100%;
-  height: 200px;
+
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -50,7 +50,7 @@ body {
 }
 .mypage_userintro h3 {
   font-weight: 800;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 20px;
 
   color: #000;
@@ -84,7 +84,7 @@ body {
 
 .mypage_userinfo {
   width: 100%;
-
+  text-align: center;
   align-items: center;
   justify-content: center;
   margin-top: 50px;
@@ -152,6 +152,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #ececec;
+  font-weight: bold;
 }
 .order_basic_info {
   display: flex;
@@ -164,6 +165,7 @@ body {
 
 .order_basic_info > div {
   text-align: center;
+  font-size: 1rem;
 }
 
 .show_orders {
@@ -184,10 +186,14 @@ body {
   border-bottom: 1px solid #d3d3d3;
 }
 .show_orders > li > div {
-  height: 100%;
+  /* height: 100%; */
+  padding: 10px 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+.show_orders > li > div > p {
+  padding-bottom: 5px;
 }
 .show_orders div {
   text-align: center;
@@ -226,4 +232,32 @@ body {
 
 #exampleModal1 .modal-content {
   height: 100%;
+}
+
+#emailLabel {
+  font-size: 1.1rem;
+}
+#groupLabel {
+  font-size: 1.1rem;
+}
+
+.title {
+  text-align: center;
+  padding: 20px 20px;
+}
+
+#linkButton {
+  text-align: center;
+
+  align-items: center;
+}
+
+.description {
+  font-size: 0.8rem;
+  padding-top: 10px;
+  color: #495057;
+}
+
+#orderStatusValue {
+  font-weight: bold;
 }
