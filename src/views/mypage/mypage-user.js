@@ -90,11 +90,11 @@ async function handleSubmit(e) {
   const isPasswordValid = password.length >= 4 && password.length <= 20;
   const isPasswordSame = password === passwordConfirm;
 
-  if (isPasswordValid && password) {
+  if (!isPasswordValid && password) {
     return alert('비밀번호는 4글자 이상 20글자 이하이어야 합니다.');
   }
 
-  if (!isPasswordSame) {
+  if (!isPasswordSame && password) {
     return alert('새 비밀번호가 서로 일치하지 않습니다.');
   }
 
@@ -102,26 +102,39 @@ async function handleSubmit(e) {
   try {
     const userId = sessionStorage.getItem('userId');
 
-    const new_password = '';
-
-    const newData = {
-      current_password,
-      new_password,
-      name,
-      mobile,
-      zencode,
-      address,
-      detail_address,
-    };
+    let newData = {};
     if (password && password === current_password) {
       return alert('업데이트된 정보가 없습니다');
-    } else if (!mobile && !address && !name) {
-      return alert('업데이트된 정보가 없습니다');
-    } else {
+    } else if (!mobile || !address || !name) {
+      return alert('이름, 휴대폰, 주소 정보를 모두 입력하여 주세요');
+    } else if (!current_password) {
+      return alert('현재 비밀번호를 입력해주세요');
+    }
+    if (!password) {
+      newData = {
+        current_password,
+        name,
+        mobile,
+        zencode,
+        address,
+        detail_address,
+      };
+    } else if (password) {
+      const new_password = '';
+      newData = {
+        current_password,
+        new_password,
+        name,
+        mobile,
+        zencode,
+        address,
+        detail_address,
+      };
       newData.new_password = password;
     }
-
     console.log(newData);
+
+    //console.log(newData);
     const newUserInfo = await Api.patch(`/api/v1/users`, userId, newData);
     console.log(newUserInfo);
     alert(`회원정보가 정상적으로 수정되었습니다.`);
