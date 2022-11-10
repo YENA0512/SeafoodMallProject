@@ -3,8 +3,8 @@ import { addCommas } from '../useful-functions.js';
 import { deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
 const cartList = document.querySelector('#cart_list');
-const usernameInfo = document.querySelector('#username');
-const phonenumberInfo = document.querySelector('#phonenumber');
+const usernameInfo = document.querySelector('#nameInput');
+const phonenumberInfo = document.querySelector('#mobileInput');
 const emailInfo = document.querySelector('#email');
 const postalCodeInfo = document.querySelector('#postalCode');
 const addressInfo = document.querySelector('#address');
@@ -53,7 +53,8 @@ function searchAddress() {
 // 장바구니 주문 상품 목록 보여주기
 async function insertOrderSummary() {
   // order api로 가져오기
-  // await Api.get('/api/v1/orders/');
+  const order = await Api.get('/api/v1/orders');
+  console.log(order.data);
   const { selectedIds, productsTotal } = await getFromDb('order', 'summary');
   const hasItemToCheckout = selectedIds.length !== 0;
   // 선택된 상품이 없으면 장바구니로 다시 이동
@@ -108,8 +109,9 @@ async function insertUserData() {
   try {
     const userId = sessionStorage.getItem('userId');
     const userData = await Api.get(`/api/v1/users/${userId}`);
-    const { email, shipping } = userData.data;
-
+    // const { email, shipping } = userData.data;
+    const email = userData.data.email;
+    const shipping = userData.data.shipping;
     // 주문자 정보가 있으면 보여주고, 없으면 빈칸으로 보여줌
     const name = shipping?.name ?? '';
     const mobile = shipping?.mobile ?? '';
