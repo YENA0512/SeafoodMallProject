@@ -37,6 +37,7 @@ addAllEvents();
 // 회원 데이터 Read : Api 서버 통신
 async function insertProductsfromCartLogin() {
   const products = await Api.get('/api/v1/carts');
+  console.log(products);
   products.data.forEach(async (product) => {
     const cartId = product._id;
     const cartPrice = product.cart_price;
@@ -62,20 +63,15 @@ async function insertProductsfromCartLogin() {
 
       // 위와 마찬가지 방식
       data.selectedIds = selectedIds ? [...selectedIds, cartId] : [cartId];
-    });
+    }).then((window.location.href = './'));
   });
   const { selectedIds } = await getFromDb('order', 'summary');
   products.data.forEach((product) => {
-    const id = product.product_id?._id;
+    const id = product._id;
     const title = product.product_id?.category?.species;
     const image = product.product_id?.category?.species_image;
     const quantity = product.quantity;
-    const productPrice =
-      product.product_id?.price?.auction_cost +
-      product.product_id?.price?.packaging_cost +
-      product.product_id?.price?.platform_commision +
-      product.product_id?.price?.shipping_cost;
-    const cartId = product._id;
+    const productPrice = product.cart_price;
     const isSelected = selectedIds.includes(id);
 
     cartProductsContainer.insertAdjacentHTML(
@@ -121,10 +117,9 @@ async function insertProductsfromCartLogin() {
     </div>
     </div>`,
     );
+
     // 삭제 버튼 클릭
-    document
-      .querySelector(`#delete-${id}`)
-      .addEventListener('click', () => deleteItemLogin(id, cartId));
+    document.querySelector(`#delete-${id}`).addEventListener('click', () => deleteItemLogin(id));
     // 체크박스 선택
     document.querySelector(`#checkbox-${id}`).addEventListener('change', () => toggleItem(id));
     // 수량 빼기 버튼 클릭
@@ -150,6 +145,7 @@ async function insertProductsfromCartLogin() {
 // 상품 선택 함수
 async function toggleItem(id) {
   const itemCheckbox = document.querySelector(`#checkbox-${id}`);
+
   const isChecked = itemCheckbox.checked;
 
   // 결제정보 업데이트 및, 체크 상태에서는 수량을 수정 가능 (언체크는 불가능)으로 함
@@ -170,6 +166,7 @@ async function toggleAll(e) {
 
   ids.forEach(async (id) => {
     const itemCheckbox = document.querySelector(`#checkbox-${id}`);
+    console.log(itemCheckbox);
     const isItemCurrentlyChecked = itemCheckbox.checked;
 
     // 일단 아이템(제품) 체크박스에 전체 체크 혹은 언체크 여부를 반영함.
@@ -351,9 +348,9 @@ async function deleteSelectedItemsLogin() {
 }
 
 // 삭제(회원)
-async function deleteItemLogin(id, cartId) {
+async function deleteItemLogin(id) {
   // Api서버에서 삭제함
-  await Api.delete(`/api/v1/carts/${cartId}`);
+  await Api.delete(`/api/v1/carts/${id}`);
   window.location.reload;
   // indexedDB의 cart 목록에서 id를 key로 가지는 데이터를 삭제함.
   await deleteFromDb('cart', id);
@@ -546,8 +543,26 @@ async function updateCartforServer(id) {
 
 // 서버에 주문 정보 추가
 async function saveToOrder() {
-  const Ids = await Api.post('');
-  const orders = [];
-  const order = orders.push(cartId);
-  await Api.post('/api/v1/orders', orderData);
+  const userId = sessionStorage.getItem('userId');
+  const userData = await Api.get(`/api/v1/users/${userId}`);
+  console.log('hey0', userData.data);
+  if (userData.data.shipping == undefined) {
+    alert('등록된 배송지가 없습니다. 마이페이지로 이동합니다.');
+    window.location.href = '/mypage';
+  }
+  const { selectedIds } = await getFromDb('order', 'summary');
+
+  let orderIds = [];
+  let orderData = {};
+  selectedIds.forEach(async (id, idx) => {
+    const Ids = await getFromDb('cart', id);
+    console.log('hey', Ids);
+    orderIds.push(Ids.data[idx]);
+    console.log('hey2', orderIds);
+    orderData = { order_items: orderIds };
+    console.log('hey3', orderData);
+
+    await Api.post('/api/v1/orders', orderData);
+    window.location.href = '/order';
+  });
 }

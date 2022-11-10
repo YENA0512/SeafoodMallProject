@@ -49,6 +49,7 @@ header > h1 {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  text-align: center;
 }
 
 .price {
@@ -84,4 +85,14 @@ input:invalid {
   height: 50px;
   display: flex;
   align-items: center;
+}
+#address_update_btn {
+  float: right;
+}
+
+#order_price,
+#shipping_price,
+#total_order_price {
+  font-size: 18px;
+  text-align: right;
 }

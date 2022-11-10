@@ -21,7 +21,7 @@ const addAllElements = () => {
   addemptyHtml();
   insertProductsfromCart();
 };
-const isLogin = sessionStorage.getItem('userId');
+
 const addAllEvents = () => {
   // 전체선택 버튼 클릭
   allSelectCheckbox.addEventListener('change', toggleAll);
@@ -64,38 +64,39 @@ async function insertProductsfromCart() {
     <input class="form-check-input" type="checkbox" value="" id="checkbox-${id}" ${
         isSelected ? 'checked' : ''
       }   />
-        <div class="image">
-        <figure>
-      <img class="product_image" src="${image}" alt="상품이미지" id="image-${id}"/>
-      </figure>
-  </div>
+     
   <div class="content">
-    <div id="title-${id}">
+  <div class="image col-3">
+  <figure>
+<img class="product_image " src="${image}" alt="상품이미지" id="image-${id}"/>
+</figure>
+</div>
+    <div id="title-${id}" class="col-2">
       <p>${title}</p>
     </div>
-    <div class="quantity">
-      <button class="btn" id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${
-        isSelected ? 'checked' : ''
-      }
+    <div class="quantity col-3">
+      <button class="btn btn-outline-secondary" style="
+      border: none;
+  " id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
       >-</button>
-      <input type="number" class="quantity_input" min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
+      <input type="number" class="quantity_input"  min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
         isSelected ? 'checked' : ''
       }
     }/>
-      <button class="btn" id="plus-${id}" ${quantity >= 99 ? 'disabled' : ''} ${
-        isSelected ? 'checked' : ''
-      }
+      <button class="btn btn-outline-secondary" style="
+      border: none;
+  "id="plus-${id}" ${quantity >= 99 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
     }
      >+</button>
 
     </div>
-    <div class="calculation">
+    <div class="calculation col-2">
      <p id="unitPrice-${id}" style="display:none">${addCommas(productPrice)}원</p>
      <p id="quantity-${id}" style="display:none">${quantity}</p>
       <p id="total-${id}">${addCommas(productPrice * quantity)}원</p>
     </div>
-    <div class="delete">
-      <button class="btn" id="delete-${id}">X</button>
+    <div class="delete col-2">
+      <button class="btn btn-dark btn-sm" id="delete-${id}">삭제</button>
     </div>
   </div>
   </div>`,
