@@ -55,25 +55,29 @@ const getOrderList = async () => {
   console.log('res는', res);
   const data = res.data;
   console.log('data는', data);
+  let i = 1;
   data.forEach(async (item) => {
-    let i = 1;
     showOrders.insertAdjacentHTML(
       'beforeend',
       `
       <li>
-        <div id="modi_date${i}"></div>
-        <div id="modi_order_id${i}"></div>
-        <div id="modi_order_list${i}" class="show_order_list"></div>
-        <div>
-          <select class="form-select form-select-sm select_box${i}" aria-label=".form-select-sm example">
-            <option class="default_mention${i}" selected></option>
-          </select>
-        </div>
-        <div>
-          <button type="submit" form="modify" class="btn btn-outline-warning btn-sm modi_order${i}">변경</button>
-          <button type="submit" form="modify" class="btn btn-outline-danger btn-sm cancel_order${i}">취소</button>
-        </div>
-      </li>
+      <div id="modi_date${i}"></div>
+      <div id="modi_order_id${i}"></div>
+      <div id="modi_order_list${i}" class="show_order_list"></div>
+      <div>
+        <select class="form-select form-select-sm select_box${i}" aria-label=".form-select-sm example">
+          <option class="default_mention${i}" selected></option>
+        </select>
+      </div>
+      <div>
+        <button type="submit" form="modify" class="btn btn-outline-warning btn-sm modi_order${i}">
+          변경
+        </button>
+        <button type="submit" form="modify" class="btn btn-outline-danger btn-sm cancel_order${i}">
+          취소
+        </button>
+      </div>
+    </li>
       `,
     );
     // 리스트 조회 까지
@@ -81,19 +85,22 @@ const getOrderList = async () => {
     const modiOrderId = document.querySelector(`#modi_order_id${i}`);
     const modiOrderList = document.querySelector(`#modi_order_list${i}`);
     const modiOrderStatus = document.querySelector(`.default_mention${i}`);
-
+    // 날짜 확인
     let orderDateValue = item.createdAt.split('T')[0];
-    let orderIdValue = item._id;
-    let orderItemList = item.order_items;
     modiDate.innerHTML = orderDateValue;
+    // id 확인
+    let orderIdValue = item._id;
     modiOrderId.innerHTML = orderIdValue;
+    // order 확인
+
+    let orderItemList = item.order_items;
 
     // product_items 배열 순회
     orderItemList.forEach((el) => {
       modiOrderList.insertAdjacentHTML(
         `beforeend`,
         `
-        <p>${el.product_id.category.species} / ${el.quantity}</p>
+        <p>${el.product_id.category.species} / ${el.quantity} 개</p>
         `,
       );
     });
@@ -114,21 +121,21 @@ const getOrderList = async () => {
     });
 
     modiOrderStatus.setAttribute('value', `${checkOrder}`);
-    modiOrderStatus.innerHTML = checkStatus(item.order_status);
+    modiOrderStatus.innerHTML = checkOrder;
 
     // 인풋값 수정부분
     const modiOrderButton = document.querySelector(`.modi_order${i}`);
     const selectBox = document.querySelector(`.select_box${i}`);
-    // 선택 값 가져오는 함수
 
     // 수정 이벤트
     modiOrderButton.addEventListener('click', async (e) => {
       e.preventDefault();
+      // 선택 값 가져오는 함수
       let selectInputValue = selectBox.options[selectBox.selectedIndex].value;
       let order_status = checkStatusReverse(selectInputValue);
 
       const selectData = {
-        _id: data[0]._id,
+        _id: orderIdValue,
         order_status,
       };
       await Api.patch(`/api/v1/orders`, `status`, selectData);
