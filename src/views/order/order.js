@@ -16,7 +16,11 @@ const orderTotal = document.querySelector('#total_order_price');
 const checkoutBtn = document.querySelector('#checkout_btn');
 
 // 배송지 변경
-postalCodeInfo.addEventListener('click', searchAddress);
+postalCodeInfo.addEventListener('click', () => {
+  if (!postalCodeInfo.value) {
+    searchAddress;
+  }
+});
 addressUpdateBtn.addEventListener('click', searchAddress);
 // Daum 주소 API
 function searchAddress() {
@@ -54,7 +58,7 @@ function searchAddress() {
 async function insertOrderSummary() {
   // order api로 가져오기
   const order = await Api.get('/api/v1/orders');
-  console.log(order.data);
+  console.log('hey', order.data);
   const { selectedIds, productsTotal } = await getFromDb('order', 'summary');
   const hasItemToCheckout = selectedIds.length !== 0;
   // 선택된 상품이 없으면 장바구니로 다시 이동
@@ -64,11 +68,14 @@ async function insertOrderSummary() {
     return window.location.replace('/cart');
   }
   for (const id of selectedIds) {
-    const products = await getFromDb('cart', id);
-    console.log(products);
+    const carts = await getFromDb('cart', id);
+    console.log('hey2', carts);
 
-    Array(products).forEach(async (product) => {
-      const { species: title, species_image: image, quantity, product_cost: price } = product;
+    Array(carts).forEach((cart) => {
+      const image = cart.category?.species_image;
+      const title = cart.category?.species;
+      const quantity = cart.quantity;
+      const price = cart.cart_price;
 
       cartList.insertAdjacentHTML(
         'beforeend',

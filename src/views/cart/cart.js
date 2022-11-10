@@ -11,7 +11,6 @@ const deliveryFeeElem = document.querySelector('#shipping_price');
 const orderTotalElem = document.querySelector('#total_order_price');
 const purchaseButton = document.querySelector('#purchase_button');
 
-// 로그인 확인
 const addAllElements = () => {
   // 결제정보
   insertOrderSummary();
@@ -27,8 +26,17 @@ const addAllEvents = () => {
   // 선택삭제 버튼 클릭
   partialDeleteLabel.addEventListener('click', deleteSelectedItems);
   // 구매하기 버튼 클릭
-  purchaseButton.addEventListener('click', navigate('/order'));
+  purchaseButton.addEventListener('click', saveToOrder);
 };
+
+// 로그인 확인
+async function saveToOrder() {
+  const userId = sessionStorage.getItem('userId');
+  if (!userId) {
+    alert('로그인 후 이용가능합니다');
+    window.location.href = '/login';
+  }
+}
 
 addAllElements();
 addAllEvents();

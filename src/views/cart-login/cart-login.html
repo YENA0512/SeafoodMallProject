@@ -31,54 +31,57 @@
   <body>
     <main>
       <!--장바구니-->
-      <section>
-        <div class="title"><p class="fs-2 fw-bold">장바구니</p></div>
-        <div class="container">
-          <div class="row">
-            <div class="cart_products_header">
-              <input class="form-check-input" type="checkbox" value="" id="all_select" />
-              <button class="btn btn-outline-secondary">
-                <label class="form-check-label" for="all_select">전체선택</label>
-              </button>
-              <span style="margin: 10px 10px">|</span>
-              <button class="btn btn-outline-danger" id="partial_delete">선택삭제</button>
+      <main>
+        <!--장바구니-->
+        <section>
+          <div class="title"><p class="fs-2 fw-bold">장바구니</p></div>
+          <div class="container">
+            <div class="row mb-4">
+              <div class="cart_products_header">
+                <input class="form-check-input" type="checkbox" value="" id="all_select" />
+                <button class="btn btn-outline-dark" style="margin-left: 10px">
+                  <label class="form-check-label" for="all_select">전체선택</label>
+                </button>
+                <button class="btn btn-outline-danger" id="partial_delete" style="margin-left: 10px">
+                  선택삭제
+                </button>
+              </div>
             </div>
-          </div>
-          <hr />
-          <div class="row cart_box">
-            <div class="col-md-8" id="cart_list">
-              <!--장바구니에 등록된 상품 리스트-->
-            </div>
-            <!--상품 주문 요약-->
-            <div class="order_box col-md-4">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title fs-5">결제 금액</h5>
-                </div>
-                <!--상품 금액 계산-->
-                <ul class="list-group list-group-flush" id="price_calculation">
-                  <li id="productsCount" style="display: none"></li>
-                  <li class="list-group-item">
-                    상품금액
-                    <p id="product_price"></p>
-                  </li>
-                  <li class="list-group-item">
-                    배송비
-                    <p id="shipping_price"></p>
-                  </li>
-                  <li class="list-group-item">
-                    총 결제 금액
-                    <p id="total_order_price"></p>
-                  </li>
-                </ul>
-                <div class="card-body d-grid">
-                  <button class="btn btn-primary" id="purchase_button">주문하기</button>
+            <hr />
+            <div class="row cart_box mt-4">
+              <div class="col-md-8" id="cart_list">
+                <!--장바구니에 등록된 상품 리스트-->
+              </div>
+              <!--상품 주문 요약-->
+              <div class="order_box col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title fs-5">결제 금액</h5>
+                  </div>
+                  <!--상품 금액 계산-->
+                  <ul class="list-group list-group-flush" id="price_calculation">
+                    <li id="productsCount" style="display: none"></li>
+                    <li class="list-group-item">
+                      상품금액
+                      <p id="product_price"></p>
+                    </li>
+                    <li class="list-group-item">
+                      배송비
+                      <p id="shipping_price"></p>
+                    </li>
+                    <li class="list-group-item">
+                      총 결제 금액
+                      <p id="total_order_price"></p>
+                    </li>
+                  </ul>
+                  <div class="card-body d-grid">
+                    <button class="btn btn-primary" id="purchase_button">주문하기</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
     </main>
   </body>
 </html>
