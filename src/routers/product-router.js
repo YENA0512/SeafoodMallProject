@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { productService } from '../services/product-service';
-import { sanitizeObject } from '../utils/sanitizeObject';
-import { productModel } from '../db';
+import { objectConversionStr2Num } from '../utils/object-conversion';
 
 const productRouter = Router();
 
@@ -9,7 +8,7 @@ const productRouter = Router();
 productRouter.post('/', async (req, res, next) => {
   try {
     const { category, price, stock } = req.body;
-    const DTO = { category, price, stock };
+    const DTO = { category, price: objectConversionStr2Num(price), stock: parseInt(stock) };
 
     const createdProduct = await productService.createProduct(DTO);
     const result = { success: true, data: createdProduct };
@@ -26,7 +25,7 @@ productRouter.patch('/:_id', async (req, res, next) => {
     const { _id } = req.params;
 
     const { category, price, stock } = req.body;
-    const DTO = { category, price, stock, _id };
+    const DTO = { category, price: objectConversionStr2Num(price), stock: parseInt(stock), _id };
 
     const updatedProduct = await productService.updateProduct(DTO);
     const result = { success: true, data: updatedProduct };

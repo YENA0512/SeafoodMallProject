@@ -8,14 +8,14 @@ class ProductService {
 
   // 상품 추가
   async createProduct(DTO) {
-    DTO.price.product_cost = Math.round(calculateProductCost(DTO.price));
+    DTO.price.product_cost = Math.round(calculateProductCost(DTO.price) / 10) * 10;
     const createdProduct = await this.productModel.create(DTO);
     return createdProduct;
   }
 
   // 상품 수정
   async updateProduct(DTO) {
-    DTO.price.product_cost = Math.round(calculateProductCost(DTO.price));
+    DTO.price.product_cost = Math.round(calculateProductCost(DTO.price) / 10) * 10;
     const updatedProduct = await this.productModel.update(DTO);
     return updatedProduct;
   }
