@@ -26,10 +26,11 @@ async function handleSubmit(e) {
 
   // 잘 입력했는지 확인
   const isEmailValid = validateEmail(email);
-  const isPasswordValid = password.length >= 4;
+  //비번 유효성 최소 4글자, 최대 20글자
+  const isPasswordValid = password.length >= 4 && password.length <= 20;
 
   if (!isEmailValid || !isPasswordValid) {
-    return alert('비밀번호가 4글자 이상인지, 이메일 형태가 맞는지 확인해 주세요.');
+    return alert('비밀번호가 4글자 이상 20글자 이하인지, 이메일 형태가 맞는지 확인해 주세요.');
   }
 
   // 로그인 api 요청
