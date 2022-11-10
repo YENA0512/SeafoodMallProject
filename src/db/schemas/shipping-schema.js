@@ -2,12 +2,12 @@ import { Schema } from 'mongoose';
 
 const ShippingSchema = new Schema(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-      unique: true,
-    },
+    // user_id: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'User',
+    //   required: true,
+    //   unique: true,
+    // },
     // place_name: {
     //   type: String,
     //   required: true,

@@ -12,6 +12,8 @@ class CartService {
       await this.cartModel.readCartByProduct({ user_id, product_id }),
       await this.productModel.findById(product_id),
     ]);
+    console.log('product', product[0].price);
+
     if (productCart?.product_id?._id?.toString() === product_id) {
       const { _id, quantity } = productCart;
       const { product_cost } = product.price;
@@ -21,7 +23,7 @@ class CartService {
       return updatedCart;
     }
 
-    DTO.cart_price = calculateCartPrice(product[0].price, quantity);
+    DTO.cart_price = calculateCartPrice(product[0].price.product_cost, quantity);
     const createdCart = await this.cartModel.create(DTO);
     return createdCart;
   }
