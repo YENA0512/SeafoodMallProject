@@ -1,3 +1,2 @@
-import { server } from './src/app';
-
-server.start();
+require('@babel/register');
+require('./src/app');
