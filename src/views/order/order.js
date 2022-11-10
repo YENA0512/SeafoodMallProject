@@ -1,5 +1,5 @@
 import * as Api from '../api.js';
-import { addCommas } from '../useful-functions.js';
+import { addCommas, navigate } from '../useful-functions.js';
 import { deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
 const cartList = document.querySelector('#cart_list');
@@ -56,9 +56,6 @@ function searchAddress() {
 
 // 장바구니 주문 상품 목록 보여주기
 async function insertOrderSummary() {
-  // order api로 가져오기
-  const order = await Api.get('/api/v1/orders');
-  console.log('hey', order.data);
   const { selectedIds, productsTotal } = await getFromDb('order', 'summary');
   const hasItemToCheckout = selectedIds.length !== 0;
   // 선택된 상품이 없으면 장바구니로 다시 이동
@@ -72,8 +69,8 @@ async function insertOrderSummary() {
     console.log('hey2', carts);
 
     Array(carts).forEach((cart) => {
-      const image = cart.category?.species_image;
-      const title = cart.category?.species;
+      const image = cart.product_id?.category?.species_image;
+      const title = cart.product_id?.category?.species;
       const quantity = cart.quantity;
       const price = cart.cart_price;
 
@@ -151,29 +148,33 @@ checkoutBtn.addEventListener('click', async () => {
   if (!userName || !phoneNumber || !email || !postalCode || !address || !addressDetail) {
     return alert('배송지 정보를 모두 입력해주세요!');
   }
-  // 주문정보 저장
+  // 최초 배송지 저장 확인
+  const userId = sessionStorage.getItem('userId');
+  const userData = await Api.get(`/api/v1/users/${userId}`);
+  if (userData.data.shipping == undefined) {
+    alert('등록된 배송지가 없습니다. 마이페이지로 이동합니다.');
+    return window.location.replace('/mypage');
+  }
+  // order에 post요청
   try {
-    for (const productId of selectedIds) {
-      const { quantity } = await getFromDb('cart', productId);
-      const userId = sessionStorage.getItem('userId');
-      const order = {
-        productId,
-        quantity,
-        userId,
-      };
-      await Api.post('/api/v1/orders/', order);
+    let orderIds = [];
+    selectedIds.forEach(async (cartId) => {
+      const orderdata = await getFromDb('cart', cartId);
+      orderIds.push(orderdata);
+      console.log('hey2', orderIds);
+      await Api.post('/api/v1/orders', { order_items: orderIds });
 
       // indexedDB에서 해당 제품 관련 데이터 제거
-      await deleteFromDb('cart', productId);
+      await deleteFromDb('cart', cartId);
       await putToDb('order', 'summary', (data) => {
-        data.ids = data.ids.filter((id) => id !== productId);
-        data.selectedIds = data.selectedIds.filter((id) => id !== productId);
+        data.ids = data.ids.filter((id) => id !== cartId);
+        data.selectedIds = data.selectedIds.filter((id) => id !== cartId);
         data.productsCount -= 1;
-        data.productsTotal -= totalPrice;
+        data.productsTotal -= cartId.cart_price;
       });
-    }
+    });
     alert('결제가 정상적으로 완료되었습니다.');
-    window.location.href = '../home/home.html';
+    // window.location.href = '/';
   } catch (err) {
     alert(`결제 중 문제가 발생하였습니다:${err.message}`);
   }

@@ -27,7 +27,7 @@ const addAllEvents = () => {
   // 선택삭제 버튼 클릭
   partialDeleteLabel.addEventListener('click', deleteSelectedItemsLogin);
   // 구매하기 버튼 클릭
-  purchaseButton.addEventListener('click', saveToOrder);
+  purchaseButton.addEventListener('click', navigate('/order'));
 };
 
 addAllElements();
@@ -40,7 +40,6 @@ async function insertProductsfromCartLogin() {
   carts.data.forEach(async (cart) => {
     const cartId = cart._id;
     const cartPrice = cart.cart_price;
-    const productId = cart.product_id?._id;
     // indexedDB도 업데이트 하기
     await addToDb('cart', cart, cartId);
 
@@ -85,11 +84,11 @@ async function insertProductsfromCartLogin() {
       <div class="content">
       <div class="image col-3">
       <figure>
-    <img class="product_image " src="${image}" alt="상품이미지" id="image-${id}"/>
+    <img class="product_image " src="${image}" alt="상품이미지" id="image-${id}" style="cursor:pointer"/>
     </figure>
     </div>
         <div id="title-${id}" class="col-2">
-          <p>${title}</p>
+          <p style="cursor:pointer">${title}</p>
         </div>
         <div class="quantity col-3">
           <button class="btn btn-outline-secondary" style="
@@ -105,7 +104,6 @@ async function insertProductsfromCartLogin() {
       "id="plus-${id}" ${quantity >= 99 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
         }
          >+</button>
-         <button class="btn btn-light" id="cart_update_btn_${id}">수량변경</button>
         </div>
         <div class="calculation col-2">
          <p id="unitPrice-${id}" style="display:none">${addCommas(productPrice)}원</p>
@@ -141,10 +139,6 @@ async function insertProductsfromCartLogin() {
     document
       .querySelector(`#title-${id}`)
       .addEventListener('click', navigate(`/product/${productId}`));
-    // 변경사항 저장
-    document
-      .querySelector(`#cart_update_btn_${id}`)
-      .addEventListener('click', () => updateCartforServer(id));
   });
 }
 
@@ -536,32 +530,4 @@ async function insertOrderSummary() {
     deliveryFeeElem.innerText = `0원`;
     orderTotalElem.innerText = `0원`;
   }
-}
-
-// 회원 장바구니 변경 사항 저장
-async function updateCartforServer(id) {
-  const updateData = parseInt(document.querySelector(`#quantityInput-${id}`).value);
-  const updateQuantity = { quantity: updateData };
-  await Api.patch(`/api/v1/carts`, id, updateQuantity);
-  window.location.reload();
-}
-
-// 서버에 주문 정보 추가
-async function saveToOrder() {
-  const userId = sessionStorage.getItem('userId');
-  const userData = await Api.get(`/api/v1/users/${userId}`);
-  if (userData.data.shipping == undefined) {
-    alert('등록된 배송지가 없습니다. 마이페이지로 이동합니다.');
-    window.location.href = '/mypage';
-  }
-  const { selectedIds } = await getFromDb('order', 'summary');
-
-  let orderIds = [];
-  selectedIds.forEach(async (id) => {
-    const orderdata = await getFromDb('cart', id);
-    orderIds.push(orderdata);
-    console.log('hey2', orderIds);
-    await Api.post('/api/v1/orders', { order_items: orderIds });
-  });
-  window.location.href = '/order';
 }
