@@ -28,7 +28,7 @@ const ShippingSchema = new Schema(
       type: String,
       enum: ['R', 'J'],
       required: true,
-      default: null,
+      default: 'R',
     },
     detail_address: {
       type: String,
