@@ -68,7 +68,7 @@ function checkGroup(userGroup) {
     case 'seller':
       return '판매자';
     case 'customer':
-      return '소비자';
+      return '일반 회원';
   }
 }
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>마이 페이지</title>
+    <title>마이페이지</title>
 
     <!-- 폰트 어썸: 아이콘 -->
     <script defer src="https://kit.fontawesome.com/9daa42bcef.js" crossorigin="anonymous"></script>
@@ -33,9 +33,7 @@
   <body>
     <main>
       <section>
-        <div class="mypage_headertitle">
-          <h1>마이페이지</h1>
-        </div>
+        <div class="title"><p class="fs-2 fw-bold">마이페이지</p></div>
         <div class="mypage_content">
           <div class="mypage_category">
             <ul>
@@ -55,7 +53,7 @@
                   <p id="emailLabel"><strong>이메일</strong></p>
                   <p id="groupLabel"><strong>회원 종류</strong></p>
                 </div>
-                <div class="col-9">
+                <div class="col-9 pb-3">
                   <p id="userEmailValue"></p>
 
                   <p id="userGroupValue"></p>
@@ -64,7 +62,7 @@
             </div>
             <div class="mypage_userinfo">
               <p class="h4">나의 정보</p>
-              <div class="field mt-5 mb-3">
+              <div class="field mt-5 mb-4">
                 <label class="label mb-3" for="emailInput">이메일</label>
                 <div class="control">
                   <input
@@ -78,7 +76,7 @@
                 </div>
               </div>
 
-              <div class="field mb-3">
+              <div class="field mb-4">
                 <label class="label mb-3" for="currentPasswordInput">현재 비밀번호</label>
                 <div class="control">
                   <input
@@ -91,7 +89,7 @@
                   />
                 </div>
               </div>
-              <div class="field mb-3">
+              <div class="field mb-4">
                 <label class="label mb-3" for="passwordInput">새 비밀번호</label>
                 <div class="control">
                   <input
@@ -104,7 +102,7 @@
                 </div>
               </div>
 
-              <div class="field mb-3">
+              <div class="field mb-4">
                 <label class="label mb-3" for="passwordConfirmInput">새 비밀번호 확인</label>
                 <div class="control">
                   <input
@@ -116,7 +114,7 @@
                   />
                 </div>
               </div>
-              <div class="field mb-3">
+              <div class="field mb-4">
                 <label class="label mb-3" for="nameInput">이름</label>
                 <div class="control">
                   <input
@@ -128,7 +126,7 @@
                   />
                 </div>
               </div>
-              <div class="field mb-3">
+              <div class="field mb-4">
                 <label class="label mb-3" for="mobileInput">휴대폰</label>
                 <div class="control">
                   <input
@@ -142,8 +140,8 @@
                   />
                 </div>
               </div>
-              <div class="field address">
-                <label class="label mb-3" for="addressInput">주소</label>
+              <div class="field address mb-4">
+                <label class="label" for="addressInput">주소</label>
                 <div class="control">
                   <input
                     class="input mb-2"
@@ -168,11 +166,11 @@
                     autocomplete="on"
                   />
 
-                  <button class="button mb-3" id="addressButton">🔍 주소 검색</button>
+                  <button class="button mb-5" id="addressButton">🔍 주소 검색</button>
                 </div>
               </div>
-              <br /><br /><br /><br /><br />
-              <button class="button mb-3 mt-5 btn btn-primary" id="submitButton">
+
+              <button class="button mb-5 mt-4 btn btn-primary" id="submitButton">
                 회원정보수정
               </button>
             </div>

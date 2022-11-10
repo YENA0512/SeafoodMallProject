@@ -50,14 +50,9 @@ async function handleSubmit(e) {
     sessionStorage.setItem('userId', userId);
     // role 저장
     sessionStorage.setItem('role', role);
-    alert(`정상적으로 로그인되었습니다.`);
+    alert(`오늘바다에 오신 것을 환영합니다.`);
 
     // 로그인 성공
-
-    // admin(관리자) 일 경우, sessionStorage에 기록함
-    // if (isAdmin) {
-    //   sessionStorage.setItem('admin', 'admin');
-    // }
 
     // 기존 다른 페이지에서 이 로그인 페이지로 온 경우, 다시 돌아가도록 해 줌.
     const { previouspage } = getUrlParams();

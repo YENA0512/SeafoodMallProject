@@ -6,34 +6,11 @@ import { checkLogin } from '../useful-functions.js';
 const userEmail = document.querySelector('#userEmail');
 const userEmailValue = document.querySelector('#userEmailValue');
 const userGroupValue = document.querySelector('#userGroupValue');
-// const updateOrderInfoModal = document.querySelector('.updateOrderInfoModal');
-// const addressInput = document.querySelector('#addressInput1');
-// const detailAddressInput = document.querySelector('#addressInput2');
-// const mobileInput = document.querySelector('#mobileInput');
-// const nameInput = document.querySelector('#nameInput');
-// const postalCodeInput = document.querySelector('#postalCodeInput');
-// const submitButton = document.querySelector('#submitButton');
-// const cancelOrderModal = document.querySelector('.cancelOrderModal');
-// const deleteCompleteButton = document.querySelector('#deleteCompleteButton');
-// const deleteCancelButton = document.querySelector('#deleteCancelButton');
-// const modalCloseButton = document.querySelector('#modalCloseButton');
-// const orderChangeButton = document.querySelector('.orderChangeButton');
-// const orderCancelButton = document.querySelector('.orderCancelButton');
-
+const mypage_orderinfo = document.querySelector('.mypage_orderinfo');
 const show_orders = document.querySelector('.show_orders');
 checkLogin();
 getUserInfo();
 insertOrders();
-addAllElements();
-addAllEvents();
-
-function addAllElements() {}
-function addAllEvents() {
-  //deleteCompleteButton.addEventListener('click', deleteOrderData);
-  // deleteCancelButton.addEventListener('click', closeCancelModal);
-  // modalCloseButton.addEventListener('click', closeChangeModal);
-  //submitButton.addEventListener('click', handleSubmit);
-}
 
 async function getUserInfo() {
   try {
@@ -60,7 +37,7 @@ function checkGroup(userGroup) {
     case 'seller':
       return '판매자';
     case 'customer':
-      return '소비자';
+      return '일반 회원';
   }
 }
 
@@ -86,23 +63,37 @@ function checkStatus(str) {
   }
   return result;
 }
-
+function showNullWindow() {
+  mypage_orderinfo.innerHTML = `<p class="h3 text-center">주문내역이 없습니다.</p>
+  <p class="text-center">오늘바다에서 준비한 오늘의 싱싱한 수산물을 만나러 가보실까요?</p><br />
+  <button type="button" onclick="location.href='../categories/category-search/?keyword=조개';" id="linkButton" class="text-center button btn btn-primary">바로가기</a>`;
+  mypage_orderinfo.style.padding = '20% 10%';
+  mypage_orderinfo.style.textAlign = 'center';
+  const linkButton = document.querySelector('#linkButton');
+}
 async function insertOrders() {
   const orders = await Api.get(`/api/v1/orders`);
   console.log(orders);
   const order = orders.data;
+  console.log(order.length);
+  if (order.length === 0) {
+    showNullWindow();
+  }
   order.forEach((el) => {
     console.log(el);
     let orderIdValue = el._id;
     let orderDateValue = el.createdAt.split('T')[0];
-    let orderPriceValue = el.order_price;
+    let orderPriceValue = el.order_price.toLocaleString();
     const orderItem = el.order_items;
     orderItem.forEach((item) => {
-      let orderProductValue = item.product_id.category.species;
+      // let orderProductValue = item.product_id.category.species;
+      let orderProductValue = item.product_id.category.child_category;
       let orderProductQuantity = item.quantity;
+      console.log(orderProductValue);
       let orderProductValues = `${orderProductValue} / 수량 : ${orderProductQuantity}`;
+      let orderProducts = document.querySelector(`#orderProductValue`);
+
       let orderStatusValue = checkStatus(el.order_status);
-      console.log(orderIdValue);
       show_orders.insertAdjacentHTML(
         'beforeend',
         `
@@ -110,7 +101,7 @@ async function insertOrders() {
   <div class="col-2 orderIdValue" id="orderIdValue-${orderIdValue}">${orderIdValue}</div>
   <div class="col-2" id="orderDateValue">${orderDateValue}</div>
   <div class="col-3" id="orderProductValue">${orderProductValues}</div>
-  <div class="col-2" id="orderPriceValue">${orderPriceValue}원</div>
+  <div class="col-2" id="orderPriceValue" style="text-align:right;">${orderPriceValue}원</div>
   <div class="col-1_5" id="orderStatusValue">
     <p>${orderStatusValue}</p>
     <button
@@ -257,9 +248,13 @@ async function insertOrders() {
 
       `,
       );
+
+      console.log(orderProducts);
+      //orderProducts.innerHTML += orderProductValues;
+      console.log(orderProductValues);
       if (orderStatusValue === '주문취소') {
-        document.querySelector(`#orderChangeButton-${orderIdValue}`).style.display = 'none';
-        document.querySelector(`#orderCancelButton-${orderIdValue}`).style.display = 'none';
+        document.querySelector(`#orderChangeButton-${orderIdValue}`).disabled = 'true';
+        document.querySelector(`#orderCancelButton-${orderIdValue}`).disabled = 'true';
       }
       const submitButton = document.querySelector(`#submitButton-${orderIdValue}`);
       const deleteCompleteButton = document.querySelector(`#deleteCompleteButton-${orderIdValue}`);

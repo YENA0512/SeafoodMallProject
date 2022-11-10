@@ -32,7 +32,9 @@ body {
   font-size: 1.4rem;
   background-color: #048abf;
 }
-
+#submitButton {
+  background-color: #048abf;
+}
 .title {
   margin-top: 70px;
   font-weight: 800;

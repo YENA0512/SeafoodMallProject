@@ -27,6 +27,7 @@ body {
 }
 .mypage_list a {
   text-decoration: none;
+  font-size: 1.3rem;
   /* color: #000; */
 }
 .mypage_list a:hover {
@@ -40,7 +41,6 @@ body {
 }
 .mypage_userintro {
   width: 100%;
-  height: 200px;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -51,7 +51,7 @@ body {
 }
 .mypage_userintro h3 {
   font-weight: 800;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 20px;
 
   color: #000;
@@ -107,16 +107,16 @@ body {
 .field {
   width: 100%;
   display: flex;
-  align-items: center;
   margin-bottom: 20px;
 }
 .label {
   width: 30%;
+  padding-top: 15px;
+  font-size: 1.2rem;
 }
 .control {
   font-weight: bold;
   width: 70%;
-  height: 35px;
 }
 .input {
   width: 100%;
@@ -124,35 +124,48 @@ body {
   border-radius: 10px;
   margin: 0 auto;
   padding-left: 20px;
-  font-size: 12px;
+  font-size: 1.1rem;
+  height: 45px;
 }
 .address {
   margin-bottom: 30px;
 }
 #addressButton {
   width: 100%;
-  height: 35px;
+  height: 40px;
   border-radius: 10px;
   border: none;
   margin: 0 auto;
-  padding-left: 20px;
-  font-size: 12px;
+
+  font-size: 1.3rem;
   background-color: #f2d194;
 }
 .mypage_userinfo .button {
   align-items: center;
   font-weight: bold;
   display: block;
-  width: 200px;
+  width: 300px;
   margin: 30px auto;
   text-align: center;
   align-items: center;
-  height: 40px;
+  height: 50px;
   border-radius: 7px;
   background-color: #048abf;
   margin: 0 auto;
+  font-size: 1.4rem;
 }
 .mypage_userinfo .input:focus {
   border-color: #00d1b2;
   box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
+}
+
+#emailLabel {
+  font-size: 1.1rem;
+}
+.title {
+  text-align: center;
+  padding: 20px 20px;
+}
+#groupLabel {
+  font-size: 1.1rem;
 }
