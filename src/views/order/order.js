@@ -143,7 +143,7 @@ checkoutBtn.addEventListener('click', async () => {
   const postalCode = postalCodeInfo.value;
   const address = addressInfo.value;
   const addressDetail = addressInfoDetail.value;
-  const { selectedIds, totalPrice } = await getFromDb('order', 'summary');
+  const { selectedIds } = await getFromDb('order', 'summary');
   // 입력값 확인
   if (!userName || !phoneNumber || !email || !postalCode || !address || !addressDetail) {
     return alert('배송지 정보를 모두 입력해주세요!');
@@ -160,6 +160,7 @@ checkoutBtn.addEventListener('click', async () => {
     let orderIds = [];
     selectedIds.forEach(async (cartId) => {
       const orderdata = await getFromDb('cart', cartId);
+      const totalPrice = orderdata.cart_price;
       orderIds.push(orderdata);
       console.log('hey2', orderIds);
       await Api.post('/api/v1/orders', { order_items: orderIds });
@@ -170,7 +171,7 @@ checkoutBtn.addEventListener('click', async () => {
         data.ids = data.ids.filter((id) => id !== cartId);
         data.selectedIds = data.selectedIds.filter((id) => id !== cartId);
         data.productsCount -= 1;
-        data.productsTotal -= cartId.cart_price;
+        data.productsTotal -= totalPrice;
       });
     });
     alert('결제가 정상적으로 완료되었습니다.');

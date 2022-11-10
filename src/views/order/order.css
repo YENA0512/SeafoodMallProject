@@ -35,6 +35,7 @@ header > h1 {
 /* ------------↑공통영역↑------------ */
 .title {
   text-align: center;
+  padding: 20px;
 }
 
 .product_image {
