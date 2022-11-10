@@ -36,10 +36,14 @@
   justify-content: space-between;
   align-items: center;
 }
+.add_categories > form > li > div {
+  display: flex;
+  justify-content: space-around;
+}
 
 .add_categories > form > li > div > input {
   align-self: flex-start;
-  width: 40%;
+  width: 35%;
   margin: 10px;
 }
 
