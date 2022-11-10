@@ -7,14 +7,14 @@ import { errorHandler } from './middlewares';
 import { envValidator } from './middlewares/validation/envValidator';
 import { connectMongoDB } from './db';
 import morgan from 'morgan';
-import * as helmet from 'helmet';
+import helmet from 'helmet';
 import { logger } from './config/logger';
 
 class Server {
   constructor() {
+    // logger.info('서버 시작');
     const app = express();
     this.app = app;
-    this.isProd = process.env.NODE_ENV === 'production';
   }
 
   connectDB() {
@@ -27,11 +27,11 @@ class Server {
     });
     envValidator();
 
-    if (this.isProd) {
-      this.app.use(morgan('combined'));
-      this.app.use(helmet);
+    if (process.env.NODE_ENV === 'production') {
+      this.app.use(morgan('combined', { stream: logger.stream }));
+      this.app.use(helmet());
     } else {
-      this.app.use(morgan('dev'));
+      this.app.use(morgan('dev', { stream: logger.stream }));
     }
 
     this.app.use(cors());
@@ -60,10 +60,10 @@ class Server {
     this.app.listen(process.env.PORT, () => {
       logger.info(`정상적으로 서버를 시작하였습니다.  http://localhost:${process.env.PORT}`);
     });
-    logger.info('서버 시작');
   }
 }
 
 const server = new Server();
+server.start();
 
 export { server };

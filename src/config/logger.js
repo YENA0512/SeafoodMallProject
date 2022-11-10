@@ -1,5 +1,7 @@
 import * as winston from 'winston';
 import 'winston-daily-rotate-file';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const logDir = './logs';
 
@@ -28,10 +30,18 @@ const colors = {
 winston.addColors(colors);
 
 const format = winston.format.combine(
-  winston.format.timestamp({ format: ' YYYY-MM-DD HH:MM:SS ||' }),
-  // winston.format.colorize({ all: true }),
-  winston.format.printf((info) => `${info.timestamp} [ ${info.level} ] ▶ ${info.message}`),
+  winston.format.timestamp({ format: 'YY-MM-DD HH:MM:SS' }),
+  winston.format.printf((info) => `${info.timestamp} | [${info.level}] : ${info.message}`),
 );
+//개발환경에서는 콘솔에 표시 x
+const winstonConsole =
+  process.env.NODE_ENV === 'development'
+    ? [
+        new winston.transports.Console({
+          handleExceptions: true,
+        }),
+      ]
+    : [];
 
 const logger = winston.createLogger({
   format,
@@ -44,7 +54,8 @@ const logger = winston.createLogger({
       filename: `%DATE%.log`,
       zippedArchive: true,
       handleExceptions: true,
-      maxFiles: 30,
+      maxFiles: 100,
+      maxsize: 5242880,
     }),
     new winston.transports.DailyRotateFile({
       level: 'error',
@@ -52,12 +63,26 @@ const logger = winston.createLogger({
       dirname: logDir + '/error',
       filename: `%DATE%.error.log`,
       zippedArchive: true,
-      maxFiles: 30,
+      maxFiles: 100,
+      maxsize: 5242880,
     }),
-    new winston.transports.Console({
-      handleExceptions: true,
+    new winston.transports.DailyRotateFile({
+      level: 'warn',
+      datePattern: 'YYYY-MM-DD',
+      dirname: logDir + '/warn',
+      filename: `%DATE%.warn.log`,
+      zippedArchive: true,
+      maxFiles: 100,
+      maxsize: 5242880,
     }),
+    ...winstonConsole,
   ],
 });
+
+logger.stream = {
+  write: (message) => {
+    logger.info(message);
+  },
+};
 
 export { logger };
