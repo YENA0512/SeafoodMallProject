@@ -85,7 +85,7 @@
 }
 
 .modify_orders > form > ol > li {
-  height: 70px;
+  min-height: 70px;
 
   display: flex;
   justify-content: space-between;
