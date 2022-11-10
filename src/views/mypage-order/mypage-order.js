@@ -71,42 +71,56 @@ function showNullWindow() {
   mypage_orderinfo.style.textAlign = 'center';
   const linkButton = document.querySelector('#linkButton');
 }
+function printOrderItems(orderItem, orderIdValue) {
+  let orderProducts = document.querySelector(`#orderProductValue-${orderIdValue}`);
+  orderProducts = '';
+  if (orderItem.length > 1) {
+    for (let item of orderItem) {
+      let product = item?.product_id?.category?.species;
+      let productQuantity = item.quantity;
+      orderProducts += `${product} / 수량 : ${productQuantity}<br>`;
+    }
+  } else {
+    let product = orderItem[0]?.product_id?.category?.species;
+    let productQuantity = orderItem[0].quantity;
+    orderProducts = `${product} / 수량 : ${productQuantity}\n`;
+  }
+
+  return orderProducts;
+}
 async function insertOrders() {
   const orders = await Api.get(`/api/v1/orders`);
-  console.log(orders);
+
   const order = orders.data;
-  console.log(order.length);
+
   if (order.length === 0) {
     showNullWindow();
   }
   order.forEach((el) => {
-    console.log(el);
     let orderIdValue = el._id;
     let orderDateValue = el.createdAt.split('T')[0];
     let orderPriceValue = el.order_price.toLocaleString();
     const orderItem = el.order_items;
-    orderItem.forEach((item) => {
-      // let orderProductValue = item.product_id.category.species;
-      let orderProductValue = item.product_id.category.child_category;
-      let orderProductQuantity = item.quantity;
-      console.log(orderProductValue);
-      let orderProductValues = `${orderProductValue} / 수량 : ${orderProductQuantity}`;
-      let orderProducts = document.querySelector(`#orderProductValue`);
 
-      let orderStatusValue = checkStatus(el.order_status);
-      show_orders.insertAdjacentHTML(
-        'beforeend',
-        `
+    //printOrderItems(orderItem, orderIdValue);
+    // let orderProductValue = item.product_id.category.species
+    let orderStatusValue = checkStatus(el.order_status);
+    show_orders.insertAdjacentHTML(
+      'beforeend',
+      `
         <li id="orderItemList-${orderIdValue}">
   <div class="col-2 orderIdValue" id="orderIdValue-${orderIdValue}">${orderIdValue}</div>
   <div class="col-2" id="orderDateValue">${orderDateValue}</div>
-  <div class="col-3" id="orderProductValue">${orderProductValues}</div>
+  <div class="col-3" id="orderProductValue-${orderIdValue}">${printOrderItems(
+        orderItem,
+        orderIdValue,
+      )}</div>
   <div class="col-2" id="orderPriceValue" style="text-align:right;">${orderPriceValue}원</div>
   <div class="col-1_5" id="orderStatusValue">
     <p>${orderStatusValue}</p>
     <button
       type="button"
-      class="btn btn-success orderChangeButton"
+      class="btn btn-success btn-sm orderChangeButton"
       style="background-color: #04B2D9"
       id="orderChangeButton-${orderIdValue}"
       data-bs-toggle="modal"
@@ -175,14 +189,14 @@ async function insertOrders() {
               </div>
             </div>
             <div class="field mb-3">
-              <label class="label" for="mobileInput">휴대폰번호</label>
+              <label class="label" for="mobileInput">휴대폰</label>
               <div class="control">
                 <input
                   class="input"
                   id="mobileInput-${orderIdValue}"
                   type="tel"
-                  placeholder="010-0000-0000"
-                  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                  placeholder="01000000000"
+                  pattern="[0-9]{3}[0-9]{4}[0-9]{4}"
                   required
                   autocomplete="on"
                 />
@@ -229,7 +243,7 @@ async function insertOrders() {
             ></button>
           </div>
           <div class="modal-body">
-            <p>선택하신 내역이 주문 취소 처리 됩니다.<br />주문을 취소하시겠습니까?</p>
+            <p style="font-size:18px;line-height:30px;">선택하신 내역이 주문 취소 처리 됩니다.<br />주문을 취소하시겠습니까?</p>
           </div>
           <div class="modal-footer">
             <button class="button btn btn-secondary" id="deleteCompleteButton-${orderIdValue}" aria-label="close">
@@ -242,49 +256,41 @@ async function insertOrders() {
     </div>
   </div>
 </li>
-
-
-      
-
       `,
-      );
+    );
 
-      console.log(orderProducts);
-      //orderProducts.innerHTML += orderProductValues;
-      console.log(orderProductValues);
-      if (orderStatusValue === '주문취소') {
-        document.querySelector(`#orderChangeButton-${orderIdValue}`).disabled = 'true';
-        document.querySelector(`#orderCancelButton-${orderIdValue}`).disabled = 'true';
-      }
-      const submitButton = document.querySelector(`#submitButton-${orderIdValue}`);
-      const deleteCompleteButton = document.querySelector(`#deleteCompleteButton-${orderIdValue}`);
-      const addressButton = document.querySelector(`#addressButton-${orderIdValue}`);
+    if (orderStatusValue === '주문취소') {
+      document.querySelector(`#orderChangeButton-${orderIdValue}`).disabled = 'true';
+      document.querySelector(`#orderCancelButton-${orderIdValue}`).disabled = 'true';
+    }
+    const submitButton = document.querySelector(`#submitButton-${orderIdValue}`);
+    const deleteCompleteButton = document.querySelector(`#deleteCompleteButton-${orderIdValue}`);
+    const addressButton = document.querySelector(`#addressButton-${orderIdValue}`);
+    // const orderChangeButton = document.querySelector(`#orderChangeButton-${orderIdValue}`);
 
-      addressButton.addEventListener('click', () => {
-        console.log('hey');
-        searchAddress(orderIdValue);
-      });
-      submitButton?.addEventListener('click', (e) => {
-        console.log(`orderId : ${orderIdValue}`);
-        handleSubmit(orderIdValue, e);
-      });
-      deleteCompleteButton?.addEventListener('click', (e) => {
-        console.log(`orderId : ${orderIdValue}`);
-        deleteOrderData(orderIdValue, e);
-      });
+    addressButton.addEventListener('click', () => {
+      searchAddress(orderIdValue);
     });
+    submitButton?.addEventListener('click', (e) => {
+      handleSubmit(orderIdValue, e);
+    });
+    deleteCompleteButton?.addEventListener('click', (e) => {
+      deleteOrderData(orderIdValue, e);
+    });
+    // orderChangeButton?.addEventListener('click', (e) => {
+    //   insertUserData(orderIdValue, e);
+    // });
   });
 }
 
 // db에서 주문정보 삭제
 async function deleteOrderData(orderIdValue, e) {
-  console.log(orderIdValue);
   e.preventDefault();
   const order_id = orderIdValue;
   try {
     // 취소 진행
     const res = await Api.delete(`/api/v1/orders`, order_id);
-    console.log(res);
+
     // 취소 성공
     alert('주문이 취소되었습니다.');
     // const deletedItem = document.querySelector(`#orderItemList-${orderIdValue}`);
@@ -295,16 +301,41 @@ async function deleteOrderData(orderIdValue, e) {
     alert(`주문 취소 과정에서 오류가 발생하였습니다\n`);
   }
 }
+// 주문자 정보 보여주기 (처음에는 Userdata 정보로 가져오지만 나중에 주문정보 변경하면 Orderdata로 들어감. 따라서 다시 변경버튼을 누르면 바뀐 Orderdata 정보 반영이 아닌 첨의 userdata 정보가 보이게 됨.)
+// async function insertUserData(orderIdValue, e) {
+//   e.preventDefault();
+//   try {
+//     let addressInput = document.querySelector(`#addressInput1-${orderIdValue}`);
+//     let detailAddressInput = document.querySelector(`#addressInput2-${orderIdValue}`);
+//     let mobileInput = document.querySelector(`#mobileInput-${orderIdValue}`);
+//     let nameInput = document.querySelector(`#nameInput-${orderIdValue}`);
+//     let postalCodeInput = document.querySelector(`#postalCodeInput-${orderIdValue}`);
+
+//     const userId = sessionStorage.getItem('userId');
+//     const userData = await Api.get(`/api/v1/users/${userId}`);
+//     const shipping = userData.data.shipping;
+//     console.log(userId);
+//     console.log(shipping);
+//     // 주문자 정보가 있으면 보여주고, 없으면 빈칸으로 보여줌
+//     nameInput.value = shipping?.name ?? '';
+//     mobileInput.value = shipping?.mobile ?? '';
+//     postalCodeInput.value = shipping?.zencode ?? '';
+//     addressInput.value = shipping?.address ?? '';
+//     detailAddressInput.value = shipping?.detail_address ?? '';
+//   } catch (err) {
+//     console.error(err.stack);
+//     alert(`${err.message}`);
+//   }
+// }
 
 async function handleSubmit(orderIdValue, e) {
-  console.log(orderIdValue);
   e.preventDefault();
   const order_id = orderIdValue;
-  const addressInput = document.querySelector(`#addressInput1-${orderIdValue}`);
-  const detailAddressInput = document.querySelector(`#addressInput2-${orderIdValue}`);
-  const mobileInput = document.querySelector(`#mobileInput-${orderIdValue}`);
-  const nameInput = document.querySelector(`#nameInput-${orderIdValue}`);
-  const postalCodeInput = document.querySelector(`#postalCodeInput-${orderIdValue}`);
+  let addressInput = document.querySelector(`#addressInput1-${orderIdValue}`);
+  let detailAddressInput = document.querySelector(`#addressInput2-${orderIdValue}`);
+  let mobileInput = document.querySelector(`#mobileInput-${orderIdValue}`);
+  let nameInput = document.querySelector(`#nameInput-${orderIdValue}`);
+  let postalCodeInput = document.querySelector(`#postalCodeInput-${orderIdValue}`);
 
   const name = nameInput?.value;
   const mobile = mobileInput?.value;
@@ -323,25 +354,24 @@ async function handleSubmit(orderIdValue, e) {
       address,
       detail_address,
     };
-    console.log(userData);
+
     const newData = { shipping: userData };
-    console.log(newData);
-    if (!mobile && !address && !name) {
-      return alert('업데이트된 정보가 없습니다');
+
+    if (!mobile || !address || !name) {
+      return alert('수령자, 주소, 휴대폰 정보를 모두 입력해주세요');
     }
 
     const newUserInfo = await Api.patch(`/api/v1/orders`, order_id, newData);
-    console.log(newUserInfo);
+    console.log('hey', newUserInfo);
     alert(`주문정보가 정상적으로 수정되었습니다.`);
 
-    window.location.href = './';
+    // window.location.href = './';
   } catch (err) {
     console.error(err.stack);
     alert(`${err.message}`);
   }
 }
 function searchAddress(orderIdValue) {
-  console.log('herehey');
   const addressInput = document.querySelector(`#addressInput1-${orderIdValue}`);
   const detailAddressInput = document.querySelector(`#addressInput2-${orderIdValue}`);
   const postalCodeInput = document.querySelector(`#postalCodeInput-${orderIdValue}`);
