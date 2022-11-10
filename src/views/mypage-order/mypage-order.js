@@ -71,6 +71,24 @@ function showNullWindow() {
   mypage_orderinfo.style.textAlign = 'center';
   const linkButton = document.querySelector('#linkButton');
 }
+function printOrderItems(orderItem, orderIdValue) {
+  let orderProducts = document.querySelector(`#orderProductValue-${orderIdValue}`);
+  orderProducts = '';
+  if (orderItem.length > 1) {
+    for (let item of orderItem) {
+      let product = item?.product_id?.category?.child_category;
+      let productQuantity = item.quantity;
+      orderProducts += `${product} / 수량 : ${productQuantity}<br>`;
+      console.log(product, productQuantity);
+    }
+  } else {
+    let product = orderItem[0]?.product_id?.category?.child_category;
+    let productQuantity = orderItem[0].quantity;
+    orderProducts = `${product} / 수량 : ${productQuantity}\n`;
+  }
+  console.log(orderProducts);
+  return orderProducts;
+}
 async function insertOrders() {
   const orders = await Api.get(`/api/v1/orders`);
   console.log(orders);
@@ -85,28 +103,27 @@ async function insertOrders() {
     let orderDateValue = el.createdAt.split('T')[0];
     let orderPriceValue = el.order_price.toLocaleString();
     const orderItem = el.order_items;
-    orderItem.forEach((item) => {
-      // let orderProductValue = item.product_id.category.species;
-      let orderProductValue = item.product_id.category.child_category;
-      let orderProductQuantity = item.quantity;
-      console.log(orderProductValue);
-      let orderProductValues = `${orderProductValue} / 수량 : ${orderProductQuantity}`;
-      let orderProducts = document.querySelector(`#orderProductValue`);
-
-      let orderStatusValue = checkStatus(el.order_status);
-      show_orders.insertAdjacentHTML(
-        'beforeend',
-        `
+    console.log(orderItem);
+    console.log(`orderItem count : ${orderItem.length}`);
+    //printOrderItems(orderItem, orderIdValue);
+    // let orderProductValue = item.product_id.category.species
+    let orderStatusValue = checkStatus(el.order_status);
+    show_orders.insertAdjacentHTML(
+      'beforeend',
+      `
         <li id="orderItemList-${orderIdValue}">
   <div class="col-2 orderIdValue" id="orderIdValue-${orderIdValue}">${orderIdValue}</div>
   <div class="col-2" id="orderDateValue">${orderDateValue}</div>
-  <div class="col-3" id="orderProductValue">${orderProductValues}</div>
+  <div class="col-3" id="orderProductValue-${orderIdValue}">${printOrderItems(
+        orderItem,
+        orderIdValue,
+      )}</div>
   <div class="col-2" id="orderPriceValue" style="text-align:right;">${orderPriceValue}원</div>
   <div class="col-1_5" id="orderStatusValue">
     <p>${orderStatusValue}</p>
     <button
       type="button"
-      class="btn btn-success orderChangeButton"
+      class="btn btn-success btn-sm orderChangeButton"
       style="background-color: #04B2D9"
       id="orderChangeButton-${orderIdValue}"
       data-bs-toggle="modal"
@@ -242,36 +259,28 @@ async function insertOrders() {
     </div>
   </div>
 </li>
-
-
-      
-
       `,
-      );
+    );
 
-      console.log(orderProducts);
-      //orderProducts.innerHTML += orderProductValues;
-      console.log(orderProductValues);
-      if (orderStatusValue === '주문취소') {
-        document.querySelector(`#orderChangeButton-${orderIdValue}`).disabled = 'true';
-        document.querySelector(`#orderCancelButton-${orderIdValue}`).disabled = 'true';
-      }
-      const submitButton = document.querySelector(`#submitButton-${orderIdValue}`);
-      const deleteCompleteButton = document.querySelector(`#deleteCompleteButton-${orderIdValue}`);
-      const addressButton = document.querySelector(`#addressButton-${orderIdValue}`);
+    if (orderStatusValue === '주문취소') {
+      document.querySelector(`#orderChangeButton-${orderIdValue}`).disabled = 'true';
+      document.querySelector(`#orderCancelButton-${orderIdValue}`).disabled = 'true';
+    }
+    const submitButton = document.querySelector(`#submitButton-${orderIdValue}`);
+    const deleteCompleteButton = document.querySelector(`#deleteCompleteButton-${orderIdValue}`);
+    const addressButton = document.querySelector(`#addressButton-${orderIdValue}`);
 
-      addressButton.addEventListener('click', () => {
-        console.log('hey');
-        searchAddress(orderIdValue);
-      });
-      submitButton?.addEventListener('click', (e) => {
-        console.log(`orderId : ${orderIdValue}`);
-        handleSubmit(orderIdValue, e);
-      });
-      deleteCompleteButton?.addEventListener('click', (e) => {
-        console.log(`orderId : ${orderIdValue}`);
-        deleteOrderData(orderIdValue, e);
-      });
+    addressButton.addEventListener('click', () => {
+      console.log('hey');
+      searchAddress(orderIdValue);
+    });
+    submitButton?.addEventListener('click', (e) => {
+      console.log(`orderId : ${orderIdValue}`);
+      handleSubmit(orderIdValue, e);
+    });
+    deleteCompleteButton?.addEventListener('click', (e) => {
+      console.log(`orderId : ${orderIdValue}`);
+      deleteOrderData(orderIdValue, e);
     });
   });
 }
