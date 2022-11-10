@@ -166,6 +166,6 @@ logoutBtn.addEventListener('click', () => {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('userId');
   sessionStorage.removeItem('role');
-
+  alert('로그아웃 되었습니다.');
   window.location.href = '/';
 });
