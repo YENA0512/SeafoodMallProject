@@ -7,7 +7,6 @@ import { errorHandler } from './middlewares';
 import { envValidator } from './middlewares/validation/envValidator';
 import { connectMongoDB } from './db';
 import morgan from 'morgan';
-import helmet from 'helmet';
 import { logger } from './config/logger';
 
 class Server {
@@ -29,7 +28,6 @@ class Server {
 
     if (process.env.NODE_ENV === 'production') {
       this.app.use(morgan('combined', { stream: logger.stream }));
-      this.app.use(helmet());
     } else {
       this.app.use(morgan('dev', { stream: logger.stream }));
     }
