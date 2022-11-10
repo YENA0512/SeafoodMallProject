@@ -60,11 +60,11 @@ export const updateUser = [
     .withMessage('address가 없습니다.')
     .isString()
     .withMessage('address가 String 타입이 아닙니다.'),
-  body('address_type')
-    .notEmpty()
-    .withMessage('address_type이 없습니다.')
-    .isString()
-    .withMessage('address_type이 String 타입이 아닙니다.'),
+  // body('address_type')
+  //   .notEmpty()
+  //   .withMessage('address_type이 없습니다.')
+  //   .isString()
+  //   .withMessage('address_type이 String 타입이 아닙니다.'),
   body('detail_address')
     .notEmpty()
     .withMessage('detail_address가 없습니다.')
