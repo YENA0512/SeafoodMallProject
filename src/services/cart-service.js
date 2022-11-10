@@ -12,8 +12,6 @@ class CartService {
       await this.cartModel.readCartByProduct({ user_id, product_id }),
       await this.productModel.findById(product_id),
     ]);
-    console.log('product', product[0].price);
-
     if (productCart?.product_id?._id?.toString() === product_id) {
       const { _id, quantity } = productCart;
       const { product_cost } = product.price;
@@ -22,23 +20,26 @@ class CartService {
       const updatedCart = await this.cartModel.update(DTO_s);
       return updatedCart;
     }
-
     DTO.cart_price = calculateCartPrice(product[0].price.product_cost, quantity);
     const createdCart = await this.cartModel.create(DTO);
     return createdCart;
   }
   async addCartItems(DTO) {
     const { cart_items, user_id } = DTO;
-    const created_items = [];
-    for (const item of cart_items) {
-      const { product_id, quantity } = item;
-      const product = await this.productModel.findById(product_id);
-      const cart_price = calculateCartPrice(product[0].price.product_cost, quantity);
-      const DTO_s = { product_id, quantity, user_id, cart_price };
-      const createdItem = await this.cartModel.create(DTO_s);
-      created_items.push(createdItem);
-    }
-    return created_items;
+    const promises = cart_items.map(({ product_id }) => this.productModel.findById(product_id));
+    const products = await Promise.all(promises);
+    const DTO_s = products.flat(2).reduce((arr, { price }, index) => {
+      const cart_price = calculateCartPrice(price.product_cost, cart_items[index].quantity);
+      arr.push({
+        user_id,
+        product_id: cart_items[index].product_id,
+        quantity: cart_items[index].quantity,
+        cart_price,
+      });
+      return arr;
+    }, []);
+    const createdItems = await this.cartModel.insertMany(DTO_s);
+    return createdItems;
   }
   async readAllItems(DTO) {
     const allItems = await this.cartModel.readAll(DTO);
