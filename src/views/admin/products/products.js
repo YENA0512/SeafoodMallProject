@@ -60,6 +60,7 @@ const makeProductsList = async (e) => {
   const seller_commision = sellerCoValue.trim();
   const platform_commision = platformCoValue.trim();
   const packaging_cost = packageValue.trim();
+  const stock = 100;
 
   if (!species_image) {
     species_image = 'imagePath';
@@ -89,7 +90,7 @@ const makeProductsList = async (e) => {
         platform_commision,
         packaging_cost,
       },
-      stock: 100,
+      stock: stock,
     };
 
     await Api.post(`/api/v1/products`, postData);
@@ -221,6 +222,7 @@ const getProductsList = async () => {
       const seller_commision = sellerCoValue.trim();
       const platform_commision = platformCoValue.trim();
       const packaging_cost = PackageValue.trim();
+      const stock = 100;
 
       if (!species_image) {
         species_image = 'imagePath';
@@ -250,6 +252,7 @@ const getProductsList = async () => {
             platform_commision,
             packaging_cost,
           },
+          stock: stock,
         };
 
         await Api.patch(`/api/v1/products`, item._id, patchData);

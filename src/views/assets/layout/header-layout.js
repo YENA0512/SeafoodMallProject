@@ -50,7 +50,7 @@ const LoginHeaderHTML = `
     </div>
     <div class="nav_menu">
       <ul>
-        <li><a>마이페이지</a></li>
+        <li><a href="/mypage">마이페이지</a></li>
         <em>|</em>
         <li><a href="/cart-login">장바구니</a></li>
         <em>|</em>

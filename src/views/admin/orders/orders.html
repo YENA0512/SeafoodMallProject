@@ -35,7 +35,7 @@
               <p>admin@admin.com</p>
               <h1>관리자</h1>
             </div>
-            <button type="button" class="btn btn-outline-primary">Go Home</button>
+            <button type="button" class="btn btn-outline-primary home_btn">Go Home</button>
           </div>
           <div class="select_area">
             <button type="button" class="btn btn-light categories_btn">카테고리 관리</button>
@@ -45,7 +45,22 @@
         </section>
         <section class="right_area">
           <div class="modify_area">
-            <h1>주문 상태 관리창</h1>
+            <div class="mention">
+              <p>- 카테고리 추가 -</p>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm get_orders_btn">새로고침</button>
+            <div class="modify_orders">
+              <div class="modify_info">
+                <div>날짜</div>
+                <div>주문 ID</div>
+                <div>상품 정보</div>
+                <div>배송 상태</div>
+                <div>주문 변경/취소</div>
+              </div>
+              <form id="modify">
+                <ol class="show_orders"></ol>
+              </form>
+            </div>
           </div>
         </section>
       </div>
