@@ -8,6 +8,10 @@ export class CartModel {
     const createdCart = await Cart.create(DTO);
     return createdCart;
   }
+  async insertMany(DTO) {
+    const createdBulkCart = await Cart.insertMany(DTO);
+    return createdBulkCart;
+  }
   async read(DTO) {
     const { _id } = DTO;
     const cart = await Cart.findOne({ _id }).populate('user_id').populate('product_id');
