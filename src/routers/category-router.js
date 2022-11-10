@@ -1,11 +1,10 @@
 import { Router } from 'express';
 import { categoryService } from '../services';
-import { sanitizeObject } from '../utils/sanitizeObject';
-
+import * as categoryValidator from '../middlewares/validation/categoryValidator';
 const categoryRouter = Router();
 
 // 카테고리 추가
-categoryRouter.post('/', async (req, res, next) => {
+categoryRouter.post('/', categoryValidator.createCategory, async (req, res, next) => {
   try {
     const { parent_category, child_category } = req.body;
     const DTO = { parent_category, child_category };
@@ -43,7 +42,7 @@ categoryRouter.get('/list/admin', async (req, res, next) => {
 });
 
 // 카테고리 수정
-categoryRouter.patch('/:_id', async (req, res, next) => {
+categoryRouter.patch('/:_id', categoryValidator.updateCategory, async (req, res, next) => {
   try {
     const { _id } = req.params;
     const { parent_category, child_category } = req.body;
@@ -63,7 +62,7 @@ categoryRouter.patch('/:_id', async (req, res, next) => {
 });
 
 // 카테고리 삭제
-categoryRouter.delete('/:_id', async (req, res, next) => {
+categoryRouter.delete('/:_id', categoryValidator.deleteCategory, async (req, res, next) => {
   try {
     const { _id } = req.params;
     const DTO = { _id };
@@ -77,17 +76,21 @@ categoryRouter.delete('/:_id', async (req, res, next) => {
 });
 
 // 특정 카테고리 조회(child-category)
-categoryRouter.get('/:child_category', async (req, res, next) => {
-  try {
-    const { child_category } = req.params;
-    const DTO = { child_category };
+categoryRouter.get(
+  '/:child_category',
+  categoryValidator.readCategoryByChildCategory,
+  async (req, res, next) => {
+    try {
+      const { child_category } = req.params;
+      const DTO = { child_category };
 
-    const categoryByChildCategory = await categoryService.readCategory(DTO);
-    const result = { success: true, categoryByChildCategory };
-    res.status(200).json(result);
-  } catch (err) {
-    next(err);
-  }
-});
+      const categoryByChildCategory = await categoryService.readCategory(DTO);
+      const result = { success: true, categoryByChildCategory };
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 export { categoryRouter };

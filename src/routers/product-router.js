@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { productService } from '../services/product-service';
 import { objectConversionStr2Num } from '../utils/object-conversion';
-
+import * as productValidatior from '../middlewares/validation/productValidator';
 const productRouter = Router();
 
 // 상품 추가
-productRouter.post('/', async (req, res, next) => {
+productRouter.post('/', productValidatior.createProduct, async (req, res, next) => {
   try {
     const { category, price, stock } = req.body;
     const DTO = { category, price: objectConversionStr2Num(price), stock: parseInt(stock) };
@@ -20,7 +20,7 @@ productRouter.post('/', async (req, res, next) => {
 });
 
 // 상품 수정
-productRouter.patch('/:_id', async (req, res, next) => {
+productRouter.patch('/:_id', productValidatior.updateProduct, async (req, res, next) => {
   try {
     const { _id } = req.params;
 
@@ -49,7 +49,7 @@ productRouter.get('/list', async (req, res, next) => {
 });
 
 // 상품 삭제
-productRouter.delete('/:_id', async (req, res, next) => {
+productRouter.delete('/:_id', productValidatior.deleteProduct, async (req, res, next) => {
   try {
     const { _id } = req.params;
     const DTO = { _id };
@@ -63,7 +63,7 @@ productRouter.delete('/:_id', async (req, res, next) => {
 });
 
 // 상품명으로 검색
-productRouter.get('/search', async (req, res, next) => {
+productRouter.get('/search', productValidatior.readProductByKeyword, async (req, res, next) => {
   try {
     const { keyword } = req.query;
     const DTO = { keyword };
@@ -78,20 +78,24 @@ productRouter.get('/search', async (req, res, next) => {
 });
 
 // 하위카테고리로 검색
-productRouter.get('/category-search', async (req, res, next) => {
-  try {
-    const { keyword } = req.query;
-    const DTO = { keyword };
+productRouter.get(
+  '/category-search',
+  productValidatior.readProductByKeyword,
+  async (req, res, next) => {
+    try {
+      const { keyword } = req.query;
+      const DTO = { keyword };
 
-    const seachedProductsByCategory = await productService.readProductByCategory(DTO);
+      const seachedProductsByCategory = await productService.readProductByCategory(DTO);
 
-    res.status(200).json(seachedProductsByCategory);
-  } catch (err) {
-    next(err);
-  }
-});
+      res.status(200).json(seachedProductsByCategory);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
-productRouter.get('/:_id', async (req, res, next) => {
+productRouter.get('/:_id', productValidatior.readProductById, async (req, res, next) => {
   try {
     const { _id } = req.params;
     const DTO = { _id };
