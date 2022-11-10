@@ -37,7 +37,8 @@ const getCategoriesList = async () => {
     // 카테고리 수정
     // TODO: 만약 내용이 디비의 내용과 같다면 프론트단에서 막는 로직설정
     const modiButton = document.querySelector(`.modi_category${i}`);
-    modiButton.addEventListener('click', async () => {
+    modiButton.addEventListener('click', async (e) => {
+      e.preventDefault();
       const modiParentCate = document.querySelector(`#modi_parent_category`);
       const modiChildCate = document.querySelector(`#modi_child_category_${item._id}`);
       let parent_category = modiParentCate.value;
@@ -51,8 +52,12 @@ const getCategoriesList = async () => {
           parent_category,
           child_category,
         };
-        await Api.patch(`/api/v1/categories`, item._id, patchData);
-        alert('정상적으로 수정되었습니다.');
+        try {
+          await Api.patch(`/api/v1/categories`, item._id, patchData);
+          alert('정상적으로 수정되었습니다.');
+        } catch (err) {
+          alert(err);
+        }
       }
     });
     // 카테고리 삭제

@@ -2,34 +2,38 @@
 // 다만, 앞으로 ~.js 파일을 작성할 때 아래의 코드 구조를 참조할 수 있도록,
 // 코드 예시를 남겨 두었습니다.
 
-// import * as Api from '../api.js';
+import * as Api from '../api.js';
 // import { randomId } from '/useful-functions.js';
 import { addCommas } from '../useful-functions.js';
 
 const productItemContainer = document.querySelector('.product');
 
 async function getProductData() {
-  const res = await fetch('./products.json');
-  // fetch로 테스트용으로 적은것. 결과물은 products 동일
-  const products = await res.json();
+  const res = await Api.get(`/api/v1/products/list`);
+  const products = res.data;
+  console.log(products);
+  let i = 1;
   products.forEach((item) => {
-    const { productImage, productName, productPrice } = item;
-
     productItemContainer.insertAdjacentHTML(
       'beforeend',
       `
       <div class="product_item">
-        <a href="">
-          <img class="product_img" src="${productImage}" />
-          <h3>${productName}</h3>
+        <a class="all_products_${i}">
+          <img class="product_img" src="${item.category.species_image}" />
+          <h3>${item.category.species}</h3>
           <div>
-            <span>${addCommas(productPrice)}</span>
+            <span>${addCommas(item.price.product_cost)}</span>
             <span>&nbsp;원</span>
           </div>
         </a>
       </div>
   `,
     );
+
+    let allProductA = document.querySelector(`.all_products_${i}`);
+    allProductA.setAttribute('href', `/product/${item._id}`);
+
+    i++;
   });
 }
 getProductData();
