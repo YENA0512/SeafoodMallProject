@@ -41,15 +41,6 @@ getProductData();
 const LoginAddItemToCart = async () => {
   const product_id = productId;
 
-  // 장바구니 요약(=전체 총합)을 업데이트함
-  await putToDb('order', 'summary', (data) => {
-    // 데이터 초기화
-    data.productsCount = 0;
-    data.productsTotal = 0;
-    data.ids = [];
-    data.selectedIds = [];
-  });
-
   // API POST
   const loginCartItem = { product_id, quantity: 1 };
   await Api.post('/api/v1/carts', loginCartItem);

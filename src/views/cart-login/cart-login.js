@@ -36,13 +36,13 @@ addAllEvents();
 
 // 회원 데이터 Read : Api 서버 통신
 async function insertProductsfromCartLogin() {
-  const products = await Api.get('/api/v1/carts');
-  console.log(products);
-  products.data.forEach(async (product) => {
-    const cartId = product._id;
-    const cartPrice = product.cart_price;
+  const carts = await Api.get('/api/v1/carts');
+  console.log(carts);
+  carts.data.forEach(async (cart) => {
+    const cartId = cart._id;
+    const cartPrice = cart.cart_price;
     // indexedDB도 업데이트 하기
-    await addToDb('cart', products, cartId);
+    await addToDb('cart', cart, cartId);
 
     // 장바구니 요약(=전체 총합)을 업데이트함
     await putToDb('order', 'summary', (data) => {
@@ -66,12 +66,14 @@ async function insertProductsfromCartLogin() {
     }).then((window.location.href = './'));
   });
   const { selectedIds } = await getFromDb('order', 'summary');
-  products.data.forEach((product) => {
-    const id = product._id;
+  carts.data.forEach((product) => {
+    const id = product._id; // 카트 id
+    const productId = product.product_id._id;
     const title = product.product_id?.category?.species;
     const image = product.product_id?.category?.species_image;
     const quantity = product.quantity;
     const productPrice = product.cart_price;
+
     const isSelected = selectedIds.includes(id);
 
     cartProductsContainer.insertAdjacentHTML(
@@ -133,8 +135,12 @@ async function insertProductsfromCartLogin() {
       .querySelector(`#quantityInput-${id}`)
       .addEventListener('change', () => handleQuantityInput(id));
     // 페이지 이동
-    document.querySelector(`#image-${id}`).addEventListener('click', navigate(`/product/${id}`));
-    document.querySelector(`#title-${id}`).addEventListener('click', navigate(`/product/${id}`));
+    document
+      .querySelector(`#image-${id}`)
+      .addEventListener('click', navigate(`/product/${productId}`));
+    document
+      .querySelector(`#title-${id}`)
+      .addEventListener('click', navigate(`/product/${productId}`));
     // 변경사항 저장
     document
       .querySelector(`#cart_update_btn_${id}`)
@@ -166,7 +172,6 @@ async function toggleAll(e) {
 
   ids.forEach(async (id) => {
     const itemCheckbox = document.querySelector(`#checkbox-${id}`);
-    console.log(itemCheckbox);
     const isItemCurrentlyChecked = itemCheckbox.checked;
 
     // 일단 아이템(제품) 체크박스에 전체 체크 혹은 언체크 여부를 반영함.
@@ -545,7 +550,6 @@ async function updateCartforServer(id) {
 async function saveToOrder() {
   const userId = sessionStorage.getItem('userId');
   const userData = await Api.get(`/api/v1/users/${userId}`);
-  console.log('hey0', userData.data);
   if (userData.data.shipping == undefined) {
     alert('등록된 배송지가 없습니다. 마이페이지로 이동합니다.');
     window.location.href = '/mypage';
@@ -553,16 +557,11 @@ async function saveToOrder() {
   const { selectedIds } = await getFromDb('order', 'summary');
 
   let orderIds = [];
-  let orderData = {};
-  selectedIds.forEach(async (id, idx) => {
-    const Ids = await getFromDb('cart', id);
-    console.log('hey', Ids);
-    orderIds.push(Ids.data[idx]);
+  selectedIds.forEach(async (id) => {
+    const orderdata = await getFromDb('cart', id);
+    orderIds.push(orderdata);
     console.log('hey2', orderIds);
-    orderData = { order_items: orderIds };
-    console.log('hey3', orderData);
-
-    await Api.post('/api/v1/orders', orderData);
-    window.location.href = '/order';
+    await Api.post('/api/v1/orders', { order_items: orderIds });
   });
+  window.location.href = '/order';
 }

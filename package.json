@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@sindresorhus/is": "^4.6.0",
+    "aws-sdk": "^2.1251.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
