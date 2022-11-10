@@ -18,7 +18,6 @@ const addAllElements = () => {
   // 전체 체크박스 업데이트
   updateAllSelectCheckbox();
   // 카트 목록
-  addemptyHtml();
   insertProductsfromCart();
 };
 
@@ -33,17 +32,6 @@ const addAllEvents = () => {
 
 addAllElements();
 addAllEvents();
-
-// 장바구니가 비었을때
-async function addemptyHtml() {
-  const { ids } = await getFromDb('order', 'summary');
-  if (ids.length == 0) {
-    cartProductsContainer.insertAdjacentHTML(
-      'beforeend',
-      `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
-    );
-  }
-}
 
 // 비회원 데이터 Read : indexedDB 이용
 async function insertProductsfromCart() {
@@ -302,6 +290,7 @@ async function deleteSelectedItems() {
   const { selectedIds } = await getFromDb('order', 'summary');
 
   selectedIds.forEach((id) => deleteItem(id));
+  window.location.href = './';
 }
 
 // 삭제(비회원)
@@ -317,6 +306,8 @@ async function deleteItem(id) {
 
   // 전체선택 체크박스를 업데이트함
   updateAllSelectCheckbox();
+
+  window.location.href = './';
 }
 
 // 결제정보 카드 업데이트 및, indexedDB 업데이트를 진행함.
@@ -487,5 +478,11 @@ async function insertOrderSummary() {
   } else {
     deliveryFeeElem.innerText = `0원`;
     orderTotalElem.innerText = `0원`;
+
+    // 장바구니가 비었을때
+    cartProductsContainer.insertAdjacentHTML(
+      'beforeend',
+      `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
+    );
   }
 }
