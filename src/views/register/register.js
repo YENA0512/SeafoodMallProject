@@ -65,7 +65,7 @@ async function handleSubmit(e) {
   try {
     const data = { email, password, name, mobile, zencode, address, detail_address };
 
-    await Api.post('/api/v1/users/signup', data);
+    await Api.post('/api/v1/users/sign-up', data);
 
     alert(`정상적으로 회원가입되었습니다.`);
 
