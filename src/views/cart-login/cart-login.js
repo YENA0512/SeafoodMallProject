@@ -210,6 +210,7 @@ async function increaseItemQuantity(id) {
   // indexedDB의 cart 데이터 업데이트
   await putToDb('cart', id, (data) => {
     data.quantity = data.quantity + 1;
+    data.cart_price = data.cart_price * data.quantity;
   });
 
   // 수량 변경박스(-버튼, 입력칸, +버튼) 상태 업데이트
@@ -227,6 +228,7 @@ async function decreaseItemQuantity(id) {
   // indexedDB의 cart 데이터 업데이트
   await putToDb('cart', id, (data) => {
     data.quantity = data.quantity - 1;
+    data.cart_price = data.cart_price * data.quantity;
   });
 
   // 수량 변경박스(-버튼, 입력칸, +버튼) 상태 업데이트
