@@ -6,7 +6,6 @@ const option = {
   maxPasswordLength: 20,
 };
 
-//old
 export const signUp = [
   body('email')
     .notEmpty()
@@ -23,7 +22,6 @@ export const signUp = [
   validationErrorChecker,
 ];
 
-//new
 export const signUp2 = [
   body('email')
     .notEmpty()

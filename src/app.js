@@ -11,7 +11,6 @@ import { logger } from './config/logger';
 
 class Server {
   constructor() {
-    // logger.info('서버 시작');
     const app = express();
     this.app = app;
   }

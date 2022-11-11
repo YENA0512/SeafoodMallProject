@@ -3,8 +3,6 @@ import { loginRequired, isAdmin } from '../middlewares';
 
 const healthRouter = Router();
 
-// health check router
-// should be removed when deploy
 healthRouter.get('/', (req, res) => {
   res.status(200).json({ message: '누구나 실행할 수 있는 컨트롤러에 도달' });
 });

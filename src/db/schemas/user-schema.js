@@ -1,7 +1,6 @@
 import { Schema } from 'mongoose';
 import { SellerSchema } from './seller-schema';
 import { ShippingSchema } from './shipping-schema';
-// import { CartSchema } from './cart-schema';
 
 const UserSchema = new Schema(
   {
@@ -26,7 +25,6 @@ const UserSchema = new Schema(
     seller_info: SellerSchema,
     shipping: {
       type: ShippingSchema,
-      // cart: [CartSchema],
     },
   },
   {

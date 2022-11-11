@@ -33,15 +33,21 @@ const format = winston.format.combine(
   winston.format.timestamp({ format: 'YY-MM-DD HH:MM:SS' }),
   winston.format.printf((info) => `${info.timestamp} | [${info.level}] : ${info.message}`),
 );
-//개발환경에서는 콘솔에 표시 x
-const winstonConsole =
-  process.env.NODE_ENV === 'development'
-    ? [
-        new winston.transports.Console({
-          handleExceptions: true,
-        }),
-      ]
-    : [];
+
+// const winstonConsole =
+//   process.env.NODE_ENV === 'development'
+//     ? [
+//         new winston.transports.Console({
+//           handleExceptions: true,
+//         }),
+//       ]
+//     : [];
+
+const winstonConsole = [
+  new winston.transports.Console({
+    handleExceptions: true,
+  }),
+];
 
 const logger = winston.createLogger({
   format,

@@ -162,5 +162,3 @@ export const readProductById = [
     .withMessage('_id가 MongoId 타입이 아닙니다.'),
   validationErrorChecker,
 ];
-
-///

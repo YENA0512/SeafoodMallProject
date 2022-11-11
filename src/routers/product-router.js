@@ -6,7 +6,6 @@ import { loginRequired, isAdmin } from '../middlewares';
 
 const productRouter = Router();
 
-// 상품 추가
 productRouter.post(
   '/',
   loginRequired,
@@ -27,7 +26,6 @@ productRouter.post(
   },
 );
 
-// 상품 수정
 productRouter.patch(
   '/:_id',
   loginRequired,
@@ -50,7 +48,6 @@ productRouter.patch(
   },
 );
 
-// 상품 조회(전체) TODO : pagination
 productRouter.get('/list', async (req, res, next) => {
   try {
     const productList = await productService.readProductList();
@@ -62,7 +59,6 @@ productRouter.get('/list', async (req, res, next) => {
   }
 });
 
-// 상품 삭제
 productRouter.delete(
   '/:_id',
   loginRequired,
@@ -82,7 +78,6 @@ productRouter.delete(
   },
 );
 
-// 상품명으로 검색
 productRouter.get('/search', productValidatior.readProductByKeyword, async (req, res, next) => {
   try {
     const { keyword } = req.query;
@@ -97,7 +92,6 @@ productRouter.get('/search', productValidatior.readProductByKeyword, async (req,
   }
 });
 
-// 하위카테고리로 검색
 productRouter.get(
   '/category-search',
   productValidatior.readProductByKeyword,
