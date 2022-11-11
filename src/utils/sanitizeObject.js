@@ -1,4 +1,4 @@
-function sanitizeObject(obj) {
+const sanitizeObject = (obj) => {
   const result = Object.entries(obj).reduce((map, [key, value]) => {
     if (value !== undefined) {
       map[key] = value;
@@ -6,6 +6,6 @@ function sanitizeObject(obj) {
     return map;
   }, {});
   return result;
-}
+};
 
 export { sanitizeObject };
