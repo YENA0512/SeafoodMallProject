@@ -29,47 +29,50 @@
   <body>
     <main>
       <!-- 로그인 폼(Form) -->
-      <div class="login-form-container">
-        <form class="box login-form-box" id="loginForm">
-          <h1 class="title text-center mb-5">로그인</h1>
-          <div class="field mt-3 mb-3">
-            <label class="label mb-3" for="emailInput">아이디</label>
-            <div class="control">
-              <input
-                class="input"
-                id="emailInput"
-                type="email"
-                placeholder="abc@example.com"
-                autocomplete="on"
-              />
-            </div>
+          <div class="login-form-container">
+            <form class="box login-form-box" id="loginForm">
+              <h1 class="title text-center mt-5 mb-5">로그인</h1>
+              <div class="field mb-3">
+                <label class="label mb-3" for="emailInput">아이디</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    id="emailInput"
+                    type="email"
+                    placeholder="abc@example.com"
+                    autocomplete="on"
+                  />
+                </div>
+              </div>
+
+              <div class="field mb-5">
+                <label class="label mb-3" for="passwordInput">비밀번호</label>
+                <div class="control">
+                  <input
+                    class="input"
+                    id="passwordInput"
+                    type="password"
+                    placeholder="********"
+                    autocomplete="on"
+                  />
+                </div>
+              </div>
+
+              <button class="button mb-3 mt-4 btn btn-primary button-submit" id="submitButtonLogin">
+                로그인
+              </button>
+              <button
+                type="button"
+                onClick="location.href='../register'"
+                class="button btn btn-outline-secondary button-submit mb-5"
+                id="submitButtonRegister"
+              >
+                회원가입
+              </button>
+            </form>
           </div>
 
-          <div class="field mb-5">
-            <label class="label mb-3" for="passwordInput">비밀번호</label>
-            <div class="control">
-              <input
-                class="input"
-                id="passwordInput"
-                type="password"
-                placeholder="********"
-                autocomplete="on"
-              />
-            </div>
-          </div>
-
-          <button class="button mb-3 mt-4 btn btn-primary button-submit" id="submitButtonLogin">
-            로그인
-          </button>
-          <button
-            type="button"
-            onClick="location.href='../register'"
-            class="button btn btn-outline-secondary button-submit"
-            id="submitButtonRegister"
-          >
-            회원가입
-          </button>
-        </form>
+        </div>
       </div>
     </main>
   </body>
