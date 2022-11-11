@@ -6,6 +6,7 @@ const option = {
   maxPasswordLength: 20,
 };
 
+//old
 export const signUp = [
   body('email')
     .notEmpty()
@@ -19,6 +20,41 @@ export const signUp = [
     .withMessage(
       `비밀번호를 최소 ${option.minPasswordLength}자, 최대 ${option.maxPasswordLength}자로 설정해주세요.`,
     ),
+  validationErrorChecker,
+];
+
+//new
+export const signUp2 = [
+  body('email')
+    .notEmpty()
+    .withMessage('Email이 없습니다.')
+    .isEmail()
+    .withMessage('Email 형식을 확인해주세요.'),
+  body('password')
+    .notEmpty()
+    .withMessage('password가 없습니다.')
+    .isLength({ min: option.minPasswordLength, max: option.maxPasswordLength })
+    .withMessage(
+      `비밀번호를 최소 ${option.minPasswordLength}자, 최대 ${option.maxPasswordLength}자로 설정해주세요.`,
+    ),
+  body('name').notEmpty().withMessage('name이 없습니다.'),
+  body('mobile').notEmpty().withMessage('mobile이 없습니다.'),
+  body('zencode')
+    .notEmpty()
+    .withMessage('zencode가 없습니다.')
+    .toInt()
+    .isInt()
+    .withMessage('zencode가 Int타입이 아닙니다'),
+  body('address')
+    .notEmpty()
+    .withMessage('address가 없습니다.')
+    .isString()
+    .withMessage('address가 String 타입이 아닙니다.'),
+  body('detail_address')
+    .notEmpty()
+    .withMessage('detail_address가 없습니다.')
+    .isString()
+    .withMessage('detail_address가 String 타입이 아닙니다.'),
   validationErrorChecker,
 ];
 

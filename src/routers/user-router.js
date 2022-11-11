@@ -8,7 +8,7 @@ import * as userValidator from '../middlewares/validation/userValidator';
 
 const userRouter = Router();
 
-// 회원가입 api (아래는 /register이지만, 실제로는 /api/register로 요청해야 함.)
+// 회원가입 (old)
 userRouter.post('/signup', userValidator.signUp, async (req, res, next) => {
   try {
     // req (request)의 body 에서 데이터 가져오기
@@ -16,6 +16,23 @@ userRouter.post('/signup', userValidator.signUp, async (req, res, next) => {
     const DTO = { email, password };
 
     const newUser = await userService.addUser(DTO);
+
+    const result = { success: true, data: newUser };
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 회원가입 (new)
+userRouter.post('/sign-up', userValidator.signUp2, async (req, res, next) => {
+  try {
+    // req (request)의 body 에서 데이터 가져오기
+    const { email, password, name, mobile, zencode, address, detail_address } = req.body;
+    const DTO = { email, password, shipping: { name, mobile, zencode, address, detail_address } };
+    console.log(DTO);
+
+    const newUser = await userService.addUser2(DTO);
 
     const result = { success: true, data: newUser };
     res.status(201).json(result);
