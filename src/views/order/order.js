@@ -167,7 +167,7 @@ checkoutBtn.addEventListener('click', async () => {
   } catch (err) {
     alert(`결제 중 문제가 발생하였습니다:${err.message}`);
   } finally {
-    window.location.href = '/';
+    window.location.href = '/mypage-order';
   }
 });
 
