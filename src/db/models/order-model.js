@@ -1,5 +1,6 @@
 import { model } from 'mongoose';
 import { OrderSchema } from '../schemas/order-schema';
+import { orderStatus } from '../../utils/order-status';
 
 const Order = model('orders', OrderSchema);
 
@@ -49,7 +50,7 @@ export class OrderModel {
   }
   async cancel(DTO) {
     const { _id } = DTO;
-    const updated = { order_status: 'cancel' };
+    const updated = { order_status: orderStatus.CANCEL };
     const option = { returnOriginal: false };
     const canceledOrder = await Order.findOneAndUpdate({ _id }, updated, option);
     return canceledOrder;

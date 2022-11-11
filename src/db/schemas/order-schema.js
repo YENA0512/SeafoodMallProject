@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 import { CartSchema } from './cart-schema';
 import { UserSchema } from './user-schema';
-
+import { orderStatus } from '../../utils/order-status';
 const OrderSchema = new Schema(
   {
     order_items: {
@@ -14,7 +14,13 @@ const OrderSchema = new Schema(
     },
     order_status: {
       type: String,
-      enum: ['order', 'prepare', 'shipping', 'complete', 'cancel'],
+      enum: [
+        orderStatus.ORDER,
+        orderStatus.PREPARE,
+        orderStatus.SHIPPING,
+        orderStatus.COMPLETE,
+        orderStatus.CANCEL,
+      ],
       required: true,
       default: 'order',
     },
