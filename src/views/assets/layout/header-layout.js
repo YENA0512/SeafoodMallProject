@@ -162,13 +162,14 @@ isLogin();
 getCategoriesList();
 
 const logoutBtn = document.querySelector('.log_out');
-
-logoutBtn.addEventListener('click', async () => {
-  sessionStorage.removeItem('token');
-  sessionStorage.removeItem('userId');
-  sessionStorage.removeItem('role');
-  await deleteFromDb('cart');
-  await deleteFromDb('order');
-  alert('로그아웃 되었습니다.');
-  window.location.href = '/';
-});
+if (sessionStorage.getItem('token')) {
+  logoutBtn.addEventListener('click', async () => {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('role');
+    await deleteFromDb('cart');
+    await deleteFromDb('order');
+    alert('로그아웃 되었습니다.');
+    window.location.href = '/';
+  });
+}
