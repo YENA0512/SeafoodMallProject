@@ -6,6 +6,12 @@ const emailInput = document.querySelector('#emailInput');
 const passwordInput = document.querySelector('#passwordInput');
 const passwordConfirmInput = document.querySelector('#passwordConfirmInput');
 const submitButton = document.querySelector('#submitButton');
+const addressInput = document.querySelector('#addressInput1');
+const detailAddressInput = document.querySelector('#addressInput2');
+const mobileInput = document.querySelector('#mobileInput');
+const nameInput = document.querySelector('#nameInput');
+const postalCodeInput = document.querySelector('#postalCodeInput');
+const addressButton = document.querySelector('#addressButton');
 
 blockIfLogin();
 addAllElements();
@@ -17,6 +23,7 @@ async function addAllElements() {}
 // 여러 개의 addEventListener들을 묶어주어서 코드를 깔끔하게 하는 역할임.
 function addAllEvents() {
   submitButton.addEventListener('click', handleSubmit);
+  addressButton.addEventListener('click', searchAddress);
 }
 
 // 회원가입 진행
@@ -26,6 +33,11 @@ async function handleSubmit(e) {
   const email = emailInput.value;
   const password = passwordInput.value;
   const passwordConfirm = passwordConfirmInput.value;
+  const name = nameInput.value;
+  const mobile = mobileInput.value;
+  const zencode = postalCodeInput.value;
+  const address = addressInput.value;
+  const detail_address = detailAddressInput.value;
 
   // 잘 입력했는지 확인
   const isEmailValid = validateEmail(email);
@@ -46,9 +58,12 @@ async function handleSubmit(e) {
     return alert('비밀번호가 일치하지 않습니다.');
   }
 
+  if (!mobile || !address || !name) {
+    return alert('이름, 휴대폰, 주소 정보를 모두 입력하여 주세요');
+  }
   // 회원가입 api 요청
   try {
-    const data = { email, password };
+    const data = { email, password, name, mobile, zencode, address, detail_address };
 
     await Api.post('/api/v1/users/signup', data);
 
@@ -60,4 +75,35 @@ async function handleSubmit(e) {
     console.error(err.stack);
     alert(`${err.message}`);
   }
+}
+function searchAddress() {
+  new daum.Postcode({
+    oncomplete: function (data) {
+      let addr = '';
+      let extraAddr = '';
+
+      if (data.userSelectedType === 'R') {
+        addr = data.roadAddress;
+      } else {
+        addr = data.jibunAddress;
+      }
+
+      if (data.userSelectedType === 'R') {
+        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+          extraAddr += data.bname;
+        }
+        if (data.buildingName !== '' && data.apartment === 'Y') {
+          extraAddr += extraAddr !== '' ? ', ' + data.buildingName : data.buildingName;
+        }
+        if (extraAddr !== '') {
+          extraAddr = ' (' + extraAddr + ')';
+        }
+      }
+
+      postalCodeInput.value = data.zonecode;
+      addressInput.value = `${addr} ${extraAddr}`;
+      detailAddressInput.placeholder = '상세 주소를 입력해 주세요.';
+      detailAddressInput.focus();
+    },
+  }).open();
 }
