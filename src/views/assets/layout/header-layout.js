@@ -1,5 +1,6 @@
 import headerStyle from './header-style.js';
 import * as Api from '../../api.js';
+import { deleteFromDb } from '../../indexed-db.js';
 
 const notLoginHeaderHTML = `
   <style>${headerStyle}</style>
@@ -166,6 +167,8 @@ logoutBtn.addEventListener('click', () => {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('userId');
   sessionStorage.removeItem('role');
+  deleteFromDb('cart');
+  deleteFromDb('order');
   alert('로그아웃 되었습니다.');
   window.location.href = '/';
 });
