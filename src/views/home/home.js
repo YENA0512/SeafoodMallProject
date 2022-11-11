@@ -23,7 +23,7 @@ async function getProductData() {
           <h3>${item.category.species}</h3>
           <div>
             <span>${addCommas(item.price.product_cost)}</span>
-            <span>&nbsp;원</span>
+            <span>원</span>
           </div>
         </a>
       </div>

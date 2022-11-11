@@ -1,11 +1,3 @@
-.carousel {
-  margin: 20px 0;
-}
-
-.carousel-item {
-  height: 300px;
-}
-
 /* 전체 감싸는 컨테이너 */
 .product_area {
   display: flex;
@@ -80,6 +72,43 @@
   justify-content: space-around;
 }
 
+.product_detail_bottom {
+  width: 100%;
+  height: auto;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.product_detail_bottom > div {
+  width: 100%;
+  margin: 1.5% 0;
+
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.detail_title {
+  width: 9%;
+  align-self: flex-start;
+}
+
+.detail_second {
+  /* border-left: 2px solid black; */
+  width: 90%;
+  align-self: flex-start;
+}
+
+.detail_img_container > img {
+  width: 4%;
+  height: 4%;
+  margin: 0 1%;
+}
 @media (min-width: 320px) and (max-width: 700px) {
   .product_area {
     width: 100%;
@@ -119,5 +148,23 @@
     font-size: 2.2rem;
     font-weight: bold;
     margin-bottom: 20%;
+    align-self: flex-start;
+  }
+
+  .detail_img_container > img {
+    width: 10%;
+    height: 10%;
+    margin: 0 1%;
+  }
+
+  .detail_title {
+    width: 22%;
+    font-size: small;
+  }
+
+  .detail_second {
+    /* border-left: 2px solid black; */
+    width: 90%;
+    font-size: small;
   }
 }
