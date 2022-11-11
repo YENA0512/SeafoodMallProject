@@ -15,6 +15,7 @@ const purchaseButton = document.querySelector('#purchase_button');
 const addAllElements = () => {
   // 결제정보
   insertOrderSummary();
+
   // 전체 체크박스 업데이트
   updateAllSelectCheckbox();
   // 카트 목록

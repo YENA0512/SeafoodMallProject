@@ -88,7 +88,7 @@ async function insertOrderSummary() {
       </div>
      <div class="col-3">
      <p>
-     ${addCommas(price)}원
+     ${addCommas(price * quantity)}원
      </p>
      </div>
     </div>
@@ -149,12 +149,11 @@ checkoutBtn.addEventListener('click', async () => {
   // order에 post요청
   try {
     let orderIds = [];
-    selectedIds.forEach(async (cartId) => {
+    for (const cartId of selectedIds) {
       const orderdata = await getFromDb('cart', cartId);
-      const totalPrice = orderdata.cart_price;
+      const totalPrice = orderdata.quantity * orderdata.cart_price;
       orderIds.push(orderdata);
       await Api.post('/api/v1/orders', { order_items: orderIds });
-
       // indexedDB에서 해당 제품 관련 데이터 제거
       await deleteFromDb('cart', cartId);
       await putToDb('order', 'summary', (data) => {
@@ -163,7 +162,7 @@ checkoutBtn.addEventListener('click', async () => {
         data.productsCount -= 1;
         data.productsTotal -= totalPrice;
       });
-    });
+    }
     alert('결제가 정상적으로 완료되었습니다.');
   } catch (err) {
     alert(`결제 중 문제가 발생하였습니다:${err.message}`);
