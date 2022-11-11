@@ -52,19 +52,3 @@ const getCategoriesData = async () => {
   }
 };
 getCategoriesData();
-
-// const orderToLowPrice = () => {
-//   console.log(products);
-// };
-
-// const orderToHighPrice = () => {
-//   console.log(products);
-// };
-
-// const orderToAlphabet = () => {
-//   console.log(products);
-// };
-
-// orderLowPrice.addEventListener('click', orderToLowPrice);
-// orderHighPrice.addEventListener('click', orderToHighPrice);
-// orderAlphb.addEventListener('click', orderToAlphabet);

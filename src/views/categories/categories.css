@@ -51,14 +51,14 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: baseline;
 }
 
 .product_item {
   width: 30%;
-  padding: 30px 10px;
-  margin: 30px 16.5px;
+  padding: 10px 10px;
+  margin: 40px 16.5px;
   border-radius: 10px;
 }
 
@@ -69,7 +69,7 @@
 
 .product_item > a > h3 {
   margin: 10px 0;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
 }
 .product_item > a > div {
   text-align: right;
@@ -111,11 +111,10 @@
   }
   .product_img {
     border-radius: 10px;
-    width: 100%;
+    width: 120px;
     height: 150px;
     object-fit: cover;
   }
-
   .product_item {
     display: flex;
     flex-direction: column;
