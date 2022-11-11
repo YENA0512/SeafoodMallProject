@@ -163,12 +163,12 @@ getCategoriesList();
 
 const logoutBtn = document.querySelector('.log_out');
 
-logoutBtn.addEventListener('click', () => {
+logoutBtn.addEventListener('click', async () => {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('userId');
   sessionStorage.removeItem('role');
-  deleteFromDb('cart');
-  deleteFromDb('order');
+  await deleteFromDb('cart');
+  await deleteFromDb('order');
   alert('로그아웃 되었습니다.');
   window.location.href = '/';
 });

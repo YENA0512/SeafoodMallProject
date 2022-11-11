@@ -484,25 +484,18 @@ async function updateProductItem(id, type) {
 
 // 페이지 로드 시 실행되며, 결제정보 카드에 값을 삽입함.
 async function insertOrderSummary() {
-  try {
-    const { productsCount, productsTotal } = await getFromDb('order', 'summary');
+  const { productsCount, productsTotal } = await getFromDb('order', 'summary');
 
-    const hasItems = productsCount !== 0;
+  const hasItems = productsCount !== 0;
 
-    productsCountElem.innerText = `${productsCount}개`;
-    productsTotalElem.innerText = `${addCommas(productsTotal)}원`;
+  productsCountElem.innerText = `${productsCount}개`;
+  productsTotalElem.innerText = `${addCommas(productsTotal)}원`;
 
-    if (hasItems) {
-      deliveryFeeElem.innerText = `3,000원`;
-      orderTotalElem.innerText = `${addCommas(productsTotal + 3000)}원`;
-    } else {
-      deliveryFeeElem.innerText = `0원`;
-      orderTotalElem.innerText = `0원`;
-    }
-  } catch (err) {
-    console.error(err.stack);
-    if (err.message.includes('destructure')) {
-      addEmptyHtml();
-    }
+  if (hasItems) {
+    deliveryFeeElem.innerText = `3,000원`;
+    orderTotalElem.innerText = `${addCommas(productsTotal + 3000)}원`;
+  } else {
+    deliveryFeeElem.innerText = `0원`;
+    orderTotalElem.innerText = `0원`;
   }
 }
