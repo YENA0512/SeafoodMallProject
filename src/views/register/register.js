@@ -58,7 +58,7 @@ async function handleSubmit(e) {
     return alert('비밀번호가 일치하지 않습니다.');
   }
 
-  if (!mobile || !address || !name) {
+  if (!mobile || !address || !name || !detail_address) {
     return alert('이름, 휴대폰, 주소 정보를 모두 입력하여 주세요');
   }
   // 회원가입 api 요청
@@ -76,7 +76,8 @@ async function handleSubmit(e) {
     alert(`${err.message}`);
   }
 }
-function searchAddress() {
+function searchAddress(e) {
+  e.preventDefault();
   new daum.Postcode({
     oncomplete: function (data) {
       let addr = '';

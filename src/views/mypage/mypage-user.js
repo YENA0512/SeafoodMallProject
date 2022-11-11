@@ -105,7 +105,7 @@ async function handleSubmit(e) {
     let newData = {};
     if (password && password === current_password) {
       return alert('업데이트된 정보가 없습니다');
-    } else if (!mobile || !address || !name) {
+    } else if (!mobile || !address || !name || !detail_address) {
       return alert('이름, 휴대폰, 주소 정보를 모두 입력하여 주세요');
     } else if (!current_password) {
       return alert('현재 비밀번호를 입력해주세요');
@@ -143,7 +143,8 @@ async function handleSubmit(e) {
     alert(`${err.message}`);
   }
 }
-function searchAddress() {
+function searchAddress(e) {
+  e.preventDefault();
   new daum.Postcode({
     oncomplete: function (data) {
       let addr = '';
