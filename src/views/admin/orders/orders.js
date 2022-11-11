@@ -144,11 +144,10 @@ const getOrderList = async () => {
 
     // 리스트 삭제
     const delOrderButton = document.querySelector(`.cancel_order${i}`);
-    delOrderButton.addEventListener('click', async (e) => {
-      e.preventDefault();
+    delOrderButton.addEventListener('click', async () => {
       let isDelete = confirm('정말 삭제하시겠습니까?');
       if (isDelete) {
-        const del = await Api.delete('/api/v1/orders/admin', data._id);
+        const del = await Api.delete('/api/v1/orders/admin', item._id);
         console.log(del);
       }
     });
