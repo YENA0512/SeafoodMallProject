@@ -111,7 +111,7 @@
   border-radius: 10px;
   border: none;
   margin: 0 auto;
-
+  color: #000;
   font-size: 1.3rem;
   background-color: #f2d194;
 }
@@ -248,7 +248,7 @@
     border-radius: 10px;
     border: none;
     margin: 0 auto;
-
+    color: #000;
     font-size: 1rem;
     background-color: #f2d194;
   }
@@ -256,7 +256,7 @@
     align-items: center;
     font-weight: bold;
     display: block;
-    width: 300px;
+    width: 70%;
     margin: 30px auto;
     text-align: center;
     align-items: center;
@@ -264,7 +264,7 @@
     border-radius: 7px;
     background-color: #048abf;
     margin: 0 auto;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   .mypage_userinfo .input:focus {
     border-color: #00d1b2;
