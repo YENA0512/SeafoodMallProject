@@ -32,6 +32,29 @@ class UserService {
     return newUserWithoutPassword;
   }
 
+  async addUser2(DTO) {
+    // 객체 destructuring
+    // const { email, password } = DTO;
+
+    // 이메일 중복 확인
+    const user = await this.userModel.findByEmail(DTO.email);
+    if (user) {
+      throw new Error('이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.');
+    }
+
+    // 비밀번호 해쉬화(암호화)
+    const hashSalt = parseInt(process.env.HASH_SALT);
+    const hashedPassword = await bcrypt.hash(DTO.password, hashSalt);
+
+    const newUserInfo = { email: DTO.email, password: hashedPassword, shipping: DTO.shipping };
+
+    // db에 저장
+    const createdNewUser = await this.userModel.create(newUserInfo);
+
+    const { password, ...newUserWithoutPassword } = createdNewUser.toObject();
+    return newUserWithoutPassword;
+  }
+
   // 로그인
   async getUserToken(DTO) {
     // 객체 destructuring
