@@ -30,6 +30,14 @@ const addAllEvents = () => {
   purchaseButton.addEventListener('click', navigate('/order'));
 };
 
+// 장바구니가 비었을 때
+const addEmptyHtml = () => {
+  cartProductsContainer.insertAdjacentHTML(
+    'beforeend',
+    `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
+  );
+};
+
 addAllElements();
 addAllEvents();
 
@@ -37,6 +45,9 @@ addAllEvents();
 async function insertProductsfromCartLogin() {
   const carts = await Api.get('/api/v1/carts');
   console.log(carts);
+  if (carts.data.length == 0) {
+    addEmptyHtml();
+  }
   carts.data.forEach(async (cart) => {
     const cartId = cart._id;
     const cartPrice = cart.cart_price;
@@ -449,7 +460,8 @@ async function updateOrderSummary(id, type) {
     // 다시 한 번, 현재 값을 가져와서 3000을 빼 줌
     const currentOrderTotal = convertToNumber(orderTotalElem.innerText);
     orderTotalElem.innerText = `${addCommas(currentOrderTotal - 3000)}원`;
-
+    // 장바구니가 비었을 경우
+    addEmptyHtml();
     // 전체선택도 언체크되도록 함.
     updateAllSelectCheckbox();
   }
@@ -530,20 +542,11 @@ async function insertOrderSummary() {
     } else {
       deliveryFeeElem.innerText = `0원`;
       orderTotalElem.innerText = `0원`;
-
-      // 장바구니가 비었을때
-      cartProductsContainer.insertAdjacentHTML(
-        'beforeend',
-        `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
-      );
     }
   } catch (err) {
     console.error(err.stack);
     if (err.message.includes('destructure')) {
-      cartProductsContainer.insertAdjacentHTML(
-        'beforeend',
-        `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
-      );
+      addEmptyHtml();
     }
   }
 }
