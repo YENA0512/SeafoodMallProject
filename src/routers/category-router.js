@@ -5,7 +5,6 @@ import { loginRequired, isAdmin } from '../middlewares';
 
 const categoryRouter = Router();
 
-// 카테고리 추가
 categoryRouter.post(
   '/',
   loginRequired,
@@ -26,7 +25,6 @@ categoryRouter.post(
   },
 );
 
-// 카테고리 리스트 조회(홈화면)
 categoryRouter.get('/list', async (req, res, next) => {
   try {
     const categoryList = await categoryService.readCategoryList();
@@ -38,7 +36,6 @@ categoryRouter.get('/list', async (req, res, next) => {
   }
 });
 
-// 카테고리 리스트 조회(admin)
 categoryRouter.get('/list/admin', loginRequired, isAdmin, async (req, res, next) => {
   try {
     const categoryList = await categoryService.readCategoryListAdmin();
@@ -49,7 +46,6 @@ categoryRouter.get('/list/admin', loginRequired, isAdmin, async (req, res, next)
   }
 });
 
-// 카테고리 수정
 categoryRouter.patch(
   '/:_id',
   loginRequired,
@@ -75,7 +71,6 @@ categoryRouter.patch(
   },
 );
 
-// 카테고리 삭제
 categoryRouter.delete(
   '/:_id',
   loginRequired,
@@ -95,7 +90,6 @@ categoryRouter.delete(
   },
 );
 
-// 특정 카테고리 조회(child-category)
 categoryRouter.get(
   '/:child_category',
   categoryValidator.readCategoryByChildCategory,
