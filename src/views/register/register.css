@@ -49,6 +49,16 @@
   padding-left: 5%;
   font-size: 1rem;
 }
+#postalCodeInput {
+  width: 100%;
+}
+.addressGo {
+  display: flex;
+  flex-direction: row;
+}
+.col-md-6 {
+  width: 50%;
+}
 
 .register-user-form-box .input:focus {
   border-color: #00d1b2;
@@ -57,11 +67,11 @@
 
 #addressButton {
   width: 100%;
-  height: 30px;
+  height: 40px;
   border-radius: 10px;
   border: none;
   margin: 0 auto;
-
+  text-align: center;
   font-size: 1rem;
   background-color: #f2d194;
 }
