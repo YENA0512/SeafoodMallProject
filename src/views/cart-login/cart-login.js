@@ -35,8 +35,11 @@ const addAllEvents = () => {
 const addEmptyHtml = () => {
   cartProductsContainer.insertAdjacentHTML(
     'beforeend',
-    `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
+    `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p>
+    <button class="btn btn-primary mt-3" onclick="location.href='/'">보러가기</button></div>
+    `,
   );
+  purchaseButton.disabled = `true`;
 };
 
 addAllElements();

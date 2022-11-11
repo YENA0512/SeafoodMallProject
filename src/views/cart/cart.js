@@ -42,8 +42,11 @@ async function saveToOrder() {
 const addEmptyHtml = () => {
   cartProductsContainer.insertAdjacentHTML(
     'beforeend',
-    `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
+    `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p>
+    <button class="btn btn-primary mt-3" onclick="location.href='/'">보러가기</button></div>
+    `,
   );
+  purchaseButton.disabled = `true`;
 };
 
 addAllElements();
@@ -51,81 +54,91 @@ addAllEvents();
 
 // 비회원 데이터 Read : indexedDB 이용
 async function insertProductsfromCart() {
-  const products = await getFromDb('cart');
-  const { selectedIds } = await getFromDb('order', 'summary');
-  // 장바구니가 비었을 때
-  if (products.length == 0) {
-    addEmptyHtml();
-  }
-  products.forEach((product) => {
-    const id = product._id;
-    const title = product.species;
-    const image = product.species_image;
-    const quantity = product.quantity;
-    const productPrice = product.product_cost;
-    const isSelected = selectedIds.includes(id);
+  try {
+    const products = await getFromDb('cart');
+    const { selectedIds } = await getFromDb('order', 'summary');
 
-    cartProductsContainer.insertAdjacentHTML(
-      'beforeend',
-      `<div class="item_container" id="productItem-${id}">
-    <input class="form-check-input" type="checkbox" value="" id="checkbox-${id}" ${
-        isSelected ? 'checked' : ''
-      }   />
-     
-  <div class="content">
-  <div class="image col-3">
-  <figure>
-<img class="product_image " src="${image}" alt="상품이미지" id="image-${id}"/>
-</figure>
-</div>
-    <div id="title-${id}" class="col-2">
-      <p>${title}</p>
-    </div>
-    <div class="quantity col-3">
-      <button class="btn btn-outline-secondary" style="
-      border: none;
-  " id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
-      >-</button>
-      <input type="number" class="quantity_input"  min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
-        isSelected ? 'checked' : ''
-      }
-    }/>
-      <button class="btn btn-outline-secondary" style="
-      border: none;
-  "id="plus-${id}" ${quantity >= 99 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
+    // 장바구니가 비었을 때
+    if (products.length == 0) {
+      addEmptyHtml();
     }
-     >+</button>
+    products.forEach((product) => {
+      const id = product._id;
+      const title = product.species;
+      const image = product.species_image;
+      const quantity = product.quantity;
+      const productPrice = product.product_cost;
+      const isSelected = selectedIds.includes(id);
 
-    </div>
-    <div class="calculation col-2">
-     <p id="unitPrice-${id}" style="display:none">${addCommas(productPrice)}원</p>
-     <p id="quantity-${id}" style="display:none">${quantity}</p>
-      <p id="total-${id}">${addCommas(productPrice * quantity)}원</p>
-    </div>
-    <div class="delete col-2">
-      <button class="btn btn-dark btn-sm" id="delete-${id}">삭제</button>
-    </div>
+      cartProductsContainer.insertAdjacentHTML(
+        'beforeend',
+        `<div class="item_container" id="productItem-${id}">
+      <input class="form-check-input" type="checkbox" value="" id="checkbox-${id}" ${
+          isSelected ? 'checked' : ''
+        }   />
+       
+    <div class="content">
+    <div class="image col-3">
+    <figure>
+  <img class="product_image " src="${image}" alt="상품이미지" id="image-${id}"/>
+  </figure>
   </div>
-  </div>`,
-    );
-    // 삭제 버튼 클릭
-    document.querySelector(`#delete-${id}`).addEventListener('click', () => deleteItem(id));
-    // 체크박스 선택
-    document.querySelector(`#checkbox-${id}`).addEventListener('change', () => toggleItem(id));
-    // 수량 빼기 버튼 클릭
-    document
-      .querySelector(`#minus-${id}`)
-      .addEventListener('click', () => decreaseItemQuantity(id));
-    // 수량 추가 버튼 클릭
-    document.querySelector(`#plus-${id}`).addEventListener('click', () => increaseItemQuantity(id));
-    // 수량 입력
-    document
-      .querySelector(`#quantityInput-${id}`)
-      .addEventListener('change', () => handleQuantityInput(id));
-    // 페이지 이동
-    document.querySelector(`#image-${id}`).addEventListener('click', navigate(`/product/${id}`));
-    document.querySelector(`#title-${id}`).addEventListener('click', navigate(`/product/${id}`));
-  });
+      <div id="title-${id}" class="col-2">
+        <p>${title}</p>
+      </div>
+      <div class="quantity col-3">
+        <button class="btn btn-outline-secondary" style="
+        border: none;
+    " id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
+        >-</button>
+        <input type="number" class="quantity_input"  min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
+          isSelected ? 'checked' : ''
+        }
+      }/>
+        <button class="btn btn-outline-secondary" style="
+        border: none;
+    "id="plus-${id}" ${quantity >= 99 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
+      }
+       >+</button>
+  
+      </div>
+      <div class="calculation col-2">
+       <p id="unitPrice-${id}" style="display:none">${addCommas(productPrice)}원</p>
+       <p id="quantity-${id}" style="display:none">${quantity}</p>
+        <p id="total-${id}">${addCommas(productPrice * quantity)}원</p>
+      </div>
+      <div class="delete col-2">
+        <button class="btn btn-dark btn-sm" id="delete-${id}">삭제</button>
+      </div>
+    </div>
+    </div>`,
+      );
+
+      // 삭제 버튼 클릭
+      document.querySelector(`#delete-${id}`).addEventListener('click', () => deleteItem(id));
+      // 체크박스 선택
+      document.querySelector(`#checkbox-${id}`).addEventListener('change', () => toggleItem(id));
+      // 수량 빼기 버튼 클릭
+      document
+        .querySelector(`#minus-${id}`)
+        .addEventListener('click', () => decreaseItemQuantity(id));
+      // 수량 추가 버튼 클릭
+      document
+        .querySelector(`#plus-${id}`)
+        .addEventListener('click', () => increaseItemQuantity(id));
+      // 수량 입력
+      document
+        .querySelector(`#quantityInput-${id}`)
+        .addEventListener('change', () => handleQuantityInput(id));
+      // 페이지 이동
+      document.querySelector(`#image-${id}`).addEventListener('click', navigate(`/product/${id}`));
+      document.querySelector(`#title-${id}`).addEventListener('click', navigate(`/product/${id}`));
+    });
+  } catch (err) {
+    if (err.message.includes('destructure')) {
+      addEmptyHtml();
+    }
+  }
 }
 
 // 상품 선택 함수
