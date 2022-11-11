@@ -44,7 +44,6 @@ addAllEvents();
 // 회원 데이터 Read : Api 서버 통신
 async function insertProductsfromCartLogin() {
   const carts = await Api.get('/api/v1/carts');
-  console.log(carts);
   if (carts.data.length == 0) {
     addEmptyHtml();
   }
@@ -334,7 +333,6 @@ async function updateAllSelectCheckbox() {
 // 선택 시 삭제(회원)
 async function deleteSelectedItemsLogin() {
   const cartIds = await Api.get(`/api/v1/carts`);
-  console.log(cartIds);
   const deletedIds = [];
   cartIds.data.forEach(async (ids) => {
     const cartId = ids._id;

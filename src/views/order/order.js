@@ -1,5 +1,5 @@
 import * as Api from '../api.js';
-import { addCommas, navigate } from '../useful-functions.js';
+import { addCommas } from '../useful-functions.js';
 import { deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
 const cartList = document.querySelector('#cart_list');
@@ -66,7 +66,6 @@ async function insertOrderSummary() {
   }
   for (const id of selectedIds) {
     const carts = await getFromDb('cart', id);
-    console.log('hey2', carts);
 
     Array(carts).forEach((cart) => {
       const image = cart.product_id?.category?.species_image;
@@ -162,7 +161,6 @@ checkoutBtn.addEventListener('click', async () => {
       const orderdata = await getFromDb('cart', cartId);
       const totalPrice = orderdata.cart_price;
       orderIds.push(orderdata);
-      console.log('hey2', orderIds);
       await Api.post('/api/v1/orders', { order_items: orderIds });
 
       // indexedDB에서 해당 제품 관련 데이터 제거
