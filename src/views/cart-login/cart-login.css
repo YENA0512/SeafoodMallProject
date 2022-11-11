@@ -48,13 +48,16 @@ header > h1 {
 .content {
   width: 100%;
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  text-align: center;
 }
 
 .list-group-item {
   display: flex;
   justify-content: space-between;
+  height: 60px;
+  align-items: center;
+  font-size: 18px;
 }
 
 .title {
@@ -68,4 +71,33 @@ header > h1 {
 
 .cart_box {
   min-height: 500px;
+}
+
+.empty_cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+.empty_cart p {
+  font-size: 30px;
+}
+
+.card-title {
+  margin-bottom: 0;
+}
+
+#purchase_button {
+  font-size: 20px;
+}
+
+.form-check-input {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
