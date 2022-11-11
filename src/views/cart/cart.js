@@ -38,6 +38,14 @@ async function saveToOrder() {
   }
 }
 
+// 장바구니가 비었을 때
+const addEmptyHtml = () => {
+  cartProductsContainer.insertAdjacentHTML(
+    'beforeend',
+    `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
+  );
+};
+
 addAllElements();
 addAllEvents();
 
@@ -45,7 +53,10 @@ addAllEvents();
 async function insertProductsfromCart() {
   const products = await getFromDb('cart');
   const { selectedIds } = await getFromDb('order', 'summary');
-
+  // 장바구니가 비었을 때
+  if (products.length == 0) {
+    addEmptyHtml();
+  }
   products.forEach((product) => {
     const id = product._id;
     const title = product.species;
@@ -487,20 +498,11 @@ async function insertOrderSummary() {
     } else {
       deliveryFeeElem.innerText = `0원`;
       orderTotalElem.innerText = `0원`;
-
-      // 장바구니가 비었을때
-      cartProductsContainer.insertAdjacentHTML(
-        'beforeend',
-        `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
-      );
     }
   } catch (err) {
     console.error(err.stack);
     if (err.message.includes('destructure')) {
-      cartProductsContainer.insertAdjacentHTML(
-        'beforeend',
-        `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
-      );
+      addEmptyHtml();
     }
   }
 }
