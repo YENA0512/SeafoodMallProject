@@ -1,7 +1,3 @@
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 .mypage_headertitle > h1 {
   margin-top: 50px;
   font-weight: 500;
@@ -13,14 +9,14 @@ body {
 .mypage_content {
   position: relative;
   display: flex;
-  width: 1000px;
+  width: 100%;
   margin-top: 50px;
   margin-bottom: 80px;
 }
 .mypage_category {
   width: 200px;
   height: 100%;
-  margin-right: 100px;
+  margin-right: 10%;
 }
 .mypage_list {
   margin-bottom: 20px;
@@ -71,28 +67,7 @@ body {
   text-align: left;
   margin: 20px 0px 20px 80px;
 }
-.mypage_orderinfo {
-  width: 100%;
 
-  align-items: center;
-  justify-content: center;
-  margin-top: 50px;
-  padding: 30px;
-  box-sizing: border-box;
-  border: 2px solid #000;
-  border-radius: 7px;
-}
-.ordertable {
-  border: 1px solid #000;
-  margin-top: 20px;
-  text-align: center;
-}
-.ordertable thead {
-  background-color: lightgrey;
-}
-.ordertable tr {
-  border: 1px solid #000;
-}
 .mypage_userinfo {
   width: 100%;
 
@@ -168,4 +143,142 @@ body {
 }
 #groupLabel {
   font-size: 1.1rem;
+}
+
+@media (min-width: 320px) and (max-width: 700px) {
+  .mypage_content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 80px;
+  }
+  .mypage_category {
+    width: 100%;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+  }
+  .mypage_list a {
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  .mypage_ul {
+    display: flex;
+    width: 100%;
+    margin: 0 5%;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .mypage_con {
+    width: 90%;
+    margin: 10px auto;
+  }
+  .mypage_userintro h3 {
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 20px;
+
+    color: #000;
+  }
+  .mypage_userintro h2 {
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: #048abf;
+  }
+  .col-3 {
+    text-align: center;
+    width: 30%;
+  }
+  .col-9 {
+    width: 70%;
+  }
+  .mypage_userintro p {
+    text-align: left;
+    margin: 10px 0px 0px 30px;
+    font-size: 0.7rem;
+  }
+
+  .h4 {
+    font-size: 1.2rem;
+  }
+  .mypage_userinfo {
+    width: 100%;
+    font-size: small;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    padding: 30px;
+    box-sizing: border-box;
+    border: 2px solid #000;
+    border-radius: 7px;
+  }
+  .field {
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .label {
+    width: 30%;
+    padding-top: 10px;
+    font-size: 0.7rem;
+  }
+  .control {
+    font-weight: bold;
+    width: 70%;
+  }
+  .input {
+    width: 100%;
+    border-radius: 10px;
+    margin: 0 auto;
+    padding-left: 20px;
+    font-size: 0.7rem;
+    height: 30px;
+  }
+  .address {
+    margin-bottom: 30px;
+  }
+  #addressButton {
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+    border: none;
+    margin: 0 auto;
+
+    font-size: 1rem;
+    background-color: #f2d194;
+  }
+  .mypage_userinfo .button {
+    align-items: center;
+    font-weight: bold;
+    display: block;
+    width: 300px;
+    margin: 30px auto;
+    text-align: center;
+    align-items: center;
+    height: 40px;
+    border-radius: 7px;
+    background-color: #048abf;
+    margin: 0 auto;
+    font-size: 1.2rem;
+  }
+  .mypage_userinfo .input:focus {
+    border-color: #00d1b2;
+    box-shadow: 0 0 0 0.125em rgba(0, 209, 178, 0.25);
+  }
+
+  #emailLabel {
+    font-size: 0.8rem;
+  }
+  .title {
+    text-align: center;
+    padding: 20px 20px;
+  }
+  #groupLabel {
+    font-size: 0.8rem;
+  }
 }
