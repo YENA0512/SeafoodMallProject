@@ -43,6 +43,7 @@ header > h1 {
   height: 180px;
   object-fit: cover;
   padding-left: 10px;
+  border-radius: 8px;
 }
 
 .content {
