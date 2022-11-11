@@ -66,7 +66,7 @@ function checkStatus(str) {
 function showNullWindow() {
   mypage_orderinfo.innerHTML = `<p class="h3 text-center">주문내역이 없습니다.</p>
   <p class="text-center">오늘바다에서 준비한 오늘의 싱싱한 수산물을 만나러 가보실까요?</p><br />
-  <button type="button" onclick="location.href='../categories/category-search/?keyword=조개';" id="linkButton" class="text-center button btn btn-primary">바로가기</a>`;
+  <button type="button" onclick="location.href='/';" id="linkButton" class="text-center button btn btn-primary">바로가기</a>`;
   mypage_orderinfo.style.padding = '20% 10%';
   mypage_orderinfo.style.textAlign = 'center';
   const linkButton = document.querySelector('#linkButton');
@@ -116,7 +116,7 @@ async function insertOrders() {
         orderIdValue,
       )}</div>
   <div class="col-2" id="orderPriceValue" style="text-align:right;">${orderPriceValue}원</div>
-  <div class="col-1_5" id="orderStatusValue">
+  <div class="col-1_5" id="orderStatusValue-${orderIdValue}">
     <p>${orderStatusValue}</p>
     <button
       type="button"
@@ -260,6 +260,7 @@ async function insertOrders() {
     );
 
     if (orderStatusValue === '주문취소') {
+      document.querySelector(`#orderStatusValue-${orderIdValue}`).style.color = 'red';
       document.querySelector(`#orderChangeButton-${orderIdValue}`).disabled = 'true';
       document.querySelector(`#orderCancelButton-${orderIdValue}`).disabled = 'true';
     }
@@ -338,7 +339,7 @@ async function handleSubmit(orderIdValue, e) {
     const newUserInfo = await Api.patch(`/api/v1/orders`, order_id, newData);
     alert(`주문정보가 정상적으로 수정되었습니다.`);
 
-    // window.location.href = './';
+    window.location.href = './';
   } catch (err) {
     console.error(err.stack);
     alert(`${err.message}`);
