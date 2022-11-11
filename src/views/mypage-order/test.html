@@ -1,0 +1,144 @@
+<li id="orderItemList-${orderIdValue}">
+  <div class="col-2 orderIdValue" id="orderIdValue-${orderIdValue}">${orderIdValue}</div>
+  <div class="col-2" id="orderDateValue">${orderDateValue}</div>
+  <div class="col-3" id="orderProductValue">${orderProductValues}</div>
+  <div class="col-2" id="orderPriceValue">${orderPriceValue}</div>
+  <div class="col-1_5" id="orderStatusValue">
+    <p>${orderStatusValue}</p>
+    <button
+      type="button"
+      class="orderChangeButton"
+      id="orderChangeButton-${orderIdValue}"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal1-${orderIdValue}"
+      style="display: block"
+    >
+      정보변경
+    </button>
+    <div
+      class="modal fade"
+      id="exampleModal1-${orderIdValue}"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">주문/배송 정보 변경</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="field mb-3">
+              <label class="label mb-3" for="nameInput">수령자</label>
+              <div class="control">
+                <input
+                  class="input"
+                  id="nameInput"
+                  type="text"
+                  placeholder="받으시는 분 성함을 추가해주세요"
+                  autocomplete="on"
+                />
+              </div>
+            </div>
+            <div class="field address">
+              <label class="label mb-3" for="addressInput">주소</label>
+              <div class="control">
+                <input
+                  class="input mb-2"
+                  id="postalCodeInput"
+                  type="text"
+                  placeholder="주소 검색을 클릭해 주세요."
+                  readonly
+                />
+                <input
+                  class="input mb-2"
+                  id="addressInput1"
+                  type="text"
+                  placeholder=""
+                  autocomplete="on"
+                  readonly
+                />
+                <input
+                  class="input mb-3"
+                  id="addressInput2"
+                  type="text"
+                  placeholder=""
+                  autocomplete="on"
+                />
+
+                <button class="button mb-3" id="addressButton">🔍 주소 검색</button>
+              </div>
+            </div>
+            <div class="field mb-3">
+              <label class="label mb-3" for="mobileInput">휴대폰번호</label>
+              <div class="control">
+                <input
+                  class="input"
+                  id="mobileInput"
+                  type="tel"
+                  placeholder="010-0000-0000"
+                  pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                  required
+                  autocomplete="on"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            <button type="button" id="submitButton-${orderIdValue}" class="btn btn-primary">
+              변경 완료
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-1_5">
+    <button
+      type="button"
+      class="orderCancelButton"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal2-${orderIdValue}"
+      style="display: block"
+    >
+      주문취소
+    </button>
+    <div
+      class="modal fade"
+      id="exampleModal2-${orderIdValue}"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">주문 취소 안내</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>선택하신 주문은 환불이 불가합니다.<br />주문을 취소하시겠습니까?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="button" id="deleteCompleteButton-${orderIdValue}" aria-label="close">
+              네
+            </button>
+            <button class="button" id="deleteCancelButton" aria-label="close">아니오</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

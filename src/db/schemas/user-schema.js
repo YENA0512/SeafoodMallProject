@@ -1,4 +1,6 @@
 import { Schema } from 'mongoose';
+import { SellerSchema } from './seller-schema';
+import { ShippingSchema } from './shipping-schema';
 
 const UserSchema = new Schema(
   {
@@ -6,39 +8,27 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    fullName: {
-      type: String,
-      required: true,
-    },
     password: {
       type: String,
       required: true,
     },
-    phoneNumber: {
+    group: {
       type: String,
-      required: false,
+      enum: ['admin', 'seller', 'customer'],
+      default: 'customer',
+      required: true,
     },
-    address: {
-      type: new Schema(
-        {
-          postalCode: String,
-          address1: String,
-          address2: String,
-        },
-        {
-          _id: false,
-        },
-      ),
-      required: false,
+    deleted_at: {
+      type: Date,
+      default: null,
     },
-    role: {
-      type: String,
-      required: false,
-      default: 'basic-user',
+    seller_info: SellerSchema,
+    shipping: {
+      type: ShippingSchema,
     },
   },
   {
-    collection: 'users',
+    collection: 'Users',
     timestamps: true,
   },
 );

@@ -1,0 +1,154 @@
+@import '../../_reset.css';
+@import '../../admin.css';
+
+.right_area > div > h1 {
+  font-size: 30px;
+}
+
+.modify_area {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 추가영역 */
+.mention {
+  align-self: flex-start;
+  margin: 10px;
+}
+
+.add_categories {
+  width: 100%;
+  border: 1px solid black;
+}
+
+.add_categories > form {
+  width: 90%;
+  margin: auto;
+}
+
+.add_categories > form > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.add_categories > form > li > div {
+  display: flex;
+  justify-content: space-around;
+}
+
+.add_categories > form > li > div > input {
+  align-self: flex-start;
+  width: 35%;
+  margin: 10px;
+}
+
+.add_categories > form > li > div > button {
+  width: 50px;
+  height: 30px;
+}
+
+/* 조회 영역 */
+.get_categories_btn {
+  align-self: flex-end;
+  margin: 10px;
+  width: 15%;
+}
+
+.modify_info {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  border-bottom: 1px solid black;
+}
+
+.modify_info > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-left: 1px solid black;
+  background-color: rgb(183, 180, 253);
+}
+
+.modify_info > div:first-child {
+  border-left: none;
+  border-radius: 5px 0 0 0;
+}
+
+.modify_info > div:last-child {
+  border-radius: 0 5px 0 0;
+}
+
+.modify_info > div {
+  width: 33.4%;
+  height: 30px;
+  border-bottom: 1px solid black;
+}
+
+.modify_categories {
+  width: 100%;
+  height: 80%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.modify_categories > form {
+  width: 100%;
+  overflow-y: auto;
+}
+
+.modify_categories > form > ol {
+  width: 100%;
+}
+
+.modify_categories > form > ol > li {
+  height: 70px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-bottom: 1px solid black;
+}
+
+.modify_categories > form > ol > li > div:nth-child(1) {
+  width: 68.5%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.modify_categories > form > ol > li > div:nth-child(2) {
+  width: 31.5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.modify_categories > form > ol > li > div > input {
+  width: 33.3%;
+  margin: 10px 0;
+}
+
+#modi_species_code {
+  width: 15%;
+}
+
+.modify_categories > form > ol > li > div > button {
+  width: 50px;
+  height: 30px;
+  margin: 5px 15px;
+}

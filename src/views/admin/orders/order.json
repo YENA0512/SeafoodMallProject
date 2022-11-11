@@ -1,0 +1,64 @@
+[
+  {
+    "success": true,
+    "data": [
+      {
+        "_id": "6368c7dd26b100a1db90fe13",
+        "order_items": [
+          {
+            "user_id": "6368a64391e7da0175052159",
+            "product_id": {
+              "_id": "6367d52e757ec6cc195e141d",
+              "category": {
+                "parent_category": "수산물",
+                "child_category": "생선",
+                "species": "참돔",
+                "species_code": 12,
+                "species_image": "imagepath",
+                "deleted_at": null,
+                "_id": "6367d52e757ec6cc195e141e",
+                "createdAt": "2022-11-06T15:39:26.486Z",
+                "updatedAt": "2022-11-06T15:39:26.486Z"
+              },
+              "price": {
+                "auction_cost": 10000,
+                "seller_commision": 2000,
+                "platform_commision": 500,
+                "packaging_cost": 2000,
+                "shipping_cost": 2500
+              },
+              "stock": 100,
+              "deleted_at": null,
+              "createdAt": "2022-11-06T15:39:26.486Z",
+              "updatedAt": "2022-11-06T15:39:26.486Z",
+              "__v": 0
+            },
+            "quantity": 100,
+            "cart_price": 126004500,
+            "deleted_at": null,
+            "_id": "6368b96bbccbcdb763609603",
+            "createdAt": "2022-11-07T07:53:15.556Z",
+            "updatedAt": "2022-11-07T07:53:15.556Z",
+            "__v": 0
+          }
+        ],
+        "customer": {
+          "email": "yb@test.com",
+          "password": "$2b$10$djwPcvCTPHvMwsaG18WLiesi28a2FcY1SC8vPgwnhHJnNHa2.q7gm",
+          "group": "customer",
+          "deleted_at": null,
+          "_id": "6368a64391e7da0175052159",
+          "createdAt": "2022-11-07T06:31:31.374Z",
+          "updatedAt": "2022-11-07T08:54:53.476Z",
+          "__v": 0
+        },
+        "order_status": "order",
+        "order_price": 126004500,
+        "deleted_at": null,
+        "createdAt": "2022-11-07T08:54:53.476Z",
+        "updatedAt": "2022-11-07T08:54:53.476Z",
+        "__v": 0
+      }
+    ]
+  }
+]

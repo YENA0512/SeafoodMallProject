@@ -1,0 +1,138 @@
+.species_name {
+  text-align: center;
+  margin: 50px;
+
+  font-size: 40px;
+}
+
+.species_nav_bar {
+  width: 100%;
+  margin: 10px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.species_nav_bar > div > span:nth-child(1) {
+  margin: 0 5px;
+}
+
+.species_nav_menu > ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.species_nav_menu > ul > li {
+  margin: 0 7px;
+}
+
+.species_nav_menu > ul > li > a {
+  cursor: pointer;
+}
+
+.no_product {
+  width: 100%;
+  margin: 150px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no_product > h1 {
+  font-size: 30px;
+  align-self: center;
+}
+
+.product {
+  width: 1000px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.product_item {
+  width: 30%;
+  padding: 30px 10px;
+  margin: 30px 16.5px;
+  border-radius: 10px;
+}
+
+.product_item:hover {
+  background-color: rgba(151, 151, 151, 0.116);
+  opacity: 0.8;
+}
+
+.product_item > a > h3 {
+  margin: 10px 0;
+  font-size: 1.4rem;
+}
+.product_item > a > div {
+  text-align: right;
+  margin: 20px 5px 10px 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.product_img {
+  border-radius: 10px;
+  width: 280px;
+  height: 350px;
+  object-fit: cover;
+}
+
+@media (min-width: 320px) and (max-width: 700px) {
+  .carousel {
+    margin: 30px 0 50px 0;
+  }
+
+  .carousel-item {
+    height: auto;
+  }
+
+  .product_list_area {
+    width: 100%;
+    margin: 30px 0;
+  }
+
+  .product {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .product_img {
+    border-radius: 10px;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .product_item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 45%;
+    padding: 30px 10px;
+    margin: 30px 2.4%;
+    border-radius: 10px;
+  }
+  .species_count {
+    font-size: small;
+  }
+
+  .species_nav_menu > ul > li > a,
+  .species_nav_menu > ul > em {
+    font-size: small;
+    cursor: pointer;
+  }
+}

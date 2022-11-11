@@ -13,7 +13,8 @@ module.exports = {
   },
   rules: {
     'no-unused-vars': 'warn',
-    'prettier/prettier': 'error',
+    'no-undef': 'warn',
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
   ignorePatterns: ['node_modules/'],
 };

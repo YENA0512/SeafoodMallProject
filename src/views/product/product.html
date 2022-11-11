@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>오늘바다 - 상품</title>
+    <link rel="icon" href="../../assets/favicon.png" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./product.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="product.js" type="module" defer></script>
+    <script src="/layout/header-layout.js" type="module" defer></script>
+    <script src="/layout/footer-layout.js" type="module" defer></script>
+  </head>
+  <body>
+    <main>
+      <section class="product_detail_top">
+        <div class="product_area">
+          <div class="picture_area"><img class="product_img_src" /></div>
+          <div class="price_area">
+            <h1 class="product_title"></h1>
+            <div class="product_condition">
+              <div>위판가 - <span class="auction_condition">0</span><span>원</span></div>
+              <div>포장비 - <span class="package_condition">0</span><span>원</span></div>
+              <div>플랫폼 수수료 - <span class="platform_condition">0</span><span>%</span></div>
+              <div>판매자 수수료 - <span class="seller_condition">0</span><span>%</span></div>
+            </div>
+            <hr />
+            <div class="product_total_area">
+              <div>
+                <span class="hap">합계</span>
+                <span class="product_total">0</span>
+                <span>원</span>
+              </div>
+              <div>
+                <span class="delivery_cost">배송비 +2,500</span>
+                <span>원</span>
+              </div>
+            </div>
+
+            <div class="product_submit_btn">
+              <button type="button" class="btn btn-primary buy_btn btn-lg col-5">구매하기</button>
+              <button
+                type="button"
+                class="btn btn-light insert_cart btn-lg col-5"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                장바구니 담기
+              </button>
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">장바구니 담기 완료!</h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">장바구니로 이동하시겠습니까?</div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        쇼핑 계속하기
+                      </button>
+                      <button type="button" class="btn btn-primary go_cart">장바구니로 가기</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <hr />
+      <section class="product_detail_bottom">
+        <div>
+          <div class="detail_title">판매자 정보</div>
+          <div class="detail_second">(주) 오늘바다</div>
+        </div>
+        <div>
+          <div class="detail_title">원산지 정보</div>
+          <div class="detail_second">국내산</div>
+        </div>
+
+        <div>
+          <div class="detail_title">보관 방법</div>
+          <div class="detail_second">상품 수령 후 즉시 냉장실 보관</div>
+        </div>
+        <div>
+          <div class="detail_title">조리 방법</div>
+          <div class="detail_img_container detail_second">
+            <img src="../../assets/image/생선구이.png" />
+            <img src="../../assets/image/생선볶음.png" />
+            <img src="../../assets/image/생선오븐.png" />
+            <img src="../../assets/image/생선찜.png" />
+            <img src="../../assets/image/생선초밥.png" />
+          </div>
+        </div>
+        <div>
+          <div class="detail_title">배송정보</div>
+          <div class="detail_second delivery">
+            오전 11시 이전 주문시 당일발송<br />
+            <br />
+            상품 변질 및 이상시 100% 교환 및 환불<br />
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

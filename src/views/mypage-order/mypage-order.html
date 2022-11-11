@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>오늘바다 - 마이페이지</title>
+    <link rel="icon" href="../assets/favicon.png" />
+
+    <!-- 폰트 어썸: 아이콘 -->
+    <script defer src="https://kit.fontawesome.com/9daa42bcef.js" crossorigin="anonymous"></script>
+    <!-- 구글 OAuth -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- 카카오 OAuth -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <!-- 커스텀 css, js -->
+    <link rel="stylesheet" href="mypage-order.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="mypage-order.js" type="module" defer></script>
+    <script src="../assets/layout/header-layout.js" type="module" defer></script>
+    <script src="../assets/layout/footer-layout.js" type="module" defer></script>
+  </head>
+  <body>
+    <main>
+      <section>
+        <div class="title"><p class="fs-2 fw-bold">마이페이지</p></div>
+        <div class="mypage_content">
+          <div class="mypage_category">
+            <ul class="mypage_ul">
+              <li class="mypage_list"><a href="../mypage">회원 정보</a></li>
+              <li class="mypage_list"><a href="#" class="active">주문 내역</a></li>
+              <li class="mypage_list"><a href="../mypage-signout">회원 탈퇴</a></li>
+            </ul>
+          </div>
+          <div class="mypage_con">
+            <div class="mypage_userintro">
+              <h3>오늘도 신선한 바다를 만나요</h3>
+              <br />
+              <h2 id="userEmail"></h2>
+              <hr />
+              <div class="row">
+                <div class="col-3 pb-3">
+                  <p id="emailLabel"><strong>이메일</strong></p>
+                  <p id="groupLabel"><strong>회원 종류</strong></p>
+                </div>
+                <div class="col-9 pb-3">
+                  <p id="userEmailValue"></p>
+
+                  <p id="userGroupValue"></p>
+                </div>
+              </div>
+            </div>
+            <div class="mypage_orderinfo">
+              <p class="h4">주문 내역</p>
+              <p class="description">
+                *주문 완료인 물품만 배송지/주문 정보 변경 및 주문 취소가 가능합니다.
+              </p>
+              <div class="order_table mt-4">
+                <div class="order_thead">
+                  <div class="row order_basic_info">
+                    <div class="col-2" id="orderId">주문 번호</div>
+                    <div class="col-2" id="orderDate">주문일</div>
+                    <div class="col-3" id="orderProduct">상품 정보</div>
+                    <div class="col-2" id="orderPrice">상품 금액</div>
+                    <div class="col-3" id="orderStatus">주문 상태</div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <ul class="show_orders mb-5"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,123 @@
+@import '../../_reset.css';
+@import '../../admin.css';
+
+.right_area > div > h1 {
+  font-size: 30px;
+}
+
+.modify_area {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 추가영역 */
+.mention {
+  width: 97.5%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 10px;
+}
+
+.get_orders_btn {
+  align-self: flex-end;
+  width: 15%;
+  margin: 0 20px;
+}
+/* 조회 영역 */
+
+.modify_info {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  border-bottom: 1px solid black;
+}
+
+.modify_info > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-left: 1px solid black;
+  background-color: rgb(183, 180, 253);
+}
+
+.modify_info > div:first-child {
+  border-left: none;
+  border-radius: 5px 0 0 0;
+}
+
+.modify_info > div:last-child {
+  border-radius: 0 5px 0 0;
+}
+
+.modify_info > div {
+  width: 33.4%;
+  height: 30px;
+  border-bottom: 1px solid black;
+}
+
+.modify_orders {
+  width: 100%;
+  height: 90%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.modify_orders > form {
+  width: 100%;
+  overflow-y: auto;
+}
+
+.modify_orders > form > ol {
+  width: 100%;
+}
+
+.modify_orders > form > ol > li {
+  min-height: 70px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid black;
+}
+
+.modify_orders > form > ol > li > div {
+  word-break: break-all;
+  text-align: center;
+
+  width: 20%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.modify_orders > form > ol > li > div:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modify_orders > form > ol > li > div > button {
+  width: 35%;
+}
+
+.select_box {
+  width: 80%;
+}
