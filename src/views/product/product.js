@@ -5,13 +5,13 @@ import { addToDb, putToDb } from '../../indexed-db.js';
 const ProductTitle = document.querySelector('.product_title');
 const packageCondition = document.querySelector('.package_condition');
 const platformCondition = document.querySelector('.platform_condition');
-const sellerCondition = document.querySelector('.seller_condition');
 const auctionCondition = document.querySelector('.auction_condition');
 const totalPrice = document.querySelector('.product_total');
 const cartButton = document.querySelector('.insert_cart');
 const MoveCart = document.querySelector('.go_cart');
 const buyButton = document.querySelector('.buy_btn');
 const productImageSrc = document.querySelector('.product_img_src');
+const conditionMention = document.querySelector('.condition_mention');
 
 // 로그인 확인
 const isLogin = sessionStorage.getItem('userId');
@@ -32,8 +32,7 @@ const getProductData = async () => {
   ProductTitle.innerHTML = category.species;
   auctionCondition.innerHTML = addCommas(price.auction_cost);
   packageCondition.innerHTML = addCommas(price.packaging_cost);
-  platformCondition.innerHTML = price.platform_commision;
-  sellerCondition.innerHTML = price.seller_commision;
+  platformCondition.innerHTML = price.platform_commision + price.seller_commision;
 
   totalPrice.innerHTML = addCommas(price.product_cost);
 
@@ -88,7 +87,7 @@ const notLoginAddItemToCart = async () => {
     });
   } catch (err) {
     if (err.message.includes('Key')) {
-      alert('이미 장바구니에 추가된 상품입니다.');
+      conditionMention.innerHTML = '이미 장바구니에 추가된 상품입니다.';
     }
   }
 };

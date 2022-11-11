@@ -18,7 +18,7 @@ async function getProductData() {
       'beforeend',
       `
       <div class="product_item">
-        <a class="all_products_${i}">
+        <a class="all_products_${i} item">
           <img class="product_img" src="${item.category.species_image}" />
           <h3>${item.category.species}</h3>
           <div>
