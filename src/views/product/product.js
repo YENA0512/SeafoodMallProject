@@ -10,6 +10,7 @@ const auctionCondition = document.querySelector('.auction_condition');
 const totalPrice = document.querySelector('.product_total');
 const cartButton = document.querySelector('.insert_cart');
 const MoveCart = document.querySelector('.go_cart');
+const buyButton = document.querySelector('.buy_btn');
 
 // 로그인 확인
 const isLogin = sessionStorage.getItem('userId');
@@ -94,4 +95,13 @@ cartButton.addEventListener('click', () => {
 });
 MoveCart.addEventListener('click', () => {
   isLogin ? (window.location.href = '/cart-login') : (window.location.href = '/cart');
+});
+
+buyButton.addEventListener('click', () => {
+  if (isLogin) {
+    LoginAddItemToCart();
+    window.location.href = '/cart-login';
+  } else {
+    window.location.href = '/login';
+  }
 });

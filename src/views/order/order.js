@@ -1,5 +1,5 @@
 import * as Api from '../api.js';
-import { addCommas } from '../useful-functions.js';
+import { addCommas, navigate } from '../useful-functions.js';
 import { deleteFromDb, getFromDb, putToDb } from '../indexed-db.js';
 
 const cartList = document.querySelector('#cart_list');
@@ -112,7 +112,6 @@ async function insertUserData() {
   try {
     const userId = sessionStorage.getItem('userId');
     const userData = await Api.get(`/api/v1/users/${userId}`);
-    // const { email, shipping } = userData.data;
     const email = userData.data.email;
     const shipping = userData.data.shipping;
     // 주문자 정보가 있으면 보여주고, 없으면 빈칸으로 보여줌
@@ -147,13 +146,6 @@ checkoutBtn.addEventListener('click', async () => {
   if (!userName || !phoneNumber || !email || !postalCode || !address || !addressDetail) {
     return alert('배송지 정보를 모두 입력해주세요!');
   }
-  // 최초 배송지 저장 확인
-  const userId = sessionStorage.getItem('userId');
-  const userData = await Api.get(`/api/v1/users/${userId}`);
-  if (userData.data.shipping == undefined) {
-    alert('등록된 배송지가 없습니다. 마이페이지로 이동합니다.');
-    return window.location.replace('/mypage');
-  }
   // order에 post요청
   try {
     let orderIds = [];
@@ -173,9 +165,10 @@ checkoutBtn.addEventListener('click', async () => {
       });
     });
     alert('결제가 정상적으로 완료되었습니다.');
-    // window.location.href = '/';
   } catch (err) {
     alert(`결제 중 문제가 발생하였습니다:${err.message}`);
+  } finally {
+    window.location.href = '/';
   }
 });
 
