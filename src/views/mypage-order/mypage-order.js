@@ -155,7 +155,7 @@ async function insertOrders() {
                   class="input"
                   id="nameInput-${orderIdValue}"
                   type="text"
-                  placeholder="받으시는 분 성함을 추가해주세요"
+                  placeholder="받으시는 분 성함을 입력해주세요"
                   autocomplete="on"
                 />
               </div>
@@ -185,7 +185,7 @@ async function insertOrders() {
                   placeholder=""
                   autocomplete="on"
                 />
-                <button class="button mb-3 btn btn-warning" id="addressButton-${orderIdValue}">🔍 주소 검색</button>
+                <button class="button mb-3 btn btn-sm btn-warning" id="addressButton-${orderIdValue}">🔍 주소 검색</button>
               </div>
             </div>
             <div class="field mb-3">

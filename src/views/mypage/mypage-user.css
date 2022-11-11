@@ -95,23 +95,33 @@
 }
 .input {
   width: 100%;
-  height: 100%;
+  height: 40px;
   border-radius: 10px;
   margin: 0 auto;
   padding-left: 20px;
   font-size: 1.1rem;
-  height: 45px;
 }
 .address {
   margin-bottom: 30px;
 }
+#postalCodeInput {
+  width: 100%;
+}
+.addressGo {
+  display: flex;
+  flex-direction: row;
+}
+.col-md-6 {
+  width: 50%;
+}
+
 #addressButton {
   width: 100%;
   height: 40px;
   border-radius: 10px;
   border: none;
   margin: 0 auto;
-
+  color: #000;
   font-size: 1.3rem;
   background-color: #f2d194;
 }
@@ -248,7 +258,7 @@
     border-radius: 10px;
     border: none;
     margin: 0 auto;
-
+    color: #000;
     font-size: 1rem;
     background-color: #f2d194;
   }
@@ -256,7 +266,7 @@
     align-items: center;
     font-weight: bold;
     display: block;
-    width: 300px;
+    width: 70%;
     margin: 30px auto;
     text-align: center;
     align-items: center;
@@ -264,7 +274,7 @@
     border-radius: 7px;
     background-color: #048abf;
     margin: 0 auto;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   .mypage_userinfo .input:focus {
     border-color: #00d1b2;

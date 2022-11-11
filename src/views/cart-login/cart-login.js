@@ -35,8 +35,11 @@ const addAllEvents = () => {
 const addEmptyHtml = () => {
   cartProductsContainer.insertAdjacentHTML(
     'beforeend',
-    `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
+    `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p>
+    <button class="btn btn-primary mt-3" onclick="location.href='/'">보러가기</button></div>
+    `,
   );
+  purchaseButton.disabled = `true`;
 };
 
 addAllElements();
@@ -106,9 +109,8 @@ async function insertProductsfromCartLogin() {
           border: none;
       " id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
           >-</button>
-          <input type="number" class="quantity_input"  min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
-        isSelected ? 'checked' : ''
-      }
+          <input type="number" class="quantity_input" min="1" max="99" value="${quantity}"
+       id="quantityInput-${id}" ${isSelected ? 'checked' : ''}
         }/>
           <button class="btn btn-outline-secondary" style="
           border: none;
@@ -210,6 +212,7 @@ async function increaseItemQuantity(id) {
   // indexedDB의 cart 데이터 업데이트
   await putToDb('cart', id, (data) => {
     data.quantity = data.quantity + 1;
+    data.cart_price = data.cart_price * data.quantity;
   });
 
   // 수량 변경박스(-버튼, 입력칸, +버튼) 상태 업데이트
@@ -227,6 +230,7 @@ async function decreaseItemQuantity(id) {
   // indexedDB의 cart 데이터 업데이트
   await putToDb('cart', id, (data) => {
     data.quantity = data.quantity - 1;
+    data.cart_price = data.cart_price * data.quantity;
   });
 
   // 수량 변경박스(-버튼, 입력칸, +버튼) 상태 업데이트
