@@ -44,6 +44,12 @@ export class CartModel {
     await Cart.findOneAndUpdate({ _id }, updated, option);
     return;
   }
+  async deleteMany(DTO) {
+    const { deleted_ids } = DTO;
+    const updated = { deleted_at: new Date() };
+    await Cart.updateMany({ _id: { $in: deleted_ids } }, updated);
+    return;
+  }
   async update(DTO) {
     const { _id, quantity, cart_price } = DTO;
     const updated = { quantity, cart_price };
