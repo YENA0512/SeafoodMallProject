@@ -42,7 +42,7 @@ const headerStyle = `
   .dropdown > button {
     font-size: 17px;
   }
-  @media (min-width: 320px) and (max-width: 960px) {
+  @media (min-width: 320px) and (max-width: 700px) {
     body {
       width: 100%;
       margin: auto;

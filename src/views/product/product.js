@@ -25,7 +25,7 @@ let price;
 // 상품 정보 받아오는 함수
 const getProductData = async () => {
   const res = await Api.get(`/api/v1/products/${productId}`);
-  console.log(res);
+
   category = res.category;
   price = res.price;
 

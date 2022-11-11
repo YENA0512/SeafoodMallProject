@@ -11,7 +11,7 @@ const productItemContainer = document.querySelector('.product');
 async function getProductData() {
   const res = await Api.get(`/api/v1/products/list`);
   const products = res.data;
-  console.log(products);
+
   let i = 1;
   products.forEach((item) => {
     productItemContainer.insertAdjacentHTML(
