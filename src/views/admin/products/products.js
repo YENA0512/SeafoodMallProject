@@ -261,8 +261,7 @@ const getProductsList = async () => {
     });
     // 상품 삭제
     const delButton = document.querySelector(`.del_product${i}`);
-    delButton.addEventListener('click', async (e) => {
-      e.preventDefault();
+    delButton.addEventListener('click', async () => {
       let isDelete = confirm('정말 삭제하시겠습니까?');
       if (isDelete) {
         await Api.delete(`/api/v1/products`, item._id);
