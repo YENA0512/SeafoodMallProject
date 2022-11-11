@@ -23,7 +23,21 @@
 
 ## **1. 서비스 소개**
 
+<br>
+
+### **1-0. 배포 링크**
+
+<div>
+  <img alt="오늘바다 QR Code" src="./src/views/assets/image/todaysea_QR.png">
+</div>
+
+### http://kdt-sw3-team03.elicecoding.com/
+
+<br>
+
 ---
+
+<br>
 
 ### **1-1. 서비스 기획**
 
@@ -74,13 +88,15 @@
 
 ### https://www.notion.so/3821f5c24f63448e8d0c5087b6b40d0f#a87b9ff1cca54c28a88cee1c3d82ead9
 
----
-
 <br />
+
+---
 
 ### 1-2. **와이어프레임**
 
 ### https://www.figma.com/file/BR3WBFKniUGtdlR3aqyna4/OneulBada?node-id=0%3A1&t=VOLLpA4pIqA3nYSL-0
+
+<br>
 
 ---
 
@@ -90,6 +106,8 @@
 
 ### https://www.erdcloud.com/d/gkDc5r2oqNCWCYhLe
 
+<br>
+
 ---
 
 <br />
@@ -98,7 +116,11 @@
 
 ### https://www.notion.so/a259c06258e04e859a97327466715e1a?v=d41a4abdc4554bc38816f32f3f09da57
 
+<br>
+
 ---
+
+<br>
 
 ## 2. 기술 스택 및 인프라 구조
 
@@ -108,14 +130,23 @@
 
 <br />
 
-- (BE) nodeJS, express, BABEL, mongoose
-  - (validation) envalid, express-validator
-  - (logger) morgan, winston
-  - (security) JWT, helmet
-- (FE) JS, HTML, CSS, bootstrap, indexed-db
-  - daum 도로명 주소 api
-- (DB) mongoDB Atlas
-- (DEPLOY) NginX, PM2, Google Compute Engine
+- **(BE) nodeJS, express, BABEL, mongoose**
+
+> - (validation) envalid, express-validator
+> - (logger) morgan, winston
+> - (authentication) JWT
+
+- **(FE) JS, HTML, CSS, bootstrap, indexed-db**
+
+> - daum 도로명 주소 api
+
+- **(DB) mongoDB Atlas**
+
+- **(DEPLOY) NginX, PM2, Google Compute Engine**
+
+<br>
+
+---
 
 본 프로젝트에서 제공하는 모든 코드 등의는 저작권법에 의해 보호받는 ㈜오늘바다의 자산이며, 무단 사용 및 도용, 복제 및 배포를 금합니다.
 Copyright (주)엘리스 SW 트랙 해3물 3팀 Inc. All rights reserved.
