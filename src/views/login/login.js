@@ -1,5 +1,6 @@
 import * as Api from '../api.js';
 import { validateEmail, getUrlParams } from '../useful-functions.js';
+import { deleteFromDb } from '../indexed-db.js';
 
 // 요소(element), input 혹은 상수
 const emailInput = document.querySelector('#emailInput');
@@ -54,6 +55,9 @@ async function handleSubmit(e) {
     alert(`오늘바다에 오신 것을 환영합니다.`);
 
     // 로그인 성공
+    // indexedDB 초기화
+    await deleteFromDb('cart');
+    await deleteFromDb('order');
 
     // 기존 다른 페이지에서 이 로그인 페이지로 온 경우, 다시 돌아가도록 해 줌.
     const { previouspage } = getUrlParams();

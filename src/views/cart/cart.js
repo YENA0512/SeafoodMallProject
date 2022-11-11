@@ -26,7 +26,7 @@ const addAllEvents = () => {
   // 선택삭제 버튼 클릭
   partialDeleteLabel.addEventListener('click', deleteSelectedItems);
   // 구매하기 버튼 클릭
-  purchaseButton.addEventListener('click', saveToOrder);
+  purchaseButton.addEventListener('click', navigate('/login'));
 };
 
 // 로그인 확인
@@ -473,24 +473,34 @@ async function updateProductItem(id, type) {
 
 // 페이지 로드 시 실행되며, 결제정보 카드에 값을 삽입함.
 async function insertOrderSummary() {
-  const { productsCount, productsTotal } = await getFromDb('order', 'summary');
+  try {
+    const { productsCount, productsTotal } = await getFromDb('order', 'summary');
 
-  const hasItems = productsCount !== 0;
+    const hasItems = productsCount !== 0;
 
-  productsCountElem.innerText = `${productsCount}개`;
-  productsTotalElem.innerText = `${addCommas(productsTotal)}원`;
+    productsCountElem.innerText = `${productsCount}개`;
+    productsTotalElem.innerText = `${addCommas(productsTotal)}원`;
 
-  if (hasItems) {
-    deliveryFeeElem.innerText = `3,000원`;
-    orderTotalElem.innerText = `${addCommas(productsTotal + 3000)}원`;
-  } else {
-    deliveryFeeElem.innerText = `0원`;
-    orderTotalElem.innerText = `0원`;
+    if (hasItems) {
+      deliveryFeeElem.innerText = `3,000원`;
+      orderTotalElem.innerText = `${addCommas(productsTotal + 3000)}원`;
+    } else {
+      deliveryFeeElem.innerText = `0원`;
+      orderTotalElem.innerText = `0원`;
 
-    // 장바구니가 비었을때
-    cartProductsContainer.insertAdjacentHTML(
-      'beforeend',
-      `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
-    );
+      // 장바구니가 비었을때
+      cartProductsContainer.insertAdjacentHTML(
+        'beforeend',
+        `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
+      );
+    }
+  } catch (err) {
+    console.error(err.stack);
+    if (err.message.includes('destructure')) {
+      cartProductsContainer.insertAdjacentHTML(
+        'beforeend',
+        `<div class="empty_cart"><p>장바구니에 상품이 없습니다.😢</p></div>`,
+      );
+    }
   }
 }
