@@ -42,11 +42,14 @@ const headerStyle = `
       width: 100%;
       margin: auto;
     }
-
     .nav_menu > ul > li > a,
     .nav_menu > ul > em {
       font-size: small;
     }
+    .nav_menu > ul > li {
+      margin: 0 2px;
+      font-size: small;
+      }
   }
 `;
 
