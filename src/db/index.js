@@ -7,10 +7,8 @@ const connectMongoDB = async () => {
   mongoose.connect(DB_URL);
   const db = mongoose.connection;
 
-  db.on('connected', () => logger.info('정상적으로 MongoDB 서버에 연결되었습니다.  ' + DB_URL));
-  db.on('error', (error) =>
-    console.error('\nMongoDB 연결에 실패하였습니다...\n' + DB_URL + '\n' + error),
-  );
+  db.on('connected', () => logger.info('정상적으로 MongoDB 서버에 연결되었습니다.  '));
+  db.on('error', (error) => console.error('\nMongoDB 연결에 실패하였습니다...\n' + '\n' + error));
 };
 
 // user-model.js 에서 export { ~~ } 한 모듈을 그대로 다시 export해 줌
