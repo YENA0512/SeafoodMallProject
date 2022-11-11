@@ -59,29 +59,34 @@ const notLoginAddItemToCart = async () => {
     product_cost,
     quantity: 1,
   };
+  try {
+    await addToDb('cart', cartItem, productId);
 
-  await addToDb('cart', cartItem, productId);
+    // 장바구니 요약(=전체 총합)을 업데이트함
+    await putToDb('order', 'summary', (data) => {
+      // 기존 데이터를 가져옴
+      const count = data.productsCount;
+      const total = data.productsTotal;
+      const ids = data.ids;
+      const selectedIds = data.selectedIds;
 
-  // 장바구니 요약(=전체 총합)을 업데이트함
-  await putToDb('order', 'summary', (data) => {
-    // 기존 데이터를 가져옴
-    const count = data.productsCount;
-    const total = data.productsTotal;
-    const ids = data.ids;
-    const selectedIds = data.selectedIds;
+      // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
+      data.productsCount = (count ?? 0) + 1;
 
-    // 기존 데이터가 있다면 1을 추가하고, 없다면 초기값 1을 줌
-    data.productsCount = (count ?? 0) + 1;
+      // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
+      data.productsTotal = (total ?? 0) + product_cost;
 
-    // 기존 데이터가 있다면 가격만큼 추가하고, 없다면 초기값으로 해당 가격을 줌
-    data.productsTotal = (total ?? 0) + product_cost;
+      // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
+      data.ids = data.ids ? [...ids, productId] : [productId];
 
-    // 기존 데이터(배열)가 있다면 id만 추가하고, 없다면 배열 새로 만듦
-    data.ids = data.ids ? [...ids, productId] : [productId];
-
-    // 위와 마찬가지 방식
-    data.selectedIds = selectedIds ? [...selectedIds, productId] : [productId];
-  });
+      // 위와 마찬가지 방식
+      data.selectedIds = selectedIds ? [...selectedIds, productId] : [productId];
+    });
+  } catch (err) {
+    if (err.message.includes('Key')) {
+      alert('이미 장바구니에 추가된 상품입니다.');
+    }
+  }
 };
 
 cartButton.addEventListener('click', () => {

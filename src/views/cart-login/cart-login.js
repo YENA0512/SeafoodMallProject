@@ -361,7 +361,6 @@ async function deleteSelectedItemsLogin() {
 async function deleteItemLogin(id) {
   // Api서버에서 삭제함
   await Api.delete(`/api/v1/carts/${id}`);
-  window.location.reload;
   // indexedDB의 cart 목록에서 id를 key로 가지는 데이터를 삭제함.
   await deleteFromDb('cart', id);
   // 결제정보를 업데이트함.
@@ -369,6 +368,7 @@ async function deleteItemLogin(id) {
   // 제품 요소(컴포넌트)를 페이지에서 제거
   document.querySelector(`#productItem-${id}`).remove();
   // 전체선택 체크박스를 업데이트함
+  window.location.reload;
   updateAllSelectCheckbox();
 }
 
@@ -460,8 +460,7 @@ async function updateOrderSummary(id, type) {
     // 다시 한 번, 현재 값을 가져와서 3000을 빼 줌
     const currentOrderTotal = convertToNumber(orderTotalElem.innerText);
     orderTotalElem.innerText = `${addCommas(currentOrderTotal - 3000)}원`;
-    // 장바구니가 비었을 경우
-    addEmptyHtml();
+
     // 전체선택도 언체크되도록 함.
     updateAllSelectCheckbox();
   }
@@ -528,25 +527,18 @@ async function updateProductItem(id, type) {
 
 // 페이지 로드 시 실행되며, 결제정보 카드에 값을 삽입함.
 async function insertOrderSummary() {
-  try {
-    const { productsCount, productsTotal } = await getFromDb('order', 'summary');
+  const { productsCount, productsTotal } = await getFromDb('order', 'summary');
 
-    const hasItems = productsCount !== 0;
+  const hasItems = productsCount !== 0;
 
-    productsCountElem.innerText = `${productsCount}개`;
-    productsTotalElem.innerText = `${addCommas(productsTotal)}원`;
+  productsCountElem.innerText = `${productsCount}개`;
+  productsTotalElem.innerText = `${addCommas(productsTotal)}원`;
 
-    if (hasItems) {
-      deliveryFeeElem.innerText = `3,000원`;
-      orderTotalElem.innerText = `${addCommas(productsTotal + 3000)}원`;
-    } else {
-      deliveryFeeElem.innerText = `0원`;
-      orderTotalElem.innerText = `0원`;
-    }
-  } catch (err) {
-    console.error(err.stack);
-    if (err.message.includes('destructure')) {
-      addEmptyHtml();
-    }
+  if (hasItems) {
+    deliveryFeeElem.innerText = `3,000원`;
+    orderTotalElem.innerText = `${addCommas(productsTotal + 3000)}원`;
+  } else {
+    deliveryFeeElem.innerText = `0원`;
+    orderTotalElem.innerText = `0원`;
   }
 }
