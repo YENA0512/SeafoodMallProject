@@ -36,6 +36,18 @@ const headerStyle = `
   .log_out {
     cursor: pointer;
   }
+
+  @media (min-width: 320px) and (max-width: 700px) {
+    body {
+      width: 100%;
+      margin: auto;
+    }
+
+    .nav_menu > ul > li > a,
+    .nav_menu > ul > em {
+      font-size: small;
+    }
+  }
 `;
 
 export default headerStyle;
