@@ -109,9 +109,8 @@ async function insertProductsfromCartLogin() {
           border: none;
       " id="minus-${id}" ${quantity <= 1 ? 'disabled' : ''} ${isSelected ? 'checked' : ''}
           >-</button>
-          <input type="number" class="quantity_input"  min="1" max="99" value="${quantity}" id="quantityInput-${id}" ${
-        isSelected ? 'checked' : ''
-      }
+          <input type="number" class="quantity_input" min="1" max="99" value="${quantity}"
+       id="quantityInput-${id}" ${isSelected ? 'checked' : ''}
         }/>
           <button class="btn btn-outline-secondary" style="
           border: none;

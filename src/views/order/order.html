@@ -48,7 +48,7 @@
                   주문상품 목록
                 </button>
               </h2>
-              <div id="collapseOne" class="accordion-collapse collapse">
+              <div id="collapseOne" class="accordion-collapse collapse show">
                 <div
                   class="accordion-body"
                   id="cart_list"
@@ -88,7 +88,12 @@
             <div class="address_info_title mb-4 mt-4" style="color: #0c63e4; font-size: 20px">
               배송 정보
             </div>
-            <div class="address_info mb-3">배송지</div>
+            <div class="address_info_title">
+              <p>배송지</p>
+              <button id="address_update_btn" class="btn btn-outline-primary mb-3">
+                배송지 변경
+              </button>
+            </div>
             <div class="address_info">
               <input
                 type="text"
@@ -99,9 +104,6 @@
               />
               <input type="text" class="form-control mb-2" id="address" readonly />
               <input type="text" class="form-control mb-2" id="address_detail" />
-              <button id="address_update_btn" class="btn btn-outline-primary mt-2 mb-3">
-                배송지 변경
-              </button>
             </div>
           </div>
           <div class="order_box col-md-4">
