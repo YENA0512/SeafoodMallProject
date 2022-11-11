@@ -71,6 +71,10 @@
   font-weight: bold;
 }
 
+.product_total_area > div:nth-child(2) > span:nth-child(1) {
+  color: grey;
+}
+
 .product_total_area > div:nth-child(2) > span:nth-child(2) {
   font-size: 1.1rem;
   color: grey;
@@ -105,7 +109,7 @@
 }
 
 .detail_title {
-  width: 9%;
+  width: 13%;
   align-self: flex-start;
 }
 

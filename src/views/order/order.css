@@ -69,6 +69,12 @@ header > h1 {
 .address_info {
   padding: 0px 20px;
 }
+.address_info_title2 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .order_info li {
   margin-top: 10px;

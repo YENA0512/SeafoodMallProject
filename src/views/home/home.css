@@ -29,8 +29,8 @@
 
 .product_item {
   width: 30%;
-  padding: 30px 10px;
-  margin: 30px 16.5px;
+  padding: 10px 10px;
+  margin: 40px 16.5px;
   border-radius: 10px;
 }
 
@@ -41,8 +41,9 @@
 
 .product_item > a > h3 {
   margin: 10px 0;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
 }
+
 .product_item > a > div {
   text-align: right;
   margin: 20px 5px 10px 0;
@@ -77,12 +78,12 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
   }
   .product_img {
     border-radius: 10px;
-    width: 100%;
+    width: 120px;
     height: 150px;
     object-fit: cover;
   }
@@ -93,7 +94,7 @@
     justify-content: space-around;
     align-items: center;
 
-    width: 45%;
+    width: 40%;
     padding: 30px 10px;
     margin: 30px 2.4%;
     border-radius: 10px;

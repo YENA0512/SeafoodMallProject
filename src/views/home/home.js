@@ -11,14 +11,14 @@ const productItemContainer = document.querySelector('.product');
 async function getProductData() {
   const res = await Api.get(`/api/v1/products/list`);
   const products = res.data;
-  console.log(products);
+
   let i = 1;
   products.forEach((item) => {
     productItemContainer.insertAdjacentHTML(
       'beforeend',
       `
       <div class="product_item">
-        <a class="all_products_${i}">
+        <a class="all_products_${i} item">
           <img class="product_img" src="${item.category.species_image}" />
           <h3>${item.category.species}</h3>
           <div>
