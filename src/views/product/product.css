@@ -8,6 +8,17 @@
   margin: 30px 0;
   width: 50%;
   height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.picture_area > img {
+  border-radius: 10px;
+  width: 280px;
+  height: 350px;
+  object-fit: cover;
 }
 /* 오른쪽 가격 영역 */
 .price_area {

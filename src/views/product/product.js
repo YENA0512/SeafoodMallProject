@@ -11,6 +11,7 @@ const totalPrice = document.querySelector('.product_total');
 const cartButton = document.querySelector('.insert_cart');
 const MoveCart = document.querySelector('.go_cart');
 const buyButton = document.querySelector('.buy_btn');
+const productImageSrc = document.querySelector('.product_img_src');
 
 // 로그인 확인
 const isLogin = sessionStorage.getItem('userId');
@@ -35,6 +36,8 @@ const getProductData = async () => {
   sellerCondition.innerHTML = price.seller_commision;
 
   totalPrice.innerHTML = addCommas(price.product_cost);
+
+  productImageSrc.setAttribute('src', `${category.species_image}`);
 };
 getProductData();
 
