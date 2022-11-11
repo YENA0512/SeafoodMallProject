@@ -78,6 +78,7 @@ header > h1 {
   justify-content: center;
   align-items: center;
   height: 300px;
+  flex-direction: column;
 }
 .empty_cart p {
   font-size: 30px;
