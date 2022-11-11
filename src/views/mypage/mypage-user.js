@@ -132,11 +132,9 @@ async function handleSubmit(e) {
       };
       newData.new_password = password;
     }
-    console.log(newData);
 
-    //console.log(newData);
     const newUserInfo = await Api.patch(`/api/v1/users`, userId, newData);
-    console.log(newUserInfo);
+
     alert(`회원정보가 정상적으로 수정되었습니다.`);
 
     window.location.href = './';

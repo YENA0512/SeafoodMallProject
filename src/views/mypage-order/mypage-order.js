@@ -301,32 +301,6 @@ async function deleteOrderData(orderIdValue, e) {
     alert(`주문 취소 과정에서 오류가 발생하였습니다\n`);
   }
 }
-// 주문자 정보 보여주기 (처음에는 Userdata 정보로 가져오지만 나중에 주문정보 변경하면 Orderdata로 들어감. 따라서 다시 변경버튼을 누르면 바뀐 Orderdata 정보 반영이 아닌 첨의 userdata 정보가 보이게 됨.)
-// async function insertUserData(orderIdValue, e) {
-//   e.preventDefault();
-//   try {
-//     let addressInput = document.querySelector(`#addressInput1-${orderIdValue}`);
-//     let detailAddressInput = document.querySelector(`#addressInput2-${orderIdValue}`);
-//     let mobileInput = document.querySelector(`#mobileInput-${orderIdValue}`);
-//     let nameInput = document.querySelector(`#nameInput-${orderIdValue}`);
-//     let postalCodeInput = document.querySelector(`#postalCodeInput-${orderIdValue}`);
-
-//     const userId = sessionStorage.getItem('userId');
-//     const userData = await Api.get(`/api/v1/users/${userId}`);
-//     const shipping = userData.data.shipping;
-//     console.log(userId);
-//     console.log(shipping);
-//     // 주문자 정보가 있으면 보여주고, 없으면 빈칸으로 보여줌
-//     nameInput.value = shipping?.name ?? '';
-//     mobileInput.value = shipping?.mobile ?? '';
-//     postalCodeInput.value = shipping?.zencode ?? '';
-//     addressInput.value = shipping?.address ?? '';
-//     detailAddressInput.value = shipping?.detail_address ?? '';
-//   } catch (err) {
-//     console.error(err.stack);
-//     alert(`${err.message}`);
-//   }
-// }
 
 async function handleSubmit(orderIdValue, e) {
   e.preventDefault();
@@ -362,7 +336,6 @@ async function handleSubmit(orderIdValue, e) {
     }
 
     const newUserInfo = await Api.patch(`/api/v1/orders`, order_id, newData);
-    console.log('hey', newUserInfo);
     alert(`주문정보가 정상적으로 수정되었습니다.`);
 
     // window.location.href = './';
