@@ -1,5 +1,5 @@
 import * as Api from '../../api.js';
-import { addCommas } from '../../useful-functions.js';
+import { addCommas, checkLogin } from '../../useful-functions.js';
 import { addToDb, putToDb } from '../../indexed-db.js';
 
 const ProductTitle = document.querySelector('.product_title');
@@ -97,11 +97,12 @@ MoveCart.addEventListener('click', () => {
   isLogin ? (window.location.href = '/cart-login') : (window.location.href = '/cart');
 });
 
-buyButton.addEventListener('click', () => {
+buyButton.addEventListener('click', async () => {
   if (isLogin) {
     LoginAddItemToCart();
     window.location.href = '/cart-login';
   } else {
     window.location.href = '/login';
+    checkLogin();
   }
 });
