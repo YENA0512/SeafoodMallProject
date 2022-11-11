@@ -39,8 +39,8 @@ header > h1 {
 }
 
 .product_image {
-  width: 150px;
-  height: 180px;
+  width: 100%;
+  /* height: 180px; */
   object-fit: cover;
   padding-left: 10px;
 }
