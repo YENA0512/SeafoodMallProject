@@ -8,7 +8,7 @@ const footerStyle = `
   height: 100px;
 }
 .footer > div > p {
-  line-height: 140%;
+  line-height: 150%;
 }
 .footer > div > p > a {
   cursor: pointer;

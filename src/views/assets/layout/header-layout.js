@@ -22,6 +22,8 @@ const notLoginHeaderHTML = `
     </div>
     <div class="nav_menu">
       <ul>
+        <li><a href="/register">회원가입</a></li>
+        <em>|</em>
         <li><a href="/login">로그인</a></li>
         <em>|</em>
         <li><a href="/cart">장바구니</a></li>

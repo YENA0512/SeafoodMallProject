@@ -27,16 +27,21 @@ const headerStyle = `
     justify-content: center;
   }
   .nav_menu > ul > li {
-  margin: 0 7px;
+    margin: 0 7px;
   }
   .dropdown-item {
     padding: 20px 50px 20px 20px;
   }
-
+  .nav_menu > ul > li,
+  .nav_menu > ul > li > em {
+    font-size: 17px;
+  }
   .log_out {
     cursor: pointer;
   }
-
+  .dropdown > button {
+    font-size: 17px;
+  }
   @media (min-width: 320px) and (max-width: 700px) {
     body {
       width: 100%;
