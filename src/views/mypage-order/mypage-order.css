@@ -487,10 +487,18 @@
   }
 
   .col-1_5 > button {
-    font-size: 0.35rem;
-    width: 40px;
+    font-size: 0.4rem;
+    width: 90%;
     text-align: center;
     display: block;
+  }
+  .orderCancelButton {
+    display: block;
+    word-break: break-all;
+    font-size: 0.3rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
   }
 
   .show_orders > li > div:nth-child(5) {

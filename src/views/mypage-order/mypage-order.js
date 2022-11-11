@@ -216,7 +216,7 @@ async function insertOrders() {
   <div class="col-1_5">
     <button
       type="button"
-      class="orderCancelButton btn btn-outline-danger"
+      class="orderCancelButton btn btn-sm btn-outline-danger"
       id="orderCancelButton-${orderIdValue}"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal2-${orderIdValue}"
