@@ -88,7 +88,7 @@ async function insertOrderSummary() {
       </div>
      <div class="col-3">
      <p>
-     ${addCommas(price * quantity)}원
+     ${addCommas(price)}원
      </p>
      </div>
     </div>
@@ -151,7 +151,7 @@ checkoutBtn.addEventListener('click', async () => {
     let orderIds = [];
     for (const cartId of selectedIds) {
       const orderdata = await getFromDb('cart', cartId);
-      const totalPrice = orderdata.quantity * orderdata.cart_price;
+      const totalPrice = orderdata.cart_price;
       orderIds.push(orderdata);
       await Api.post('/api/v1/orders', { order_items: orderIds });
       // indexedDB에서 해당 제품 관련 데이터 제거
