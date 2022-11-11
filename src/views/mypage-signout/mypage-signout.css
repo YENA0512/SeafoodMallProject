@@ -1,7 +1,3 @@
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 .mypage_headertitle > h1 {
   margin-top: 50px;
   font-weight: 500;
@@ -13,14 +9,14 @@ body {
 .mypage_content {
   position: relative;
   display: flex;
-  width: 1000px;
+  width: 100%;
   margin-top: 50px;
   margin-bottom: 80px;
 }
 .mypage_category {
   width: 200px;
   height: 100%;
-  margin-right: 100px;
+  margin-right: 10%;
 }
 .mypage_list {
   margin-bottom: 20px;
@@ -91,4 +87,111 @@ body {
 .title {
   text-align: center;
   padding: 20px 20px;
+}
+
+@media (min-width: 320px) and (max-width: 700px) {
+  .mypage_headertitle > h1 {
+    margin-top: 50px;
+    font-weight: 500;
+    font-size: 28px;
+    color: #000;
+    line-height: 35px;
+  }
+
+  .mypage_content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 80px;
+  }
+  .mypage_category {
+    width: 100%;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+  }
+  .mypage_ul {
+    display: flex;
+    width: 100%;
+    margin: 0 5%;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .mypage_list {
+    margin-bottom: 20px;
+  }
+  .mypage_list a {
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  .mypage_list a:hover {
+    color: #048abf;
+  }
+  .active {
+    color: #048abf;
+  }
+  .mypage_con {
+    width: 90%;
+    margin: 10px auto;
+  }
+
+  .field {
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+  }
+  .label {
+    width: 30%;
+    padding-top: 10px;
+    font-size: 0.7rem;
+  }
+  .control {
+    font-weight: bold;
+    width: 70%;
+  }
+  .input {
+    width: 100%;
+    border-radius: 10px;
+    margin: 0 auto;
+    padding-left: 20px;
+    font-size: 0.7rem;
+    height: 30px;
+  }
+
+  .mypage_signout {
+    width: 90%;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    margin: 40px auto;
+    box-sizing: border-box;
+    border: 2px solid #000;
+    border-radius: 7px;
+  }
+  .mypage_signout .button {
+    align-items: center;
+    font-weight: bold;
+    display: block;
+    width: 200px;
+    text-align: center;
+    align-items: center;
+    height: 40px;
+    border-radius: 10px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+  }
+  .h4 {
+    font-size: 1.2rem;
+  }
+  #signoutConfirmTitle {
+    font-size: 1.3rem;
+  }
+
+  .title {
+    text-align: center;
+    padding: 20px 20px;
+  }
 }

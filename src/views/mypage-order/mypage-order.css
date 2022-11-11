@@ -357,7 +357,7 @@
     font-size: 0.7rem;
   }
   .h4 {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   .mypage_orderinfo {
     width: 100%;
@@ -487,8 +487,10 @@
   }
 
   .col-1_5 > button {
-    font-size: 0.4rem;
+    font-size: 0.35rem;
     width: 40px;
+    text-align: center;
+    display: block;
   }
 
   .show_orders > li > div:nth-child(5) {
