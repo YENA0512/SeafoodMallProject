@@ -1,16 +1,23 @@
 import { orderModel } from '../db';
+import { cartModel } from '../db';
 
 class OrderService {
-  constructor(orderModel) {
+  constructor(orderModel, cartModel) {
     this.orderModel = orderModel;
+    this.cartModel = cartModel;
   }
   async createOrder(DTO) {
     const { order_items } = DTO;
-    const order_price = order_items.reduce((sum, { cart_price }) => {
+    const deletedCartIds = [];
+    const order_price = order_items.reduce((sum, { _id, cart_price }) => {
+      deletedCartIds.push(_id);
       return (sum += cart_price);
     }, 0);
     DTO.order_price = order_price + parseInt(process.env.SHIPPING_COST);
-    const createdOrder = await this.orderModel.create(DTO);
+    const [createdOrder, _] = await Promise.all([
+      this.orderModel.create(DTO),
+      this.cartModel.deleteMany({ deleted_ids: deletedCartIds }),
+    ]);
     return createdOrder;
   }
   async getUserOrders(DTO) {
@@ -39,5 +46,5 @@ class OrderService {
   }
 }
 
-const orderService = new OrderService(orderModel);
+const orderService = new OrderService(orderModel, cartModel);
 export { orderService };
