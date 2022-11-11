@@ -1,22 +1,30 @@
 import { Router } from 'express';
 import { categoryService } from '../services';
 import * as categoryValidator from '../middlewares/validation/categoryValidator';
+import { loginRequired, isAdmin } from '../middlewares';
+
 const categoryRouter = Router();
 
 // 카테고리 추가
-categoryRouter.post('/', categoryValidator.createCategory, async (req, res, next) => {
-  try {
-    const { parent_category, child_category } = req.body;
-    const DTO = { parent_category, child_category };
+categoryRouter.post(
+  '/',
+  loginRequired,
+  isAdmin,
+  categoryValidator.createCategory,
+  async (req, res, next) => {
+    try {
+      const { parent_category, child_category } = req.body;
+      const DTO = { parent_category, child_category };
 
-    const createdCategory = await categoryService.createCategory(DTO);
-    const result = { success: true, data: createdCategory };
+      const createdCategory = await categoryService.createCategory(DTO);
+      const result = { success: true, data: createdCategory };
 
-    res.status(201).json(result);
-  } catch (err) {
-    next(err);
-  }
-});
+      res.status(201).json(result);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 // 카테고리 리스트 조회(홈화면)
 categoryRouter.get('/list', async (req, res, next) => {
@@ -31,7 +39,7 @@ categoryRouter.get('/list', async (req, res, next) => {
 });
 
 // 카테고리 리스트 조회(admin)
-categoryRouter.get('/list/admin', async (req, res, next) => {
+categoryRouter.get('/list/admin', loginRequired, isAdmin, async (req, res, next) => {
   try {
     const categoryList = await categoryService.readCategoryListAdmin();
 
@@ -42,38 +50,50 @@ categoryRouter.get('/list/admin', async (req, res, next) => {
 });
 
 // 카테고리 수정
-categoryRouter.patch('/:_id', categoryValidator.updateCategory, async (req, res, next) => {
-  try {
-    const { _id } = req.params;
-    const { parent_category, child_category } = req.body;
-    const DTO = {
-      _id,
-      parent_category,
-      child_category,
-    };
+categoryRouter.patch(
+  '/:_id',
+  loginRequired,
+  isAdmin,
+  categoryValidator.updateCategory,
+  async (req, res, next) => {
+    try {
+      const { _id } = req.params;
+      const { parent_category, child_category } = req.body;
+      const DTO = {
+        _id,
+        parent_category,
+        child_category,
+      };
 
-    const updatedCategory = await categoryService.updateCategory(DTO);
-    const result = { success: true, data: updatedCategory };
+      const updatedCategory = await categoryService.updateCategory(DTO);
+      const result = { success: true, data: updatedCategory };
 
-    res.status(200).json(result);
-  } catch (err) {
-    next(err);
-  }
-});
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 // 카테고리 삭제
-categoryRouter.delete('/:_id', categoryValidator.deleteCategory, async (req, res, next) => {
-  try {
-    const { _id } = req.params;
-    const DTO = { _id };
+categoryRouter.delete(
+  '/:_id',
+  loginRequired,
+  isAdmin,
+  categoryValidator.deleteCategory,
+  async (req, res, next) => {
+    try {
+      const { _id } = req.params;
+      const DTO = { _id };
 
-    await categoryService.deleteCategory(DTO);
+      await categoryService.deleteCategory(DTO);
 
-    res.status(204).end();
-  } catch (err) {
-    next(err);
-  }
-});
+      res.status(204).end();
+    } catch (err) {
+      next(err);
+    }
+  },
+);
 
 // 특정 카테고리 조회(child-category)
 categoryRouter.get(
