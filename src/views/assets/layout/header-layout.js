@@ -32,6 +32,34 @@ const notLoginHeaderHTML = `
   </nav>
 `;
 
+const doingRegisterHeaderHTML = `
+  <style>${headerStyle}</style>
+  <h1>
+    <a href="/"><img class="main_logo" src="/mainlogo.png" /></a>
+  </h1>
+  <hr />
+  <nav class="nav_bar">
+    <div class="dropdown">
+      <button
+        class="btn dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        카테고리
+      </button>
+      <ul class="dropdown-menu"></ul>
+    </div>
+    <div class="nav_menu">
+      <ul>
+        <li><a href="/login">로그인</a></li>
+        <em>|</em>
+        <li><a href="/cart">장바구니</a></li>
+      </ul>
+    </div>
+  </nav>
+`;
+
 const LoginHeaderHTML = `
   <style>${headerStyle}</style>
 
@@ -138,9 +166,15 @@ const isLogin = () => {
     document.body.prepend(headerTag);
   } else {
     if (!isToken) {
-      const headerTag = document.createElement('header');
-      headerTag.innerHTML = notLoginHeaderHTML;
-      document.body.prepend(headerTag);
+      if (window.location.pathname === '/register/') {
+        const headerTag = document.createElement('header');
+        headerTag.innerHTML = doingRegisterHeaderHTML;
+        document.body.prepend(headerTag);
+      } else {
+        const headerTag = document.createElement('header');
+        headerTag.innerHTML = notLoginHeaderHTML;
+        document.body.prepend(headerTag);
+      }
     } else {
       const headerTag = document.createElement('header');
       headerTag.innerHTML = LoginHeaderHTML;
