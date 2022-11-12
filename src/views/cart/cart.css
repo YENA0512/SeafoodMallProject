@@ -65,7 +65,7 @@ input[type='number']::-webkit-inner-spin-button {
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
-  margin: 10px;
+  /* margin: 10px; */
 }
 
 @media (min-width: 320px) and (max-width: 700px) {
@@ -74,6 +74,6 @@ input[type='number']::-webkit-inner-spin-button {
     height: 100px;
     object-fit: cover;
     border-radius: 8px;
-    margin: 10px;
+    /* margin: 10px; */
   }
 }

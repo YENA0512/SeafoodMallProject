@@ -78,7 +78,7 @@ async function insertProductsfromCart() {
         }   />
        
     <div class="content">
-    <div class="image col-3">
+    <div class="image col-3" style="margin: 0 5px">
     <figure>
   <img class="product_image " src="${image}" alt="상품이미지" id="image-${id}"/>
   </figure>
