@@ -244,6 +244,7 @@ async function handleQuantityInput(id) {
   const quantity = parseInt(inputElem.value);
 
   if (quantity < 1 || quantity > 99) {
+    inputElem.value = null;
     return alert('수량은 1~99 사이가 가능합니다.');
   }
 
