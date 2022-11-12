@@ -96,7 +96,7 @@ async function insertProductsfromCartLogin() {
         isSelected ? 'checked' : ''
       }   />
       <div class="content">
-      <div class="image col-3">
+      <div class="image col-3 style="margin: 0 5px">
       <figure>
     <img class="product_image " src="${image}" alt="상품이미지" id="image-${id}" style="cursor:pointer"/>
     </figure>
@@ -244,9 +244,15 @@ async function handleQuantityInput(id) {
   const quantity = parseInt(inputElem.value);
 
   if (quantity < 1 || quantity > 99) {
+    inputElem.value = null;
     return alert('수량은 1~99 사이가 가능합니다.');
   }
 
+  if (quantity != /^[0=9]$/g) {
+    inputElem.value = null;
+    alert('수량은 숫자만 입력가능합니다.');
+    return (window.location.href = './');
+  }
   // 결제정보카드 업데이트
   await updateOrderSummary(id, 'add-input');
 

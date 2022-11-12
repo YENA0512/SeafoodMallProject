@@ -6,7 +6,7 @@ const openDatabase = () => {
   const db = new Promise((resolve, reject) => {
     const onRequest = indexedDB.open('cart', 1);
     onRequest.onupgradeneeded = () => {
-      console.log('indexeddb의 업그레이드가 이루어집니다.');
+      // console.log('indexeddb의 업그레이드가 이루어집니다.');
       const database = onRequest.result;
 
       database.createObjectStore('cart', { autoIncrement: true });
@@ -15,14 +15,14 @@ const openDatabase = () => {
     };
 
     onRequest.onsuccess = async () => {
-      console.log('indexeddb가 정상적으로 시작되었습니다.');
+      // console.log('indexeddb가 정상적으로 시작되었습니다.');
 
       resolve(onRequest.result);
     };
 
     onRequest.onerror = () => {
       const err = onRequest.error;
-      console.log(`indexeddb를 시작하는 과정에서 오류가 발생하였습니다: ${err}`);
+      // console.log(`indexeddb를 시작하는 과정에서 오류가 발생하였습니다: ${err}`);
 
       reject(err);
     };
@@ -53,7 +53,7 @@ const getFromDb = async (storeName, key = '') => {
 
     getRequest.onerror = () => {
       const err = getRequest.error;
-      console.log(`${storeName}에서 가져오는 과정에서 오류가 발생하였습니다: ${err}`);
+      // console.log(`${storeName}에서 가져오는 과정에서 오류가 발생하였습니다: ${err}`);
 
       reject(err);
     };
@@ -79,13 +79,13 @@ const addToDb = async (storeName, entry, key = '') => {
     const addRequest = key ? store.add(entry, key) : store.add(entry);
 
     addRequest.onsuccess = () => {
-      console.log(`${storeName}에 정상적으로 추가되었습니다.`);
+      // console.log(`${storeName}에 정상적으로 추가되었습니다.`);
       resolve();
     };
 
     addRequest.onerror = () => {
       const err = addRequest.error;
-      console.log(`${storeName}에 추가하는데 오류가 발생하였습니다: ${err}`);
+      // console.log(`${storeName}에 추가하는데 오류가 발생하였습니다: ${err}`);
 
       reject(err);
     };
@@ -119,13 +119,13 @@ const putToDb = async (storeName, key, dataModifyFunc) => {
       const putRequest = store.put(data, key);
 
       putRequest.onsuccess = () => {
-        console.log(`${storeName}가 정상적으로 수정되었습니다.`);
+        // console.log(`${storeName}가 정상적으로 수정되었습니다.`);
         resolve();
       };
 
       putRequest.onerror = () => {
         const err = putRequest.error;
-        console.log(`${storeName}를 수정하는데 에러가 발생하였습니다: ${err} `);
+        // console.log(`${storeName}를 수정하는데 에러가 발생하였습니다: ${err} `);
 
         reject(err);
       };
@@ -152,13 +152,13 @@ const deleteFromDb = async (storeName, key = '') => {
     const deleteRequest = key ? store.delete(key) : store.clear();
 
     deleteRequest.onsuccess = () => {
-      console.log(`${storeName}에서 정상적으로 삭제되었습니다.`);
+      // console.log(`${storeName}에서 정상적으로 삭제되었습니다.`);
       resolve();
     };
 
     deleteRequest.onerror = () => {
       const err = deleteRequest.error;
-      console.log(`${storeName}에서 삭제하는데 에러가 발생하였습니다: ${err} `);
+      // console.log(`${storeName}에서 삭제하는데 에러가 발생하였습니다: ${err} `);
 
       reject(err);
     };

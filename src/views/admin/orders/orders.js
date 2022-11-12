@@ -52,9 +52,7 @@ const checkStatusReverse = (str) => {
 const getOrderList = async () => {
   showOrders.innerHTML = '';
   const res = await Api.get('/api/v1/orders/admin');
-  console.log('res는', res);
   const data = res.data;
-  console.log('data는', data);
   let i = 1;
   data.forEach(async (item) => {
     showOrders.insertAdjacentHTML(
@@ -148,7 +146,6 @@ const getOrderList = async () => {
       let isDelete = confirm('정말 삭제하시겠습니까?');
       if (isDelete) {
         const del = await Api.delete('/api/v1/orders/admin', item._id);
-        console.log(del);
       }
     });
     i++;

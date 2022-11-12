@@ -31,7 +31,6 @@ const getCategoriesList = async () => {
 let selectInputValue = ''; // 선택 값
 const showValue = () => {
   selectInputValue = selectBox.options[selectBox.selectedIndex].value;
-  console.log(selectInputValue);
   if (selectInputValue === '카테고리를 선택하세요.') {
     makeChildCategoryInput.value = '';
   } else {
@@ -74,7 +73,7 @@ const makeProductsList = async (e) => {
     !platform_commision ||
     !packaging_cost
   ) {
-    console.log('값 부족!');
+    return;
   } else {
     const postData = {
       category: {
@@ -95,7 +94,6 @@ const makeProductsList = async (e) => {
 
     await Api.post(`/api/v1/products`, postData);
     alert('정상적으로 추가 되었습니다!');
-    console.log(postData);
     makeChildCateInput.value = '';
     makeSpeciesInput.value = '';
     makeSpeciesCodeInput.value = '';
@@ -116,7 +114,6 @@ const getProductsList = async () => {
   if (res.length < 1) {
     showProducts.innerHTML = `<h1>등록된 상품이 없어요.😢<h1>`;
   }
-  console.log(res);
   let i = 1;
   res.forEach((item) => {
     showProducts.insertAdjacentHTML(
@@ -236,7 +233,7 @@ const getProductsList = async () => {
         !platform_commision ||
         !packaging_cost
       ) {
-        console.log('값 부족!');
+        return;
       } else {
         const patchData = {
           category: {
