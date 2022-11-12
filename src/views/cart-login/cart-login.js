@@ -248,6 +248,11 @@ async function handleQuantityInput(id) {
     return alert('수량은 1~99 사이가 가능합니다.');
   }
 
+  if (quantity != /^[0=9]$/g) {
+    inputElem.value = null;
+    alert('수량은 숫자만 입력가능합니다.');
+    return (window.location.href = './');
+  }
   // 결제정보카드 업데이트
   await updateOrderSummary(id, 'add-input');
 
