@@ -10,7 +10,6 @@ const makecategoriesButton = document.querySelector('.make_categories');
 const getCategoriesList = async () => {
   showCategories.innerHTML = '';
   const res = await Api.get(`/api/v1/categories/list/admin`);
-  console.log(res);
 
   let i = 1;
   res.forEach((item) => {
@@ -45,7 +44,6 @@ const getCategoriesList = async () => {
       let ChildCategoryValue = modiChildCate.value;
       const child_category = ChildCategoryValue.trim();
       if (!ChildCategoryValue || modiChildCate.value === '') {
-        console.log('값 부족!');
         makeChildCategoryInput.value = '';
       } else {
         const patchData = {
@@ -88,7 +86,6 @@ const makeCategoriesList = async (e) => {
   const child_category = childCategoryValue.trim();
 
   if (!child_category || child_category === '') {
-    console.log('값 부족!');
     makeChildCategoryInput.value = '';
   } else {
     const postData = {
@@ -98,7 +95,6 @@ const makeCategoriesList = async (e) => {
 
     await Api.post('/api/v1/categories/', postData);
     alert('정상적으로 추가 되었습니다!');
-    console.log(postData);
     makeChildCategoryInput.innerHTML = '';
     getCategoriesList();
   }
