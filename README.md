@@ -12,7 +12,7 @@
 
 팀 구성
 
-- FE: 김우찬(팀장), 설지윤, 이예나
+- FE: 박우찬(팀장), 설지윤, 이예나
 - BE: 김영범, 김익수
 
 노션 페이지: https://www.notion.so/cbebef6f6b6e402ab27b7ee0bbc393a5
